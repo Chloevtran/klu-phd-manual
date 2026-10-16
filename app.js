@@ -10,7 +10,6 @@
     String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const pad2 = (n) => String(n).padStart(2, "0");
   const telHref = (n) => "tel:" + String(n).replace(/[^\d+]/g, "");
-  const digits = (n) => String(n).replace(/\D/g, "");
 
   const store = {
     get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
@@ -42,6 +41,7 @@
     <header class="topbar">
       ${left}
       <span class="topbar__label">${right}</span>
+      ${soundBtn()}
     </header>`;
 
   /* ---------------- Views ---------------- */
@@ -62,7 +62,7 @@
           <div><strong>${esc(c.host)}</strong><br>${esc(c.partner)}</div>
           <div class="cover__date">${esc(c.dates)}</div>
         </div>
-        <button class="btn-primary" type="button" data-go="#/contents">Start the journey <span class="arrow">→</span></button>
+        <button class="btn-primary" type="button" data-go="#/contents" data-start>Start the journey <span class="arrow">→</span></button>
       </section>`;
   }
 
@@ -207,7 +207,7 @@
     sosbanner: () => `
       <button class="sosbanner" type="button" data-sos>
         <span class="sosbanner__dot">SOS</span>
-        <span><strong>Lost or need help?</strong><span>Tap here, or the red SOS button on any page, to call for help, share your location, or show an address to a driver.</span></span>
+        <span><strong>Lost or need help?</strong><span>Tap here, or the red SOS button on any page, to send your location to the group WhatsApp, call emergency services, or show an address to a driver.</span></span>
       </button>`,
     closing: (b) => `<div class="closing"><p>${esc(b.text)}</p><p>${esc(b.sub)}</p></div>`,
   };
@@ -270,90 +270,156 @@
     else copy(out);
   }
 
+  /* ---------------- Sound ---------------- */
+  // Every sound is synthesised with the Web Audio API (no audio files).
+  // Browsers only allow audio after a user gesture, so the context is created
+  // lazily on the first tap.
+  const MUTE_KEY = "klu-manual:muted";
+  let muted = store.get(MUTE_KEY, false);
+  let audio = null;
+
+  function ctx(create) {
+    if (muted) return null;
+    if (!audio) {
+      if (!create) return null;
+      const Ctor = window.AudioContext || window.webkitAudioContext;
+      if (!Ctor) return null;
+      audio = new Ctor();
+    }
+    if (audio.state === "suspended") audio.resume();
+    return audio;
+  }
+
+  function tone({ frequency, at = 0, duration = 0.12, type = "sine", volume = 0.18, slideTo }) {
+    const c = ctx(true);
+    if (!c) return;
+    const start = c.currentTime + at;
+    const osc = c.createOscillator();
+    const gain = c.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(frequency, start);
+    if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, start + duration);
+    // Short attack and exponential release avoid audible clicks.
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.exponentialRampToValueAtTime(volume, start + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+    osc.connect(gain).connect(c.destination);
+    osc.start(start);
+    osc.stop(start + duration + 0.02);
+  }
+
+  const sounds = {
+    /** Soft tick for taps. */
+    tap: () => tone({ frequency: 1250, duration: 0.05, type: "triangle", volume: 0.08 }),
+    /** Page change — only once audio is unlocked, never on first load. */
+    whoosh: () => ctx(false) && tone({ frequency: 520, slideTo: 260, duration: 0.18, volume: 0.06 }),
+    /** Start the journey — a rising arpeggio. */
+    start: () =>
+      [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tone({ frequency: f, at: i * 0.09, duration: 0.26, type: "triangle", volume: 0.14 })),
+    /** SOS opened — two-tone alert. */
+    alert: () => {
+      [0, 0.32].forEach((at) => {
+        tone({ frequency: 988, at, duration: 0.14, type: "square", volume: 0.07 });
+        tone({ frequency: 740, at: at + 0.15, duration: 0.14, type: "square", volume: 0.07 });
+      });
+    },
+    /** Location copied. */
+    confirm: () => {
+      tone({ frequency: 660, duration: 0.1, type: "square", volume: 0.07 });
+      tone({ frequency: 990, at: 0.09, duration: 0.16, type: "square", volume: 0.07 });
+    },
+    /** Something went wrong. */
+    error: () => tone({ frequency: 330, slideTo: 220, duration: 0.3, type: "sawtooth", volume: 0.06 }),
+  };
+
+  const soundBtn = () =>
+    `<button class="sound-btn" type="button" data-mute aria-pressed="${muted}" aria-label="${muted ? "Turn sound on" : "Turn sound off"}">${muted ? "🔇" : "🔊"}</button>`;
+
+  function toggleMute() {
+    muted = !muted;
+    store.set(MUTE_KEY, muted);
+    document.querySelectorAll("[data-mute]").forEach((b) => (b.outerHTML = soundBtn()));
+    if (!muted) sounds.tap();
+  }
+
   /* ---------------- SOS ---------------- */
+  // Lost or in trouble: copy your location, then open the group's WhatsApp
+  // chat and paste it there, so the organisers can see where you are.
   const sos = document.getElementById("sos");
   const sosBody = document.getElementById("sos-body");
-  let lastLoc = null;
+  const NAME_KEY = "klu-manual:name";
 
   function sosHTML() {
-    const ph = C.supportPhone;
-    const support = ph
-      ? `<div class="sos-actions">
-           <a class="act act--solid full" href="${telHref(ph)}">Call ${esc(C.supportName)}</a>
-           <a class="act" href="https://wa.me/${digits(ph)}" target="_blank" rel="noopener">WhatsApp</a>
-           <a class="act" href="https://zalo.me/${digits(ph).replace(/^84/, "0")}" target="_blank" rel="noopener">Zalo</a>
-         </div>`
-      : `<p>Contact the programme coordinator, or message the group chat.</p>
-         <div class="sos-actions"><a class="act act--solid full" href="mailto:${esc(C.coordinatorEmail)}?subject=${encodeURIComponent("KLU PhD Workshop – I need help")}">Email ${esc(C.coordinatorEmail)}</a></div>`;
-
     const places = C.places.filter((p) => p.address);
     return `
-      <div class="sos-grid">
-        <a class="sos-num" href="tel:115"><b>115</b><span>Ambulance</span></a>
-        <a class="sos-num sos-num--alt" href="tel:113"><b>113</b><span>Police</span></a>
-        <a class="sos-num sos-num--alt" href="tel:114"><b>114</b><span>Fire</span></a>
-      </div>
+      <p class="sos-copy">Lost, separated from the group, or anything else — message the group and the KLU team will help.</p>
 
-      <div class="sos-block">
-        <p class="kicker">Lost from the group?</p>
-        <h3>Reach the KLU team</h3>
-        ${support}
-      </div>
+      <ol class="sos-steps">
+        <li>
+          <label class="sos-name"><span>Your name</span>
+            <input type="text" data-sosname autocomplete="name" placeholder="So the team knows who you are" value="${esc(store.get(NAME_KEY, ""))}">
+          </label>
+        </li>
+        <li>
+          <button class="act act--red full step" type="button" data-loc><b>1</b> Copy my location</button>
+          <div data-locout></div>
+        </li>
+        <li>
+          <a class="act act--wa full step" href="${esc(C.whatsappGroupUrl)}" target="_blank" rel="noopener noreferrer" data-group><b>2</b> Open the WhatsApp group</a>
+        </li>
+      </ol>
+      <p class="sos-note">Then paste your location into the chat.</p>
 
-      <div class="sos-block">
-        <p class="kicker">Where am I?</p>
-        <h3>Share my location</h3>
-        <p>Sends a map link so the team can find you.</p>
-        <div class="sos-actions">
-          <button class="act act--red full" type="button" data-loc>Get my location</button>
+      <div>
+        <p class="kicker">Emergency · call directly</p>
+        <div class="sos-grid">
+          <a class="sos-num" href="tel:115"><b>115</b><span>Ambulance</span></a>
+          <a class="sos-num sos-num--alt" href="tel:113"><b>113</b><span>Police</span></a>
+          <a class="sos-num sos-num--alt" href="tel:114"><b>114</b><span>Fire</span></a>
         </div>
-        <div data-locout></div>
       </div>
 
       ${places.length ? `<div class="sos-block">
         <p class="kicker">Taking a taxi?</p>
         <h3>Show address to driver</h3>
         <p>Opens a large card in Vietnamese.</p>
-        <div class="driver-pick">${places.map((p, i) => `<button type="button" data-driver="${C.places.indexOf(p)}">${esc(p.label)}</button>`).join("")}</div>
+        <div class="driver-pick">${places.map((p) => `<button type="button" data-driver="${C.places.indexOf(p)}">${esc(p.label)}</button>`).join("")}</div>
       </div>` : ""}`;
   }
 
-  function locActions(url) {
-    const msg = `I'm lost from the KLU PhD group. My location: ${url}`;
-    const ph = C.supportPhone;
-    const wa = ph ? `https://wa.me/${digits(ph)}?text=${encodeURIComponent(msg)}` : `https://wa.me/?text=${encodeURIComponent(msg)}`;
-    const sms = ph ? `sms:${ph.replace(/[^\d+]/g, "")}?&body=${encodeURIComponent(msg)}` : `sms:?&body=${encodeURIComponent(msg)}`;
-    return `
-      <div class="sos-actions">
-        ${navigator.share ? `<button class="act act--solid full" type="button" data-share>Share location…</button>` : ""}
-        <a class="act" href="${wa}" target="_blank" rel="noopener">WhatsApp</a>
-        <a class="act" href="${sms}">SMS</a>
-        <button class="act" type="button" data-copyloc>Copy link</button>
-        <a class="act" href="${url}" target="_blank" rel="noopener">Open map</a>
-      </div>
-      <p class="loc-out">${esc(url)}</p>`;
-  }
+  /** One fresh GPS fix, just for this message. */
+  const currentPosition = () =>
+    new Promise((resolve, reject) => {
+      if (!("geolocation" in navigator)) return reject(new Error("unsupported"));
+      navigator.geolocation.getCurrentPosition(resolve, reject, { enableHighAccuracy: true, maximumAge: 30000, timeout: 15000 });
+    });
 
-  function getLocation(btn) {
+  async function copyLocation(btn) {
     const out = sosBody.querySelector("[data-locout]");
-    if (!("geolocation" in navigator)) { out.innerHTML = `<p class="loc-out">Location is not available on this device.</p>`; return; }
+    const label = btn.innerHTML;
     btn.disabled = true;
-    btn.textContent = "Locating…";
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        const { latitude: la, longitude: lo } = pos.coords;
-        lastLoc = `https://maps.google.com/?q=${la.toFixed(6)},${lo.toFixed(6)}`;
-        btn.disabled = false;
-        btn.textContent = "Update location";
-        out.innerHTML = locActions(lastLoc);
-      },
-      (err) => {
-        btn.disabled = false;
-        btn.textContent = "Try again";
-        out.innerHTML = `<p class="loc-out">Could not get your location (${esc(err.message || "permission denied")}). Please allow location access in your browser settings.</p>`;
-      },
-      { enableHighAccuracy: true, timeout: 15000, maximumAge: 30000 }
-    );
+    btn.innerHTML = "<b>1</b> Getting your location…";
+    try {
+      const { coords } = await currentPosition();
+      const who = store.get(NAME_KEY, "").trim() || "A participant";
+      const message = `🆘 ${who} (KLU PhD Workshop) needs help. I'm here: https://maps.google.com/?q=${coords.latitude.toFixed(6)},${coords.longitude.toFixed(6)}`;
+      try {
+        await navigator.clipboard.writeText(message);
+        out.innerHTML = `<p class="sos-ok">✓ Location copied — now open the group and paste it.</p>`;
+      } catch (e) {
+        // Some browsers block copying after the GPS wait: let them copy by hand.
+        out.innerHTML = `<p class="sos-ok">Long-press to copy, then paste it into the group:</p><textarea class="sos-msg" readonly>${esc(message)}</textarea>`;
+        out.querySelector("textarea").select();
+      }
+      sounds.confirm();
+    } catch (err) {
+      sounds.error();
+      const denied = err && err.code === 1;
+      out.innerHTML = `<p class="sos-err">${denied ? "Location is off" : "Couldn't get your location"} — describe where you are in the group instead.</p>`;
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = label;
+    }
   }
 
   function showDriver(i) {
@@ -376,7 +442,6 @@
 
   function openSOS() {
     sosBody.innerHTML = sosHTML();
-    if (lastLoc) sosBody.querySelector("[data-locout]").innerHTML = locActions(lastLoc);
     sos.hidden = false;
     document.body.style.overflow = "hidden";
     sos.querySelector(".icon-btn").focus();
@@ -387,20 +452,36 @@
   }
 
   /* ---------------- Events ---------------- */
-  document.getElementById("sos-btn").addEventListener("click", openSOS);
+  document.getElementById("sos-btn").addEventListener("click", () => {
+    sounds.alert();
+    openSOS();
+  });
+
+  // A soft tick on every tap of a button or link, unless it has its own sound.
+  document.addEventListener(
+    "click",
+    (e) => {
+      const el = e.target.closest("button, a, summary");
+      if (!el || el.id === "sos-btn" || el.matches("[data-sos],[data-loc],[data-start],[data-mute]")) return;
+      sounds.tap();
+    },
+    true
+  );
 
   document.addEventListener("click", (e) => {
-    const t = e.target.closest("[data-go],[data-sos],[data-close],[data-loc],[data-share],[data-copyloc],[data-driver],[data-jday],[data-jexport]");
+    const t = e.target.closest("[data-go],[data-sos],[data-close],[data-loc],[data-group],[data-driver],[data-jday],[data-jexport],[data-mute]");
     if (!t) return;
-    if (t.dataset.go != null) { location.hash = t.dataset.go; return; }
-    if (t.hasAttribute("data-sos")) return openSOS();
-    if (t.hasAttribute("data-close")) return closeSOS();
-    if (t.hasAttribute("data-loc")) return getLocation(t);
-    if (t.hasAttribute("data-share")) {
-      navigator.share({ title: "My location", text: "I'm lost from the KLU PhD group. My location:", url: lastLoc }).catch(() => {});
+    if (t.dataset.go != null) {
+      if (t.hasAttribute("data-start")) sounds.start();
+      location.hash = t.dataset.go;
       return;
     }
-    if (t.hasAttribute("data-copyloc")) return copy(lastLoc);
+    if (t.hasAttribute("data-mute")) return toggleMute();
+    if (t.hasAttribute("data-sos")) { sounds.alert(); return openSOS(); }
+    if (t.hasAttribute("data-close")) return closeSOS();
+    if (t.hasAttribute("data-loc")) return copyLocation(t);
+    // The link itself opens WhatsApp; close the sheet so the manual is tidy on return.
+    if (t.hasAttribute("data-group")) { setTimeout(closeSOS, 300); return; }
     if (t.dataset.driver != null) return showDriver(+t.dataset.driver);
     if (t.dataset.jday != null) {
       const day = +t.dataset.jday;
@@ -413,6 +494,7 @@
 
   let saveTimer;
   document.addEventListener("input", (e) => {
+    if (e.target.matches("[data-sosname]")) { store.set(NAME_KEY, e.target.value); return; }
     const ta = e.target.closest("[data-jq]");
     if (!ta) return;
     const wrap = ta.closest("[data-journal]");
@@ -444,6 +526,8 @@
     if (h.startsWith("#/s/")) html = viewSection(decodeURIComponent(h.slice(4)));
     else if (h === "#/contents") html = viewContents();
     else html = viewCover();
+    if (route.done) sounds.whoosh();
+    route.done = true;
     app.innerHTML = html;
     document.body.classList.toggle("on-cover", !h.startsWith("#/s/") && h !== "#/contents");
     window.scrollTo(0, 0);
@@ -455,8 +539,6 @@
   route();
   // "?sos" in the URL opens the SOS panel straight away (shareable link).
   if (/[?&]sos\b/.test(location.search)) openSOS();
-
-  if (!C.supportPhone) console.info("[KLU manual] CONFIG.supportPhone is empty — SOS call buttons are hidden.");
 
   if ("serviceWorker" in navigator && location.protocol === "https:") {
     navigator.serviceWorker.register("sw.js").catch(() => {});

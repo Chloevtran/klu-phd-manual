@@ -4,11 +4,8 @@
 ------------------------------------------------------------------- */
 
 window.CONFIG = {
-  // Group supporter shown in the SOS panel. Leave phone empty to hide
-  // the call / WhatsApp / Zalo / SMS buttons. Use international format.
-  supportName: "KLU Saigon group support",
-  supportPhone: "", // e.g. "+84901234567"
-  coordinatorEmail: "thuy.tran@klu.org",
+  // SOS button: lost or in trouble → copy location, then open the group chat.
+  whatsappGroupUrl: "https://chat.whatsapp.com/EeG8CNcSBSO9e3Y4491HNF?mode=gi_t",
 
   // Places shown on the "Show to driver" card (Vietnamese for the driver).
   places: [
