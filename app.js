@@ -365,10 +365,11 @@
           <div data-locout></div>
         </li>
         <li>
-          <a class="act act--wa full step" href="${esc(C.whatsappGroupUrl)}" target="_blank" rel="noopener noreferrer" data-group><b>2</b> Open the WhatsApp group</a>
+          <a class="act act--wa full step" href="${esc(groupAppUrl())}" data-group><b>2</b> Open the WhatsApp group</a>
         </li>
       </ol>
-      <p class="sos-note">Then paste your location into the chat.</p>
+      <p class="sos-note">Then paste your location into the chat.
+        WhatsApp didn't open? <a href="${esc(C.whatsappGroupUrl)}" target="_blank" rel="noopener noreferrer">Open the group invite page</a>.</p>
 
       <div>
         <p class="kicker">Emergency · call directly</p>
@@ -385,6 +386,14 @@
         <p>Opens a large card in Vietnamese.</p>
         <div class="driver-pick">${places.map((p) => `<button type="button" data-driver="${C.places.indexOf(p)}">${esc(p.label)}</button>`).join("")}</div>
       </div>` : ""}`;
+  }
+
+  // iPhone browsers open chat.whatsapp.com links as a web page instead of the
+  // app, so the main button uses WhatsApp's own scheme to go straight into the
+  // group. The https invite stays as a fallback link under the button.
+  function groupAppUrl() {
+    const m = /chat\.whatsapp\.com\/(?:invite\/)?([A-Za-z0-9]+)/.exec(C.whatsappGroupUrl);
+    return m ? `whatsapp://chat?code=${m[1]}` : C.whatsappGroupUrl;
   }
 
   /** One fresh GPS fix, just for this message. */

@@ -354,6 +354,7 @@ tr:last-child td { border-bottom: 0; }
 .act--wa { background: #25d366; border-color: #25d366; color: #052e16; }
 .act--wa.step b { background: rgba(0, 0, 0, 0.12); }
 .sos-note { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+.sos-note a { color: var(--burgundy); font-weight: 500; }
 .sos-ok { margin: 10px 0 0; font-size: 13.5px; color: #11663a; font-weight: 500; }
 .sos-err { margin: 10px 0 0; font-size: 13.5px; color: var(--red-dark); }
 .sos-msg { width: 100%; margin-top: 6px; min-height: 84px; padding: 10px; border: 1px solid var(--rule); font: 400 14px/1.4 var(--sans); }
