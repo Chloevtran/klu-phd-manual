@@ -1,0 +1,12 @@
+{
+  "name": "Vietnam 2026 · KLU PhD Field Manual",
+  "short_name": "KLU Manual",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#cde9ec",
+  "theme_color": "#cde9ec",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
