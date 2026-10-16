@@ -1,6 +1,8 @@
 (function () {
   "use strict";
 
+  // Shown in the page footer, so testers can tell which version a phone runs.
+  const VERSION = "v4";
   const M = window.MANUAL;
   const C = window.CONFIG;
   const app = document.getElementById("app");
@@ -114,7 +116,7 @@
           ${prev ? `<a href="#/s/${prev.id}"><span class="lab">‹ Previous</span><span class="ttl">${esc(prev.title)}</span></a>` : `<a href="#/contents"><span class="lab">‹ Back</span><span class="ttl">Contents</span></a>`}
           ${next ? `<a class="next" href="#/s/${next.id}"><span class="lab">Next ›</span><span class="ttl">${esc(next.title)}</span></a>` : `<a class="next" href="#/contents"><span class="lab">Done ›</span><span class="ttl">Contents</span></a>`}
         </nav>
-        <footer class="footer"><span>KLU PhD · Vietnam 2026</span><span>— ${pad2(i + 1)} —</span></footer>
+        <footer class="footer"><span>KLU PhD · Vietnam 2026 · ${VERSION}</span><span>— ${pad2(i + 1)} —</span></footer>
       </div>`;
   }
 
@@ -550,6 +552,20 @@
   if (/[?&]sos\b/.test(location.search)) openSOS();
 
   if ("serviceWorker" in navigator && location.protocol === "https:") {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
+    // When a new version takes over a page that was already running an older
+    // one, reload once so people never keep using stale content.
+    const hadController = !!navigator.serviceWorker.controller;
+    let reloaded = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => {
+      if (!hadController || reloaded) return;
+      reloaded = true;
+      location.reload();
+    });
+    navigator.serviceWorker.register("sw.js").then((reg) => {
+      // Tabs left open for days: check for a new version when they come back.
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") reg.update().catch(() => {});
+      });
+    }).catch(() => {});
   }
 })();
