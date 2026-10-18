@@ -27,4 +27,4 @@ npx serve .
 
 ## Deployment
 
-Static files served by GitHub Pages from the `main` branch root.
+Static files served by GitHub Pages from the `main` branch root of [Chloevtran/klu-phd-manual](https://github.com/Chloevtran/klu-phd-manual): https://chloevtran.github.io/klu-phd-manual/
