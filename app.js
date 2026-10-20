@@ -2,7 +2,7 @@
   "use strict";
 
   // Shown in the page footer, so testers can tell which version a phone runs.
-  const VERSION = "v4";
+  const VERSION = "v5";
   const M = window.MANUAL;
   const C = window.CONFIG;
   const app = document.getElementById("app");
@@ -58,7 +58,7 @@
           <p class="cover__sub">${esc(c.subtitle)}</p>
           <p class="kicker kicker--blue cover__tag">${esc(c.tagline)}</p>
         </div>
-        <div class="cover__place">${c.place.map(esc).join("<br>")}</div>
+        ${c.place && c.place.length ? `<div class="cover__place">${c.place.map(esc).join("<br>")}</div>` : ""}
         <hr class="cover__line">
         <div class="cover__foot">
           <div><strong>${esc(c.host)}</strong><br>${esc(c.partner)}</div>
@@ -87,10 +87,10 @@
           <h1 class="page__title">In this manual.</h1>
           <hr class="rule-red">
           <ul class="toc">${rows}</ul>
-          <details class="imprint">
+          ${M.imprint ? `<details class="imprint">
             <summary><span class="kicker">Imprint</span></summary>
             ${renderBlocks(M.imprint)}
-          </details>
+          </details>` : ""}
         </div>
       </div>`;
   }
@@ -144,7 +144,9 @@
           (c) => `<div class="card">
             ${c.kicker ? `<p class="kicker">${esc(c.kicker)}</p>` : ""}
             ${c.title ? `<h3 class="card__title">${esc(c.title)}</h3>` : ""}
+            ${c.sub ? `<p class="card__sub">${esc(c.sub)}</p>` : ""}
             ${c.body ? `<p class="card__body">${esc(c.body)}</p>` : ""}
+            ${c.facts ? c.facts.map(([k, v]) => `<p class="card__fact"><b>${esc(k)}.</b> ${esc(v)}</p>`).join("") : ""}
             ${c.list ? list(c.list) : ""}
           </div>`
         )
@@ -172,21 +174,34 @@
         )
         .join("")}</div>`,
     days: (b) => {
+      const slot = (s) => `
+        <div class="slot${s.minor ? " slot--minor" : ""}${s.strong ? " slot--strong" : ""}">
+          <div class="slot__time">${esc(s.time)}${s.optional ? ` <span class="slot__opt">Optional</span>` : ""}</div>
+          <div class="slot__what">${esc(s.what)}${s.who ? ` <span class="slot__who">· ${esc(s.who)}</span>` : ""}</div>
+          ${s.note ? `<div class="slot__note${s.noteStrong ? " slot__note--strong" : ""}">${esc(s.note)}</div>` : ""}
+          ${s.where ? `<div class="slot__where">📍 ${esc(s.where)}</div>` : ""}
+        </div>`;
       const items = b.items.map((d) => {
-        const slots = d.slots && d.slots.length
-          ? `<div class="slots">${d.slots
-              .map((s) => `<div class="slot"><div class="slot__time">${esc(s.time)}</div><div class="slot__what">${esc(s.what)}</div>${s.where ? `<div class="slot__where">${esc(s.where)}</div>` : ""}</div>`)
-              .join("")}</div>`
-          : `<p class="tbc">Detailed schedule to be confirmed.</p>`;
-        const refl = d.reflection
-          ? `<div class="callout"><p class="kicker">Reflection · end of ${esc(d.day.toLowerCase())}</p><p>“${esc(d.reflection)}”</p></div>`
+        const dress = d.dress
+          ? `<div class="dress"><span class="dress__tag">Dress code · ${esc(d.dress)}</span>${d.dressNote ? `<span class="dress__note">${esc(d.dressNote)}</span>` : ""}</div>`
           : "";
-        return { kicker: d.day, title: d.focus, sub: d.date, html: slots + refl };
+        const slots = d.slots && d.slots.length
+          ? `<div class="slots">${d.slots.map(slot).join("")}</div>`
+          : `<p class="tbc">Detailed schedule to be confirmed.</p>`;
+        const objective = d.objective
+          ? `<div class="callout callout--soft"><p class="kicker">Learning objective</p><p class="callout__title">${esc(d.objective.title)}</p><p class="callout__text">${esc(d.objective.text)}</p></div>`
+          : "";
+        const observe = d.observe ? `<p class="h">What to observe</p>${list(d.observe)}` : "";
+        const lens = d.lens ? `<p class="h">Research lens</p><p class="b-p">${esc(d.lens)}</p>` : "";
+        const refl = d.reflection
+          ? `<div class="callout callout--reflect"><p class="kicker">Reflection · end of ${esc(d.day.toLowerCase())}</p><p>“${esc(d.reflection)}”</p></div>`
+          : "";
+        return { kicker: `${d.day} · ${d.date}`, title: d.focus, html: dress + slots + objective + observe + lens + refl };
       });
       return `<div class="acc">${items
         .map(
           (x, i) => `<details${i === todayIndex(b.items) ? " open" : ""}>
-            <summary><span><span class="kicker">${esc(x.kicker)}</span><span class="ttl">${esc(x.title)}</span><span class="sub">${esc(x.sub)}</span></span><span class="pm" aria-hidden="true">+</span></summary>
+            <summary><span><span class="kicker">${esc(x.kicker)}</span><span class="ttl">${esc(x.title)}</span>${x.sub ? `<span class="sub">${esc(x.sub)}</span>` : ""}</span><span class="pm" aria-hidden="true">+</span></summary>
             <div class="acc__body">${x.html}</div>
           </details>`
         )
@@ -372,6 +387,7 @@
       </ol>
       <p class="sos-note">Then paste your location into the chat.
         WhatsApp didn't open? <a href="${esc(C.whatsappGroupUrl)}" target="_blank" rel="noopener noreferrer">Open the group invite page</a>.</p>
+      ${C.coordinator ? `<a class="act full sos-call" href="${telHref(C.coordinator.phone)}">📞 Call ${esc(C.coordinator.role)} · ${esc(C.coordinator.name)}</a>` : ""}
 
       <div>
         <p class="kicker">Emergency · call directly</p>
