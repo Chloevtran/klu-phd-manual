@@ -312,6 +312,7 @@ window.MANUAL = {
     /* ---------------------------------------------------------- V */
     {
       id: "sessions",
+      style: "doc",
       num: "V",
       title: "Major Sessions",
       hint: "Creating Impact with Research · Field Experiments · Insights into Vietnamese Logistics · Challenges for Logistics Operations · Sustainability",
@@ -321,7 +322,7 @@ window.MANUAL = {
           t: "accordion",
           items: [
             {
-              kicker: "Major Session · One · Monday 26 October",
+              kicker: "Major Session · One",
               title: "Creating impact with research.",
               sub: "Most logistics research is read by other logistics researchers. This session asks what it would take for a doctoral project to be read by a port operator, a ministry or a fleet owner, and to change what they do.",
               blocks: [
@@ -330,7 +331,7 @@ window.MANUAL = {
                 { t: "outcomes", items: ["Distinguish the three impact channels open to a doctoral project (publication, practice, policy) and state which one their own project is aimed at.", "Apply the RRBM criteria of credible and useful knowledge to their own research question.", "Reformulate a research question so that a named stakeholder in Vietnam would recognise the problem as theirs.", "Set boundaries for generative AI in the research process and state which steps must remain auditable."] },
                 { t: "h", text: "Suggested reading" },
                 {
-                  t: "cards",
+                  t: "reading",
                   items: [
                     { kicker: "RRBM Community", title: "A Vision of Responsible Research in Business and Management", body: "Seven principles of credible and useful research. The scorecard for Monday’s discussion.", href: "https://www.rrbm.network/position-paper/" },
                     { kicker: "AHK Vietnam · 2026", title: "AHK Vietnam Brochure 2026: Business Hub Vietnam", body: "Economic indicators, investment by region and sector, workforce, trade connectivity. Required reading before Session 1.", href: "https://vietnam.ahk.de/en/info/ahk-vietnam-brochure-2026" },
@@ -341,7 +342,7 @@ window.MANUAL = {
                 { t: "list", items: ["Name one person outside academia who would change a decision if your main finding were true. If you cannot, what would you have to change about the question?", "Which RRBM principle does your current design satisfy least well, and is that a cost you are choosing or one you have not noticed?", "Vietnam grew 9 percent in the first nine months of 2026 while European firms reported eight operational hurdles each. Which of those hurdles is a logistics research question, and which is simply a complaint?"] },
                 { t: "h", text: "Numbers to know going in" },
                 {
-                  t: "stats",
+                  t: "numbers",
                   items: [
                     { n: "9.0%", l: "Vietnam GDP growth, first nine months of 2026 (Q3: 9.95% year on year)" },
                     { n: "78.3", l: "EuroCham Business Confidence Index, Q3 2026; nine in ten respondents would recommend Vietnam" },
@@ -364,7 +365,7 @@ window.MANUAL = {
               ],
             },
             {
-              kicker: "Major Session · Two · Tuesday 27 October",
+              kicker: "Major Session · Two",
               title: "Field experiments.",
               sub: "Operations management adopted the field experiment late and is still learning how to run one. Vietnam, with high-volume operations, thin management systems and partners willing to try things, is one of the better places in Asia to design one.",
               blocks: [
@@ -373,7 +374,7 @@ window.MANUAL = {
                 { t: "outcomes", items: ["Specify the five design decisions of a field experiment (unit, treatment, outcome, duration, partner) for one question from their own project.", "Distinguish a field experiment from a natural experiment, a pilot and an A/B test, and state which inference each supports.", "Identify the outcome variables available in a Vietnamese cold chain and the data owner for each.", "Translate a practitioner’s problem into a treatment that can be randomised without stopping the operation."] },
                 { t: "h", text: "Suggested reading" },
                 {
-                  t: "cards",
+                  t: "reading",
                   items: [
                     { kicker: "Gao, Li & Sun · Journal of Operations Management, 2023", title: "Field experiments in operations management", body: "The review that organises the OM literature and gives a design-to-analysis roadmap. Read the roadmap before Session 5.", href: "https://ink.library.smu.edu.sg/sis_research/7488" },
                     { kicker: "Kenan Institute / JOM · 2023", title: "Registered Reports in Operations Management: Lessons from an Experimental Trial", body: "What pre-approved designs did and did not fix.", href: "https://kenaninstitute.unc.edu/publication/registered-reports-in-operations-management-lessons-from-an-experimental-trial/" },
@@ -384,7 +385,7 @@ window.MANUAL = {
                 { t: "list", items: ["Take the central claim of your dissertation. What would the treatment be, who would be randomised, and what would the partner have to stop doing for you to run it?", "A cold chain operator offers you one warehouse and three months. What is the smallest experiment that would still be worth publishing?", "The panel will describe problems in their own words. Which contain a counterfactual, and which are requests for a description?"] },
                 { t: "h", text: "Numbers to know going in" },
                 {
-                  t: "stats",
+                  t: "numbers",
                   items: [
                     { n: "~1.35 m", l: "Commercial cold-storage pallet positions in Vietnam, 2025, at about 80% utilisation" },
                     { n: "20–25%", l: "Share of Vietnam’s key perishable exports moving through a cold chain; Thailand 40–50%" },
@@ -405,11 +406,11 @@ window.MANUAL = {
                     ["Observational study", "Nobody; units self-select", "Low without an instrument", "High", "Panel data on dwell times across the Cai Mep cluster"],
                   ],
                 },
-                { t: "callout", label: "Common failure modes", text: "Partner drift (the treatment changes mid-way), contamination (treated and control depots share drivers or managers), outcome capture (the metric exists in a system nobody reconciles), short horizons, and ethics by omission (a treatment that lowers driver pay is still a treatment)." },
+                { t: "p", text: "Common failure modes: partner drift (the treatment changes mid-way), contamination (treated and control depots share drivers or managers), outcome capture (the metric exists in a system nobody reconciles), short horizons, and ethics by omission (a treatment that lowers driver pay is still a treatment)." },
               ],
             },
             {
-              kicker: "Major Session · Three · Wednesday 28 October",
+              kicker: "Major Session · Three",
               title: "Insights into Vietnamese logistics.",
               sub: "The south’s logistics system is being recomposed in front of you. A shipyard that moved from the city centre to deep water and a terminal cluster among the seven most efficient in the world sit a few kilometres apart in Phu My. Read them as one system.",
               blocks: [
@@ -418,7 +419,7 @@ window.MANUAL = {
                 { t: "outcomes", items: ["Describe the southern logistics geography after the 2025 administrative reform as one intra-city system rather than three provinces.", "Explain why the Cai Mep–Thi Vai cluster competes on efficiency rather than transshipment, and what the barge share at CMIT implies for hinterland research.", "Identify at least two researchable operational constraints at each site using the four lenses in Section VI.", "Position a European manufacturer’s logistics requirements against what the local 3PL market offers."] },
                 { t: "h", text: "Suggested reading" },
                 {
-                  t: "cards",
+                  t: "reading",
                   items: [
                     { kicker: "Ministry of Industry and Trade · 2025", title: "Vietnam Logistics Report 2025", body: "The official baseline: logistics cost around 16 percent of GDP, road at 75 percent of freight volume, and the 2025 to 2035 strategy targets.", href: "https://logistics.gov.vn/lowering-logistics-costs-strengthening-vietnam-s-global-connectivity" },
                     { kicker: "Vietnam Port Association · 2025", title: "CMIT celebrates the 2,000,000 TEU milestone", body: "The terminal’s own account of 2025. Read before the visit so questions go beyond the briefing.", href: "https://www.vpa.org.vn/cmit-celebrates-the-2000000-teu-milestone-within-the-first-11-months-of-2025/" },
@@ -429,7 +430,7 @@ window.MANUAL = {
                 { t: "list", items: ["Ba Son builds and repairs ships; CMIT moves boxes. Which has the harder logistics problem, and by which measure?", "Most of CMIT’s throughput arrives by barge, not by truck. Which textbook assumption about hinterland connectivity fails first?", "The Cai Mep cluster is in the global top seven for efficiency, yet Vietnam ranks 43rd on the LPI. Where, physically, is the gap between the two numbers?"] },
                 { t: "h", text: "Numbers to know going in" },
                 {
-                  t: "stats",
+                  t: "numbers",
                   items: [
                     { n: "~7.3 m TEU", l: "Cai Mep–Thi Vai cluster throughput, 2025; first half of 2026 up 9% year on year" },
                     { n: "2.0 m TEU", l: "CMIT handling in the first 11 months of 2025, including 1.1 m TEU from mother vessels (up 28%); 1,900+ consecutive accident-free days" },
@@ -451,7 +452,7 @@ window.MANUAL = {
               ],
             },
             {
-              kicker: "Major Session · Four · Thursday 29 October",
+              kicker: "Major Session · Four",
               title: "Challenges for logistics operations.",
               sub: "Three pressures sit inside every logistics operation in Vietnam at once: a tariff regime that has changed five times in eighteen months, a freight market 150 percent above a year ago, and a trucking sector that cannot staff the trucks it owns. None can be optimised away. They have to be designed for.",
               blocks: [
@@ -460,7 +461,7 @@ window.MANUAL = {
                 { t: "outcomes", items: ["Model a tariff or routing shock as a design parameter rather than an event to be forecast.", "Evaluate a freight-rate forecast on its intended use and state when a volatility measure is more useful than a point estimate.", "Specify how driver fatigue can be measured in a Vietnamese fleet and which measures are already collected under the 2025 journey-monitoring rules.", "Build a welfare intervention a fleet owner would adopt, with the cost line and the retention or safety benefit on the same page."] },
                 { t: "h", text: "Suggested reading" },
                 {
-                  t: "cards",
+                  t: "reading",
                   items: [
                     { kicker: "Drewry · weekly", title: "World Container Index", body: "The benchmark Session 10 will use. Check the latest reading on the morning of the session.", href: "https://www.drewry.co.uk/supply-chain-advisors/world-container-index-weekly-update/world-container-index-assessed-by-drewry" },
                     { kicker: "AHK · May 2026", title: "AHK World Business Outlook Spring 2026", body: "4,500 German firms abroad surveyed after the Hormuz blockade; in Vietnam 80 percent name supply chain disruption as a business risk.", href: "https://www.dihk.de/en/newsroom/ahk-world-business-outlook-spring-2026-global-economy-in-crisis-mode-177294" },
@@ -471,7 +472,7 @@ window.MANUAL = {
                 { t: "list", items: ["The US tariff on Vietnamese goods has been 10, 46, 10, 20, 0, 10 and 12.5 percent at different points since April 2025. Which changes should have altered a well-designed supply chain, and which should it have absorbed?", "Vietnam capped commercial driving at 10 hours a day and 48 hours a week from 1 January 2025. As a natural experiment, what is the outcome variable, the comparison group, and the confound?", "If improving driver welfare costs a fleet 5 to 10 percent in wages, what has to be true about retention, accidents or utilisation for the owner to say yes?"] },
                 { t: "h", text: "Numbers to know going in" },
                 {
-                  t: "stats",
+                  t: "numbers",
                   items: [
                     { n: "USD 4,485", l: "Drewry World Container Index per 40 ft container, 15 October 2026, roughly 150% above a year earlier" },
                     { n: "12.5%", l: "US Section 301 duty on most Vietnamese goods since 24 July 2026; the 20% tariff and 40% transshipment rate ended in February 2026" },
@@ -494,11 +495,11 @@ window.MANUAL = {
                     ["Open", "Section 301 investigations on excess capacity and intellectual property pending", "Unsettled"],
                   ],
                 },
-                { t: "callout", label: "Six operating tensions for Thursday", text: "Speed versus origin traceability; contract versus spot; utilisation versus fatigue; two drivers versus one on north–south runs; enforcement versus retention; resilience versus cost." },
+                { t: "p", text: "Six operating tensions for Thursday: speed versus origin traceability; contract versus spot; utilisation versus fatigue; two drivers versus one on north–south runs; enforcement versus retention; resilience versus cost." },
               ],
             },
             {
-              kicker: "Major Session · Five · Friday 30 October",
+              kicker: "Major Session · Five",
               title: "Sustainability.",
               sub: "Logistics is usually discussed as a source of emissions to be cut. Prof. McKinnon’s recent work widens the frame: logistics is also a victim of climate change, the delivery system for adaptation and relief, and the industry that will have to move and store the carbon other sectors remove. Vietnam is where all of those roles are visible at once.",
               blocks: [
@@ -507,7 +508,7 @@ window.MANUAL = {
                 { t: "outcomes", items: ["Describe the roles logistics plays in the climate crisis and state which one their research touches.", "Estimate, in order of magnitude, the freight task created by carbon removal at the scale of national net-zero commitments.", "Frame a climate-adaptation research question for southern Vietnam with a measurable logistics outcome and a plausible data source.", "Position their dissertation against a research gap named in Session 15."] },
                 { t: "h", text: "Suggested reading" },
                 {
-                  t: "cards",
+                  t: "reading",
                   items: [
                     { kicker: "McKinnon · IJLRA, 2024", title: "Logistics and climate: an assessment of logistics’ multiple roles in the climate crisis", body: "The paper behind all three Friday sessions. Required reading.", href: "https://www.tandfonline.com/doi/full/10.1080/13675567.2024.2367534" },
                     { kicker: "McKinnon · keynote, 2024", title: "Role of Logistics in a Resilient Net Zero Europe", body: "The slide version of Session 13, with the geography of carbon capture, transport and storage.", href: "https://www.ost-ausschuss.de/sites/default/files/pm_pdf/Role%20of%20Logistics%20in%20a%20Resilient%20Net%20Zero%20Europe%20%20(McKinnon%20%20keynote)%20%2028-11-2024%20with%20weblinks.pdf" },
@@ -518,7 +519,7 @@ window.MANUAL = {
                 { t: "list", items: ["If Vietnam’s net-zero 2050 commitment required moving and storing captured CO₂ at even a fraction of today’s container volumes, which of Wednesday’s sites would be involved, and in what role?", "Adaptation spending flows to dykes, pumps and early warning. Where in that spending is a logistics decision being made badly for lack of evidence?", "Which research gap named on Friday could you address with the data you already have, and which would require a new partnership?"] },
                 { t: "h", text: "Numbers to know going in" },
                 {
-                  t: "stats",
+                  t: "numbers",
                   items: [
                     { n: "~12%", l: "Logistics’ share of energy-related CO₂ once storage and handling are added to freight transport" },
                     { n: "USD 3.2 bn", l: "Vietnam’s economic losses from storms and floods in 2025; USD 3.5 bn in 2024 after Typhoon Yagi" },
@@ -528,7 +529,7 @@ window.MANUAL = {
                 },
                 { t: "note", text: "Sources: McKinnon (2024); official damage estimates; World Bank; Vietnam Logistics Report 2025." },
                 { t: "h", text: "Logistics’ roles in the climate crisis, read for Vietnam" },
-                { t: "p", text: "Adapted from McKinnon (2024). The research gap is where the research is thin." },
+                { t: "p", text: "Adapted from McKinnon (2024). The right-hand column is where the research is thin." },
                 {
                   t: "matrix",
                   cols: ["Role", "Vietnamese instance", "Research gap"],
@@ -552,12 +553,13 @@ window.MANUAL = {
     /* ---------------------------------------------------------- VI */
     {
       id: "visits",
+      style: "doc",
       num: "VI",
       title: "Company Visit Observation Framework",
       hint: "Operations · Change · Logistics · Innovation",
       intro: "Four lenses, applied in the same order at every site. An executive leaves a visit with a judgement; a researcher leaves with a question. The lenses are built to produce the question.",
       blocks: [
-        { t: "kicker", text: "Section VI · The four lenses" },
+        { t: "kicker", text: "Section VI" },
         { t: "title", text: "Company visit observation framework." },
         {
           t: "matrix",
@@ -609,7 +611,7 @@ window.MANUAL = {
             ["Innovation", "Design and planning software. Offshore wind work: real orders or capability statements. Cooperation with universities or foreign yards.", "What would you build here in 2030 that you cannot build today, and what is missing?"],
           ],
         },
-        { t: "callout", label: "Research hooks", text: "Project logistics and supplier development in state-owned manufacturing; skills formation in heavy industry; dual-use capacity and commercial planning; offshore wind supply chains in southern Vietnam." },
+        { t: "p", text: "Research hooks: project logistics and supplier development in state-owned manufacturing; skills formation in heavy industry; dual-use capacity and commercial planning; offshore wind supply chains in southern Vietnam." },
 
         { t: "kicker", text: "Site guide · Wednesday 13:30" },
         { t: "title", text: "Cai Mep International Terminal." },
@@ -624,7 +626,7 @@ window.MANUAL = {
             ["Innovation", "Terminal operating system and data sharing with lines and barge operators. Electrification of yard equipment. Cooperation across the cluster.", "Which dataset do you hold that nobody outside the terminal has analysed? What would you let a research team test on one berth or shift?"],
           ],
         },
-        { t: "callout", label: "Research hooks", text: "Hinterland connectivity where the hinterland is a river; terminal efficiency versus national logistics performance; customs digitalisation as a natural experiment; capacity risk as roughly 8 million TEU of new cluster capacity lands in four years." },
+        { t: "p", text: "Research hooks: hinterland connectivity where the hinterland is a river; terminal efficiency versus national logistics performance; customs digitalisation as a natural experiment; capacity risk as roughly 8 million TEU of new cluster capacity lands in four years." },
 
         { t: "kicker", text: "Section VI · Observation sheet" },
         { t: "title", text: "One sheet per site." },

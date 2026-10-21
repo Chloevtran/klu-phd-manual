@@ -100,7 +100,7 @@
     const prev = sections[i - 1];
     const next = sections[i + 1];
     return `
-      <div class="view">
+      <div class="view${s.style ? ` sec--${s.style}` : ""}">
         ${topbar(`<button class="topbar__btn" data-go="#/contents"><span class="chev">‹</span> Contents</button>`, `${s.num} · ${esc(s.hint)}`)}
         <section class="hero">
           <p class="kicker">Section ${NUM_WORDS[i] || s.num}</p>
@@ -154,9 +154,28 @@
     outcomes: (b) => `
       <div class="callout callout--soft">
         <p class="kicker">${esc(b.label || "Learning outcomes")}</p>
-        ${b.label ? "" : `<p class="callout__text">By the end of this session, participants will be able to:</p>`}
         ${list(b.items)}
       </div>`,
+    // Suggested reading as in Sections_05-06.pdf: source on the left; title,
+    // note and the link on the right.
+    reading: (b) => `
+      <div class="reading">${b.items
+        .map(
+          (c) => `<div class="reading__row">
+            <p class="reading__src">${esc(c.kicker)}</p>
+            <div>
+              <p class="reading__title">${esc(c.title)}</p>
+              <p class="reading__body">${esc(c.body)}</p>
+              ${c.href ? `<a class="reading__link" href="${esc(c.href)}" target="_blank" rel="noopener noreferrer">${esc(c.href)}</a>` : ""}
+            </div>
+          </div>`
+        )
+        .join("")}</div>`,
+    // "Numbers to know going in": large figure, description, ruled rows.
+    numbers: (b) => `
+      <div class="numbers">${b.items
+        .map((x) => `<div class="numbers__row"><p class="numbers__n">${esc(x.n)}</p><p class="numbers__l">${esc(x.l)}</p></div>`)
+        .join("")}</div>`,
     // A wide table shown as one card per row: first column as the heading,
     // the other columns as labelled lines (readable on a phone).
     matrix: (b) => `
@@ -169,11 +188,11 @@
         )
         .join("")}</div>`,
     steps: (b) => `
-      <ol class="steps">${b.items.map((x, i) => `<li><span class="steps__n">${i + 1}</span><p><b>${esc(x.k)}.</b> ${esc(x.v)}</p></li>`).join("")}</ol>`,
+      <ol class="steps">${b.items.map((x, i) => `<li><span class="steps__n">${i + 1}.</span><p>${esc(x.k)}. ${esc(x.v)}</p></li>`).join("")}</ol>`,
     factbox: (b) => `
       <div class="callout callout--soft">
         <p class="kicker">${esc(b.label)}</p>
-        ${b.facts.map(([k, v]) => `<p class="callout__text"><b>${esc(k)}:</b> ${esc(v)}</p>`).join("")}
+        ${list(b.facts.map(([k, v]) => `${k}: ${v.charAt(0).toLowerCase()}${v.slice(1)}`))}
       </div>`,
     sheet: (b) => `<div class="sheet-form" data-sheet>${sheetHTML(b, store.get(SKEY + ":site", 0))}</div>`,
     quote: (b) => `
@@ -313,7 +332,10 @@
         </details>`
       )
       .join("");
-    return `<div class="j-tabs" role="tablist" aria-label="Site">${tabs}</div>${lenses}
+    const field = (key, label, type) =>
+      `<label class="sheet-field"><span>${label}</span><input type="${type}" data-sq="${key}" value="${esc(entry[key] || "")}"></label>`;
+    return `<div class="j-tabs" role="tablist" aria-label="Site">${tabs}</div>
+      <div class="sheet-fields">${field("date", "Date", "date")}${field("host", "Host", "text")}</div>${lenses}
       <p class="j-meta"><span data-sstatus>Saved automatically on this device.</span></p>`;
   }
   function sheetBlock() {
