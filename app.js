@@ -2,7 +2,8 @@
   "use strict";
 
   // Shown in the page footer, so testers can tell which version a phone runs.
-  const VERSION = "v5";
+  const VERSION = "v6";
+  const NUM_WORDS = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
   const M = window.MANUAL;
   const C = window.CONFIG;
   const app = document.getElementById("app");
@@ -33,10 +34,9 @@
 
   /* ---------------- Shared fragments ---------------- */
   const logos = () => `
-    <div class="logos" aria-label="Kühne Logistics University · Leading with an Operations Mindset · Learn Logistics by Kühne Foundation">
-      <div class="logo"><span class="logo__mark">KLU</span><span class="logo__words">Kühne<br>Logistics<br>University</span></div>
-      <div class="logo logo--tag">Leading with an<br>Operations Mindset</div>
-      <div class="logo logo--ll"><span class="ll-k">K</span><span class="ll-t">LEARN<br>LOGISTICS<small>by Kühne Foundation</small></span></div>
+    <div class="logos">
+      <img class="logos__klu" src="assets/logo-klu.png" alt="Kühne Logistics University · Leading with an Operations Mindset" width="718" height="142">
+      <span class="logos__ll"><img src="assets/logo-learn-logistics.png" alt="Learn Logistics by Kühne Foundation" width="200" height="200"></span>
     </div>`;
 
   const topbar = (left, right) => `
@@ -57,14 +57,14 @@
           <h1 class="cover__title">${esc(c.title)}<br>${esc(c.year)}</h1>
           <p class="cover__sub">${esc(c.subtitle)}</p>
           <p class="kicker kicker--blue cover__tag">${esc(c.tagline)}</p>
+          <button class="btn-primary cover__cta" type="button" data-go="#/contents" data-start>Start the journey <span class="arrow">→</span></button>
         </div>
         ${c.place && c.place.length ? `<div class="cover__place">${c.place.map(esc).join("<br>")}</div>` : ""}
         <hr class="cover__line">
         <div class="cover__foot">
-          <div><strong>${esc(c.host)}</strong><br>${esc(c.partner)}</div>
+          <div class="cover__host"><strong>${esc(c.host)}</strong>${[].concat(c.partner).map((l) => `<span>${esc(l)}</span>`).join("")}</div>
           <div class="cover__date">${esc(c.dates)}</div>
         </div>
-        <button class="btn-primary" type="button" data-go="#/contents" data-start>Start the journey <span class="arrow">→</span></button>
       </section>`;
   }
 
@@ -105,8 +105,8 @@
       <div class="view">
         ${topbar(`<button class="topbar__btn" data-go="#/contents"><span class="chev">‹</span> Contents</button>`, `${s.num} · ${esc(s.hint)}`)}
         <section class="hero">
-          <p class="kicker">Section ${s.num}</p>
-          <p class="hero__num">${pad2(i + 1)}</p>
+          <p class="kicker">Section ${NUM_WORDS[i] || s.num}</p>
+          <p class="hero__num">${s.num}</p>
           <h1 class="hero__title">${esc(s.title)}</h1>
           <hr class="rule-red">
           <p class="hero__intro">${esc(s.intro)}</p>
@@ -116,7 +116,7 @@
           ${prev ? `<a href="#/s/${prev.id}"><span class="lab">‹ Previous</span><span class="ttl">${esc(prev.title)}</span></a>` : `<a href="#/contents"><span class="lab">‹ Back</span><span class="ttl">Contents</span></a>`}
           ${next ? `<a class="next" href="#/s/${next.id}"><span class="lab">Next ›</span><span class="ttl">${esc(next.title)}</span></a>` : `<a class="next" href="#/contents"><span class="lab">Done ›</span><span class="ttl">Contents</span></a>`}
         </nav>
-        <footer class="footer"><span>KLU PhD · Vietnam 2026 · ${VERSION}</span><span>— ${pad2(i + 1)} —</span></footer>
+        <footer class="footer"><span>KLU PhD · Vietnam 2026 · ${VERSION}</span><span>— ${s.num} —</span></footer>
       </div>`;
   }
 

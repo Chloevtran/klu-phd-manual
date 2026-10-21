@@ -47,7 +47,7 @@ window.MANUAL = {
     tagline: "Economic Context · Research Immersion · Strategic Reflection",
     place: [],
     host: "KLU Saigon",
-    partner: "in cooperation with Ho Chi Minh City University of Technology",
+    partner: ["in cooperation with", "Ho Chi Minh City University of Technology"],
     dates: "25–30 October 2026",
   },
 
