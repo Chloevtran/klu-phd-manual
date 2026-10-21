@@ -1,6 +1,6 @@
 // Network-first with cache fallback, so the manual keeps working offline
 // while still picking up content updates whenever there is a connection.
-const CACHE = "klu-manual-v6";
+const CACHE = "klu-manual-v7";
 const CORE = ["./", "index.html", "styles.css", "content.js", "app.js", "icon.svg", "manifest.webmanifest", "assets/logo-klu.png", "assets/logo-learn-logistics.png"];
 
 self.addEventListener("install", (e) => {

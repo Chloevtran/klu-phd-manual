@@ -2,7 +2,7 @@
   "use strict";
 
   // Shown in the page footer, so testers can tell which version a phone runs.
-  const VERSION = "v6";
+  const VERSION = "v7";
   const NUM_WORDS = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
   const M = window.MANUAL;
   const C = window.CONFIG;
@@ -33,17 +33,26 @@
   }
 
   /* ---------------- Shared fragments ---------------- */
+  // Escaped text for uppercase labels, keeping "PhD" with a lowercase h.
+  const caps = (s) => esc(s).replace(/PhD/g, '<span class="nocaps">PhD</span>');
+
   const logos = () => `
     <div class="logos">
       <img class="logos__klu" src="assets/logo-klu.png" alt="Kühne Logistics University · Leading with an Operations Mindset" width="718" height="142">
-      <span class="logos__ll"><img src="assets/logo-learn-logistics.png" alt="Learn Logistics by Kühne Foundation" width="200" height="200"></span>
+      <span class="logos__ll"><img src="assets/logo-learn-logistics.png" alt="Learn Logistics by Kühne Foundation" width="175" height="65"></span>
     </div>`;
+
+  const sosBtn = () => `
+    <button class="sos-pill" type="button" data-sos aria-haspopup="dialog" aria-controls="sos">
+      <span class="sos-pill__ring" aria-hidden="true"></span>SOS
+    </button>`;
 
   const topbar = (left, right) => `
     <header class="topbar">
       ${left}
       <span class="topbar__label">${right}</span>
       ${soundBtn()}
+      ${sosBtn()}
     </header>`;
 
   /* ---------------- Views ---------------- */
@@ -51,9 +60,9 @@
     const c = M.cover;
     return `
       <section class="cover view">
-        ${logos()}
+        <div class="cover__top">${logos()}${sosBtn()}</div>
         <div class="cover__main">
-          <p class="kicker kicker--blue">${esc(c.kicker)}</p>
+          <p class="kicker kicker--blue">${caps(c.kicker)}</p>
           <h1 class="cover__title">${esc(c.title)}<br>${esc(c.year)}</h1>
           <p class="cover__sub">${esc(c.subtitle)}</p>
           <p class="kicker kicker--blue cover__tag">${esc(c.tagline)}</p>
@@ -81,7 +90,7 @@
       .join("");
     return `
       <div class="view">
-        ${topbar(`<button class="topbar__btn" data-go="#/"><span class="chev">‹</span> Cover</button>`, "Vietnam 2026 · PhD Field Manual")}
+        ${topbar(`<button class="topbar__btn" data-go="#/"><span class="chev">‹</span> Cover</button>`, caps("Vietnam 2026 · PhD Field Manual"))}
         <div class="page">
           <p class="kicker">Contents</p>
           <h1 class="page__title">In this manual.</h1>
@@ -116,7 +125,7 @@
           ${prev ? `<a href="#/s/${prev.id}"><span class="lab">‹ Previous</span><span class="ttl">${esc(prev.title)}</span></a>` : `<a href="#/contents"><span class="lab">‹ Back</span><span class="ttl">Contents</span></a>`}
           ${next ? `<a class="next" href="#/s/${next.id}"><span class="lab">Next ›</span><span class="ttl">${esc(next.title)}</span></a>` : `<a class="next" href="#/contents"><span class="lab">Done ›</span><span class="ttl">Contents</span></a>`}
         </nav>
-        <footer class="footer"><span>KLU PhD · Vietnam 2026 · ${VERSION}</span><span>— ${s.num} —</span></footer>
+        <footer class="footer"><span>KLU <span class="nocaps">PhD</span> · Vietnam 2026 · ${VERSION}</span><span>— ${s.num} —</span></footer>
       </div>`;
   }
 
@@ -124,7 +133,7 @@
   const list = (items) => `<ul class="bul">${items.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
 
   const B = {
-    kicker: (b) => `<p class="kicker b-kicker">${esc(b.text)}</p>`,
+    kicker: (b) => `<p class="kicker b-kicker">${caps(b.text)}</p>`,
     title: (b) => `<h2 class="b-title">${esc(b.text)}</h2>`,
     lead: (b) => `<p class="b-lead">${esc(b.text)}</p>`,
     p: (b) => `<p class="b-p">${esc(b.text)}</p>`,
@@ -479,17 +488,13 @@
   }
 
   /* ---------------- Events ---------------- */
-  document.getElementById("sos-btn").addEventListener("click", () => {
-    sounds.alert();
-    openSOS();
-  });
 
   // A soft tick on every tap of a button or link, unless it has its own sound.
   document.addEventListener(
     "click",
     (e) => {
       const el = e.target.closest("button, a, summary");
-      if (!el || el.id === "sos-btn" || el.matches("[data-sos],[data-loc],[data-start],[data-mute]")) return;
+      if (!el || el.matches("[data-sos],[data-loc],[data-start],[data-mute]")) return;
       sounds.tap();
     },
     true
