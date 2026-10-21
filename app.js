@@ -2,7 +2,7 @@
   "use strict";
 
   // Shown in the page footer, so testers can tell which version a phone runs.
-  const VERSION = "v7";
+  const VERSION = "v8";
   const NUM_WORDS = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
   const M = window.MANUAL;
   const C = window.CONFIG;
@@ -42,17 +42,11 @@
       <span class="logos__ll"><img src="assets/logo-learn-logistics.png" alt="Learn Logistics by Kühne Foundation" width="175" height="65"></span>
     </div>`;
 
-  const sosBtn = () => `
-    <button class="sos-pill" type="button" data-sos aria-haspopup="dialog" aria-controls="sos">
-      <span class="sos-pill__ring" aria-hidden="true"></span>SOS
-    </button>`;
-
   const topbar = (left, right) => `
     <header class="topbar">
       ${left}
       <span class="topbar__label">${right}</span>
       ${soundBtn()}
-      ${sosBtn()}
     </header>`;
 
   /* ---------------- Views ---------------- */
@@ -60,7 +54,7 @@
     const c = M.cover;
     return `
       <section class="cover view">
-        <div class="cover__top">${logos()}${sosBtn()}</div>
+        <div class="cover__top">${logos()}</div>
         <div class="cover__main">
           <p class="kicker kicker--blue">${caps(c.kicker)}</p>
           <h1 class="cover__title">${esc(c.title)}<br>${esc(c.year)}</h1>

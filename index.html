@@ -19,6 +19,11 @@
 <body>
   <main id="app" aria-live="polite"></main>
 
+  <button id="sos-btn" class="sos-fab" type="button" data-sos aria-haspopup="dialog" aria-controls="sos">
+    <span class="sos-fab__ring" aria-hidden="true"></span>
+    SOS
+  </button>
+
   <div id="sos" class="sheet" role="dialog" aria-modal="true" aria-labelledby="sos-title" hidden>
     <div class="sheet__backdrop" data-close></div>
     <div class="sheet__panel">
