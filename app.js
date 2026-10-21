@@ -1,8 +1,6 @@
 (function () {
   "use strict";
 
-  // Shown in the page footer, so testers can tell which version a phone runs.
-  const VERSION = "v9";
   const NUM_WORDS = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
   const M = window.MANUAL;
   const C = window.CONFIG;
@@ -116,7 +114,7 @@
           ${prev ? `<a href="#/s/${prev.id}"><span class="lab">‹ Previous</span><span class="ttl">${esc(prev.title)}</span></a>` : `<a href="#/contents"><span class="lab">‹ Back</span><span class="ttl">Contents</span></a>`}
           ${next ? `<a class="next" href="#/s/${next.id}"><span class="lab">Next ›</span><span class="ttl">${esc(next.title)}</span></a>` : `<a class="next" href="#/contents"><span class="lab">Done ›</span><span class="ttl">Contents</span></a>`}
         </nav>
-        <footer class="footer"><span>KLU <span class="nocaps">PhD</span> · Vietnam 2026 · ${VERSION}</span><span>— ${s.num} —</span></footer>
+        <footer class="footer"><span>KLU <span class="nocaps">PhD</span> · Vietnam 2026</span><span>— ${s.num} —</span></footer>
       </div>`;
   }
 
