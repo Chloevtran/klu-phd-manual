@@ -2,7 +2,7 @@
   "use strict";
 
   // Shown in the page footer, so testers can tell which version a phone runs.
-  const VERSION = "v8";
+  const VERSION = "v9";
   const NUM_WORDS = ["One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"];
   const M = window.MANUAL;
   const C = window.CONFIG;
@@ -37,10 +37,7 @@
   const caps = (s) => esc(s).replace(/PhD/g, '<span class="nocaps">PhD</span>');
 
   const logos = () => `
-    <div class="logos">
-      <img class="logos__klu" src="assets/logo-klu.png" alt="Kühne Logistics University · Leading with an Operations Mindset" width="718" height="142">
-      <span class="logos__ll"><img src="assets/logo-learn-logistics.png" alt="Learn Logistics by Kühne Foundation" width="175" height="65"></span>
-    </div>`;
+    <img class="logos" src="assets/logo-strip.png" alt="Kühne Logistics University · Leading with an Operations Mindset · Learn Logistics by Kühne Foundation" width="1155" height="146">`;
 
   const topbar = (left, right) => `
     <header class="topbar">
@@ -151,10 +148,36 @@
             ${c.body ? `<p class="card__body">${esc(c.body)}</p>` : ""}
             ${c.facts ? c.facts.map(([k, v]) => `<p class="card__fact"><b>${esc(k)}.</b> ${esc(v)}</p>`).join("") : ""}
             ${c.list ? list(c.list) : ""}
+            ${c.href ? `<a class="card__link" href="${esc(c.href)}" target="_blank" rel="noopener noreferrer">Read online ↗</a>` : ""}
           </div>`
         )
         .join("")}</div>`,
     callout: (b) => `<div class="callout"><p class="kicker">${esc(b.label)}</p><p>${esc(b.text)}</p></div>`,
+    outcomes: (b) => `
+      <div class="callout callout--soft">
+        <p class="kicker">${esc(b.label || "Learning outcomes")}</p>
+        ${b.label ? "" : `<p class="callout__text">By the end of this session, participants will be able to:</p>`}
+        ${list(b.items)}
+      </div>`,
+    // A wide table shown as one card per row: first column as the heading,
+    // the other columns as labelled lines (readable on a phone).
+    matrix: (b) => `
+      <div class="matrix">${b.rows
+        .map(
+          (r) => `<div class="matrix__row">
+            <p class="matrix__head"><span>${esc(b.cols[0])}</span>${esc(r[0])}</p>
+            ${r.slice(1).map((v, i) => `<p class="matrix__cell"><span>${esc(b.cols[i + 1])}</span>${esc(v)}</p>`).join("")}
+          </div>`
+        )
+        .join("")}</div>`,
+    steps: (b) => `
+      <ol class="steps">${b.items.map((x, i) => `<li><span class="steps__n">${i + 1}</span><p><b>${esc(x.k)}.</b> ${esc(x.v)}</p></li>`).join("")}</ol>`,
+    factbox: (b) => `
+      <div class="callout callout--soft">
+        <p class="kicker">${esc(b.label)}</p>
+        ${b.facts.map(([k, v]) => `<p class="callout__text"><b>${esc(k)}:</b> ${esc(v)}</p>`).join("")}
+      </div>`,
+    sheet: (b) => `<div class="sheet-form" data-sheet>${sheetHTML(b, store.get(SKEY + ":site", 0))}</div>`,
     quote: (b) => `
       <div class="quote">
         <p class="kicker">${esc(b.label)}</p>
@@ -185,9 +208,7 @@
           ${s.where ? `<div class="slot__where">📍 ${esc(s.where)}</div>` : ""}
         </div>`;
       const items = b.items.map((d) => {
-        const dress = d.dress
-          ? `<div class="dress"><span class="dress__tag">Dress code · ${esc(d.dress)}</span>${d.dressNote ? `<span class="dress__note">${esc(d.dressNote)}</span>` : ""}</div>`
-          : "";
+        const dress = d.dressNote ? `<p class="dress__note">${esc(d.dressNote)}</p>` : "";
         const slots = d.slots && d.slots.length
           ? `<div class="slots">${d.slots.map(slot).join("")}</div>`
           : `<p class="tbc">Detailed schedule to be confirmed.</p>`;
@@ -199,12 +220,13 @@
         const refl = d.reflection
           ? `<div class="callout callout--reflect"><p class="kicker">Reflection · end of ${esc(d.day.toLowerCase())}</p><p>“${esc(d.reflection)}”</p></div>`
           : "";
-        return { kicker: `${d.day} · ${d.date}`, title: d.focus, html: dress + slots + objective + observe + lens + refl };
+        // Same header as the printed day pages: day, date, theme and dress code.
+        return { kicker: d.day, title: d.date, sub: d.focus, dress: d.dress, html: dress + slots + objective + observe + lens + refl };
       });
-      return `<div class="acc">${items
+      return `<div class="acc acc--days">${items
         .map(
           (x, i) => `<details${i === todayIndex(b.items) ? " open" : ""}>
-            <summary><span><span class="kicker">${esc(x.kicker)}</span><span class="ttl">${esc(x.title)}</span>${x.sub ? `<span class="sub">${esc(x.sub)}</span>` : ""}</span><span class="pm" aria-hidden="true">+</span></summary>
+            <summary><span><span class="kicker">${esc(x.kicker)}</span><span class="ttl">${esc(x.title)}</span><span class="sub">${esc(x.sub)}</span>${x.dress ? `<span class="dress__tag">${esc(x.dress)}</span>` : ""}</span><span class="pm" aria-hidden="true">+</span></summary>
             <div class="acc__body">${x.html}</div>
           </details>`
         )
@@ -270,6 +292,34 @@
       <div class="j-tabs" role="tablist" aria-label="Day">${tabs}</div>
       ${qs}
       <div class="j-meta"><span data-jstatus>Saved automatically on this device.</span><button class="btn-ghost" type="button" data-jexport>Export all</button></div>`;
+  }
+
+  /* ---------------- Observation sheet ---------------- */
+  const SKEY = "klu-phd-sheet-2026";
+  function sheetHTML(b, site) {
+    const data = store.get(SKEY, {});
+    const entry = data[site] || {};
+    const tabs = b.sites
+      .map((s, i) => `<button type="button" role="tab" class="j-tab" aria-selected="${i === site}" data-ssite="${i}">${esc(s)}</button>`)
+      .join("");
+    const lenses = b.lenses
+      .map(
+        (lens, l) => `<details class="sheet-lens"${l === 0 ? " open" : ""}>
+          <summary><span class="kicker">${pad2(l + 1)} · ${esc(lens)}</span><span class="pm" aria-hidden="true">+</span></summary>
+          ${b.rows
+            .map((row, r) => {
+              const key = `${l}.${r}`;
+              return `<div class="j-q"><label for="sq${key}">${esc(row)}</label><textarea id="sq${key}" data-sq="${key}" rows="2">${esc(entry[key] || "")}</textarea></div>`;
+            })
+            .join("")}
+        </details>`
+      )
+      .join("");
+    return `<div class="j-tabs" role="tablist" aria-label="Site">${tabs}</div>${lenses}
+      <p class="j-meta"><span data-sstatus>Saved automatically on this device.</span></p>`;
+  }
+  function sheetBlock() {
+    for (const s of sections) for (const b of s.blocks) if (b.t === "sheet") return b;
   }
 
   function journalBlock() {
@@ -495,7 +545,7 @@
   );
 
   document.addEventListener("click", (e) => {
-    const t = e.target.closest("[data-go],[data-sos],[data-close],[data-loc],[data-group],[data-driver],[data-jday],[data-jexport],[data-mute]");
+    const t = e.target.closest("[data-go],[data-sos],[data-close],[data-loc],[data-group],[data-driver],[data-jday],[data-jexport],[data-mute],[data-ssite]");
     if (!t) return;
     if (t.dataset.go != null) {
       if (t.hasAttribute("data-start")) sounds.start();
@@ -516,11 +566,27 @@
       return;
     }
     if (t.hasAttribute("data-jexport")) return exportJournal();
+    if (t.dataset.ssite != null) {
+      const site = +t.dataset.ssite;
+      store.set(SKEY + ":site", site);
+      t.closest("[data-sheet]").innerHTML = sheetHTML(sheetBlock(), site);
+    }
   });
 
   let saveTimer;
   document.addEventListener("input", (e) => {
     if (e.target.matches("[data-sosname]")) { store.set(NAME_KEY, e.target.value); return; }
+    if (e.target.matches("[data-sq]")) {
+      const wrap = e.target.closest("[data-sheet]");
+      const site = +wrap.querySelector('[aria-selected="true"]').dataset.ssite;
+      const data = store.get(SKEY, {});
+      data[site] = data[site] || {};
+      data[site][e.target.dataset.sq] = e.target.value;
+      wrap.querySelector("[data-sstatus]").textContent = store.set(SKEY, data)
+        ? "Saved · " + new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+        : "Could not save on this device.";
+      return;
+    }
     const ta = e.target.closest("[data-jq]");
     if (!ta) return;
     const wrap = ta.closest("[data-journal]");
