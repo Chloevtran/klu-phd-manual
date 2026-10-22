@@ -99,6 +99,8 @@ window.MANUAL = {
       num: "III",
       title: "Vietnam Snapshot",
       hint: "A briefing",
+      intro: "A briefing for the time-constrained executive: why Vietnam matters now, what is moving, what is not, and what is binding.",
+      introRule: false,
       blocks: [
         {
           t: "accordion",
@@ -175,6 +177,8 @@ window.MANUAL = {
       num: "IV",
       title: "Daily Program",
       hint: "Five learning lenses",
+      intro: "Six days, five learning lenses. Each day pairs the schedule with a learning objective and a closing reflection question.",
+      introRule: false,
       blocks: [
         {
           t: "days",
@@ -568,14 +572,25 @@ window.MANUAL = {
       hint: "Operations · Change · Logistics · Innovation",
       intro: "Four lenses, applied in the same order at every site. An executive leaves a visit with a judgement; a researcher leaves with a question. The lenses are built to produce the question.",
       blocks: [
-        { t: "kicker", text: "The four lenses" },
         {
-          t: "tiles",
+          t: "accordion",
+          collapsed: true,
           items: [
-            { k: "01 · Operations", observe: "Process flow and layout. Bottlenecks and buffers. Automation versus labour. Safety signals. Throughput markers. What is inspected, by whom, how often.", ask: "What is measured on this floor every day, and who looks at the number?" },
-            { k: "02 · Change", observe: "What changed in the last three years and who decided. Pace of decisions. Where new practice stalls. Who trains whom. Where planning, quality and finance lag operations.", ask: "Which change did the operation resist, and what finally moved it?" },
-            { k: "03 · Logistics", observe: "Inbound and outbound modes. Where material, boxes or hulls wait. Handover points with 3PLs, customs, port or customer. Tracking and exceptions. Dependence on one corridor, port or customer.", ask: "Where does this site’s lead time actually go, and which part does the site control?" },
-            { k: "04 · Innovation", observe: "Technology in use versus on display. Data that exists but is not used. Pilots and what happens when they end. Sustainability measures that are operational versus declaratory.", ask: "What would this site try if a researcher ran the experiment and absorbed the risk?" },
+            {
+              kicker: "The four lenses",
+              title: "Operations, change, logistics, innovation.",
+              blocks: [
+              {
+                t: "tiles",
+                items: [
+                  { k: "01 · Operations", observe: "Process flow and layout. Bottlenecks and buffers. Automation versus labour. Safety signals. Throughput markers. What is inspected, by whom, how often.", ask: "What is measured on this floor every day, and who looks at the number?" },
+                  { k: "02 · Change", observe: "What changed in the last three years and who decided. Pace of decisions. Where new practice stalls. Who trains whom. Where planning, quality and finance lag operations.", ask: "Which change did the operation resist, and what finally moved it?" },
+                  { k: "03 · Logistics", observe: "Inbound and outbound modes. Where material, boxes or hulls wait. Handover points with 3PLs, customs, port or customer. Tracking and exceptions. Dependence on one corridor, port or customer.", ask: "Where does this site’s lead time actually go, and which part does the site control?" },
+                  { k: "04 · Innovation", observe: "Technology in use versus on display. Data that exists but is not used. Pilots and what happens when they end. Sustainability measures that are operational versus declaratory.", ask: "What would this site try if a researcher ran the experiment and absorbed the risk?" },
+                ],
+              },
+              ],
+            },
           ],
         },
         { t: "outcomes", label: "Working method", items: ["Allocate attention across the four lenses deliberately; the common failure is to spend thirty minutes on operations and never reach innovation.", "Write at least one specific, dated observation under each lens before leaving the site.", "In the Q&A, ask one question per lens. The logistics question is the one most hosts do not expect.", "That evening, name in the reflection journal the lens that produced the strongest research question."] },
@@ -695,7 +710,7 @@ window.MANUAL = {
       num: "VII",
       title: "Reflection Journal",
       hint: "Daily template",
-      intro: "Twenty minutes, every evening. The discipline matters more than the volume. Your notes are saved on this phone only.",
+      intro: "Twenty minutes, every evening. The discipline matters more than the volume.",
       blocks: [
         {
           t: "journal",
@@ -746,7 +761,6 @@ window.MANUAL = {
         { t: "sosbanner" },
         {
           t: "cards",
-          soft: true,
           items: [
             { kicker: "Climate & what to wear", body: "Late October in southern Vietnam: warm and humid, around 25–33 °C, at the tail end of the rainy season — expect short, heavy afternoon showers. Bring a folding umbrella. Dress code: smart business for company visits and institutional sessions; closed-toe shoes are mandatory at industrial sites." },
             { kicker: "Transport", body: "Programme transfers are handled by KLU Saigon. For personal movement use Grab, Be or Xanh SM (all-electric). Install one before arrival and link a payment card. Metered taxis (Vinasun, Mai Linh) are reliable; avoid unmetered street taxis." },
@@ -784,7 +798,7 @@ window.MANUAL = {
             { label: "114", name: "Fire", detail: "Fire and rescue services.", tel: "114" },
           ],
         },
-        { t: "closing", text: "Education teaches you to think. Travel teaches you to understand.", sub: "Carry the operations mindset. Practice it everywhere." },
+        { t: "closing", text: "Education teaches you to think. Travel teaches you to understand.", sub: ["Carry the operations mindset.", "Practice it everywhere."] },
       ],
     },
   ],

@@ -110,8 +110,8 @@
           <p class="kicker">Section ${NUM_WORDS[i] || s.num}</p>
           <p class="hero__num">${i + 1}</p>
           <h1 class="hero__title">${esc(s.title)}</h1>
-          ${s.intro ? `<hr class="rule-red">
-          <p class="hero__intro">${esc(s.intro)}</p>` : ""}
+          ${s.intro && s.introRule !== false ? `<hr class="rule-red">` : ""}
+          ${s.intro ? `<p class="hero__intro">${esc(s.intro)}</p>` : ""}
         </section>
         <article class="content">
           ${renderBlocks(s.blocks)}
@@ -143,7 +143,7 @@
         .map((x) => `<div class="stat"><div class="stat__n">${esc(x.n)}</div><div class="stat__l">${esc(x.l)}</div>${x.d ? `<div class="stat__d">${esc(x.d)}</div>` : ""}</div>`)
         .join("")}</div>`,
     cards: (b) =>
-      `<div class="cards${b.soft ? " cards--soft" : ""}">${b.items
+      `<div class="cards">${b.items
         .map(
           (c) => `<div class="card">
             ${c.kicker ? `<p class="kicker">${esc(c.kicker)}</p>` : ""}
@@ -259,13 +259,13 @@
     tiles: (b) => `
       <div class="tiles">${b.items
         .map(
-          (x) => `<details class="tile">
-            <summary><span class="tile__k">${x.k.split(" · ").map((part, i) => i === 0 ? `<span class="tile__n">${esc(part)}</span>` : esc(part)).join("")}</span><span class="pm" aria-hidden="true">+</span></summary>
+          (x) => `<div class="tile">
+            <p class="tile__k">${x.k.split(" · ").map((part, i) => i === 0 ? `<span class="tile__n">${esc(part)}</span>` : esc(part)).join("")}</p>
             <p class="tile__label">Observe</p>
             <p class="tile__text">${esc(x.observe)}</p>
-            <p class="tile__label">Ask</p>
+            <p class="tile__label tile__label--ask">Ask</p>
             <p class="tile__ask">${esc(x.ask)}</p>
-          </details>`
+          </div>`
         )
         .join("")}</div>`,
     // Label / value lines, one per row.
@@ -294,7 +294,7 @@
         <span class="sosbanner__dot">SOS</span>
         <span><strong>Lost or need help?</strong><span>Tap here, or the red SOS button on any page, to send your location to the group WhatsApp, call emergency services, or show an address to a driver.</span></span>
       </button>`,
-    closing: (b) => `<div class="closing"><p>${esc(b.text)}</p><p>${esc(b.sub)}</p></div>`,
+    closing: (b) => `<div class="closing"><p>${esc(b.text)}</p><p>${[].concat(b.sub).map(esc).join("<br>")}</p></div>`,
   };
 
   function renderBlocks(blocks) {

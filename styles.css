@@ -84,14 +84,14 @@ a { color: inherit; }
 .cover__sub { margin: 14px 0 0; font: italic 400 19px/1.3 var(--serif); color: #111; max-width: 26ch; }
 .cover__tag { margin-top: 22px; line-height: 1.9; font-weight: 400; }
 .cover__place { text-align: right; margin: 26px 0 12px; font: 500 10px/1.8 var(--sans); letter-spacing: 0.24em; text-transform: uppercase; color: #222; }
-.cover__line { height: 2px; background: var(--navy); border: 0; margin: 0 0 12px; }
+.cover__line { height: 2px; background: var(--navy); border: 0; margin: 0 0 9px; }
 /* Footer: host, partner, then the date one line below, sitting at the very
    bottom of the cover (the SOS button floats to its right). */
-.cover { padding-bottom: calc(22px + var(--safe-b)); }
-.cover__foot { display: flex; flex-direction: column; font-size: 12px; line-height: 1.55; color: #444; }
-.cover__foot strong { font-size: 13px; }
+.cover { padding-bottom: calc(18px + var(--safe-b)); }
+.cover__foot { display: flex; flex-direction: column; font-size: 10.5px; line-height: 1.45; color: #444; }
+.cover__foot strong { font-size: 11.5px; }
 .cover__foot strong { color: #111; }
-.cover__date { margin-top: 1.55em; font: italic 400 16px/1.2 var(--serif); color: #111; white-space: nowrap; }
+.cover__date { margin-top: 0.8em; font: italic 400 13.5px/1.2 var(--serif); color: #111; white-space: nowrap; }
 
 .btn-primary {
   display: flex; align-items: center; justify-content: center; gap: 12px;
@@ -182,8 +182,7 @@ a { color: inherit; }
 .stat__d { margin-top: 5px; font-size: 12px; line-height: 1.4; font-style: italic; color: var(--muted); }
 
 .cards { display: grid; gap: 24px; }
-.card { border-top: 1.5px solid var(--burgundy); padding: 12px 0 4px; background: #fff; }
-.cards--soft .card { border-top: 1px solid var(--rule); }
+.card { border-top: 1px solid var(--rule); padding: 12px 0 4px; background: #fff; }
 .card .kicker { color: var(--red); letter-spacing: 0.18em; }
 .card__title { margin: 4px 0 0; font: 400 21px/1.2 var(--serif); color: var(--burgundy); }
 .card__body { margin: 8px 0 0 !important; font-size: 14.5px; color: var(--soft); }
@@ -219,11 +218,11 @@ tr:last-child td { border-bottom: 0; }
 .acc--plain > details:first-child .pm { margin-top: 0; }
 /* Section V: burgundy rule between major sessions, bright red rule between
    the parts inside a session (Session focus, Suggested reading, ...). */
-.acc--plain > details { border-bottom: 1.5px solid var(--burgundy); }
 .acc--plain .acc__body > .h:not(:first-child) { padding-top: 22px; border-top: 1.5px solid var(--red); }
-.acc--plain .matrix__row { border-top: 1px solid var(--rule); }
-.acc--plain .matrix__head span, .acc--plain .matrix__cell span { color: #000; }
-.acc details { border-bottom: 1px solid var(--rule); }
+.acc--plain .matrix__head span { color: #000; }
+/* Rules: burgundy between the big sections (each drop-down item), beige
+   between the smaller parts inside one. */
+.acc > details { border-bottom: 1.5px solid var(--burgundy); }
 .acc summary {
   list-style: none; cursor: pointer; padding: 18px 0;
   display: grid; grid-template-columns: 1fr 24px; align-items: start; gap: 8px;
@@ -236,7 +235,7 @@ tr:last-child td { border-bottom: 0; }
 .acc .acc__body { padding: 0 0 22px; }
 .acc .acc__body > * + * { margin-top: 14px; }
 
-.slots { border-top: 1.5px solid var(--burgundy); }
+.slots { border-top: 1px solid var(--rule); }
 .slot { display: grid; grid-template-columns: 84px 1fr; column-gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--rule); }
 .slot > :not(.slot__time) { grid-column: 2; }
 .slot__time { grid-row: 1 / span 3; font: 700 12.5px/1.45 var(--sans); color: var(--ink); }
@@ -428,22 +427,21 @@ tr:last-child td { border-bottom: 0; }
 /* Reading links, wide tables as cards, method steps, observation sheet */
 .card__link { display: inline-block; margin-top: 8px; font: 600 11px/1.4 var(--sans); letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); text-decoration: none; }
 .matrix { display: grid; gap: 10px; }
-.matrix__row { border-top: 1.5px solid var(--burgundy); padding: 10px 0 2px; }
+.matrix__row { border-top: 1px solid var(--rule); padding: 10px 0 2px; }
 .matrix__head { margin: 0; font: 700 14.5px/1.35 var(--sans); color: var(--burgundy); }
 .matrix__head span, .matrix__cell span { display: block; font: 600 9.5px/1.4 var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
 .matrix__head span { margin-bottom: 2px; }
 .matrix__cell { margin: 8px 0 0 !important; font-size: 13.5px; line-height: 1.5; color: var(--ink); }
 /* Site guides (Section VI): red rule after the intro, beige between lenses. */
-.matrix--guide .matrix__row { border-top: 1px solid var(--rule); }
 .matrix--guide .matrix__row:first-child { border-top: 1.5px solid var(--red); }
-.matrix--guide .matrix__head span, .matrix--guide .matrix__cell span { color: #000; }
+.matrix--guide .matrix__head span { color: #000; }
 .steps { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--rule); }
 .steps li { display: grid; grid-template-columns: 30px 1fr; gap: 10px; padding: 12px 0; border-bottom: 1px solid var(--rule); }
 .steps__n { width: 26px; height: 26px; border-radius: 50%; background: var(--burgundy); color: #fff; display: grid; place-items: center; font: 600 12px/1 var(--sans); }
 .steps p { margin: 0; font-size: 14px; line-height: 1.55; }
 .steps b { color: var(--burgundy); }
 .sheet-form > * + * { margin-top: 12px; }
-.sheet-lens { border-top: 1.5px solid var(--burgundy); }
+.sheet-lens { border-top: 1px solid var(--rule); }
 .sheet-lens summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 12px 0; }
 .sheet-lens summary::-webkit-details-marker { display: none; }
 .sheet-lens summary .pm { color: var(--red); font-size: 18px; transition: transform 0.2s; }
@@ -495,14 +493,10 @@ tr:last-child td { border-bottom: 0; }
 
 /* The four lenses as a 2 × 2 grid. */
 .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.tile { background: var(--cream); border-top: 3px solid var(--burgundy); padding: 14px 12px 16px; }
+.tile { display: flex; flex-direction: column; background: var(--cream); border-top: 3px solid var(--burgundy); padding: 14px 12px 16px; }
+/* Ask sits at the bottom of each tile, so tiles side by side line up. */
+.tile .tile__label--ask { margin-top: auto !important; padding-top: 12px; }
 .tile p { margin: 0; }
-/* Each lens opens on tap: title and + when closed, Observe / Ask when open. */
-.tile summary { list-style: none; cursor: pointer; display: grid; grid-template-columns: 1fr 22px; align-items: start; gap: 6px; }
-.tile summary::-webkit-details-marker { display: none; }
-.tile .pm { width: 22px; height: 22px; border: 1px solid var(--rule); border-radius: 50%; background: #fff; display: grid; place-items: center; color: var(--red); font-size: 14px; line-height: 1; transition: transform 0.2s; }
-.tile[open] { grid-column: 1 / -1; }
-.tile[open] .pm { transform: rotate(45deg); }
 .tile__k { font: 700 14px/1.3 var(--sans); color: var(--burgundy); }
 .tile__n { display: block; margin-bottom: 2px; font: 600 10px/1.3 var(--sans); letter-spacing: 0.16em; color: var(--red); }
 .tile__label { margin-top: 12px !important; font: 600 9.5px/1.3 var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--red); }
