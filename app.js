@@ -426,10 +426,6 @@
   let muted = store.get(MUTE_KEY, false);
   let audio = null;
 
-  // Every sound goes through one bus: a gentle low-pass to take the edge off,
-  // a soft compressor, and a short, quiet echo for a sense of room.
-  let bus = null;
-
   function ctx(create) {
     if (muted) return null;
     if (!audio) {
@@ -442,75 +438,46 @@
     return audio;
   }
 
-  function output(c) {
-    if (bus) return bus;
-    const tone = c.createBiquadFilter();
-    tone.type = "lowpass";
-    tone.frequency.value = 3800;
-    const comp = c.createDynamicsCompressor();
-    comp.threshold.value = -20;
-    comp.ratio.value = 3;
-    const echo = c.createDelay(1);
-    echo.delayTime.value = 0.13;
-    const feedback = c.createGain();
-    feedback.gain.value = 0.22;
-    const wet = c.createGain();
-    wet.gain.value = 0.16;
-    tone.connect(comp).connect(c.destination);
-    tone.connect(echo).connect(feedback).connect(echo);
-    echo.connect(wet).connect(comp);
-    bus = tone;
-    return bus;
-  }
-
-  // A soft chime: a sine fundamental with two faint overtones, quick attack
-  // and a long natural decay, so it rings like a vibraphone bar, not a beep.
-  function chime({ frequency, at = 0, decay = 0.9, volume = 0.1 }) {
+  function tone({ frequency, at = 0, duration = 0.12, type = "sine", volume = 0.18, slideTo }) {
     const c = ctx(true);
     if (!c) return;
     const start = c.currentTime + at;
-    [[1, 1], [2, 0.22], [3, 0.07]].forEach(([mult, level]) => {
-      const osc = c.createOscillator();
-      const gain = c.createGain();
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(frequency * mult, start);
-      const peak = volume * level;
-      // Higher overtones die away faster, as on a real bar.
-      const end = start + decay / mult;
-      gain.gain.setValueAtTime(0.0001, start);
-      gain.gain.exponentialRampToValueAtTime(peak, start + 0.006);
-      gain.gain.exponentialRampToValueAtTime(0.0001, end);
-      osc.connect(gain).connect(output(c));
-      osc.start(start);
-      osc.stop(end + 0.05);
-    });
+    const osc = c.createOscillator();
+    const gain = c.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(frequency, start);
+    if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, start + duration);
+    // Short attack and exponential release avoid audible clicks.
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.exponentialRampToValueAtTime(volume, start + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+    osc.connect(gain).connect(c.destination);
+    osc.start(start);
+    osc.stop(start + duration + 0.02);
   }
 
-  // Note frequencies used below.
-  const N = { A3: 220, C5: 523.25, E5: 659.25, G5: 783.99, A5: 880, C6: 1046.5, E6: 1318.51 };
-
   const sounds = {
-    /** Taps: a barely-there tick. */
-    tap: () => chime({ frequency: 2093, decay: 0.05, volume: 0.035 }),
-    /** Page change: one quiet, high note — only once audio is unlocked. */
-    whoosh: () => ctx(false) && chime({ frequency: N.G5, decay: 0.45, volume: 0.035 }),
-    /** Start the journey: an unhurried rising triad. */
-    start: () => [N.C5, N.E5, N.G5, N.C6].forEach((f, i) => chime({ frequency: f, at: i * 0.12, decay: 1.3, volume: 0.075 })),
-    /** SOS opened: the two-note "ding-dong" of a public-address chime. */
+    /** Soft tick for taps. */
+    tap: () => tone({ frequency: 1250, duration: 0.05, type: "triangle", volume: 0.08 }),
+    /** Page change — only once audio is unlocked, never on first load. */
+    whoosh: () => ctx(false) && tone({ frequency: 520, slideTo: 260, duration: 0.18, volume: 0.06 }),
+    /** Start the journey — a rising arpeggio. */
+    start: () =>
+      [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tone({ frequency: f, at: i * 0.09, duration: 0.26, type: "triangle", volume: 0.14 })),
+    /** SOS opened — two-tone alert. */
     alert: () => {
-      chime({ frequency: N.E5, decay: 1.1, volume: 0.12 });
-      chime({ frequency: N.C5, at: 0.42, decay: 1.5, volume: 0.12 });
+      [0, 0.32].forEach((at) => {
+        tone({ frequency: 988, at, duration: 0.14, type: "square", volume: 0.07 });
+        tone({ frequency: 740, at: at + 0.15, duration: 0.14, type: "square", volume: 0.07 });
+      });
     },
-    /** Location copied: a light upward pair. */
+    /** Location copied. */
     confirm: () => {
-      chime({ frequency: N.A5, decay: 0.5, volume: 0.07 });
-      chime({ frequency: N.E6, at: 0.1, decay: 0.8, volume: 0.06 });
+      tone({ frequency: 660, duration: 0.1, type: "square", volume: 0.07 });
+      tone({ frequency: 990, at: 0.09, duration: 0.16, type: "square", volume: 0.07 });
     },
-    /** Something went wrong: two low, soft notes, never harsh. */
-    error: () => {
-      chime({ frequency: N.C5 / 2, decay: 0.5, volume: 0.09 });
-      chime({ frequency: N.A3, at: 0.16, decay: 0.7, volume: 0.09 });
-    },
+    /** Something went wrong. */
+    error: () => tone({ frequency: 330, slideTo: 220, duration: 0.3, type: "sawtooth", volume: 0.06 }),
   };
 
   const soundBtn = () =>
