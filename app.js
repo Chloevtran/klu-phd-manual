@@ -54,14 +54,14 @@
           <p class="kicker kicker--blue">${caps(c.kicker)}</p>
           <h1 class="cover__title">${esc(c.title)}<br>${esc(c.year)}</h1>
           <p class="cover__sub">${esc(c.subtitle)}</p>
-          <p class="kicker kicker--blue cover__tag">${esc(c.tagline)}</p>
+          <p class="kicker kicker--blue cover__tag">${c.tagline.split(" · ").map(esc).join(" ·<br>")}</p>
           <button class="btn-primary cover__cta" type="button" data-go="#/contents" data-start>Start the journey <span class="arrow">→</span></button>
         </div>
         ${c.place && c.place.length ? `<div class="cover__place">${c.place.map(esc).join("<br>")}</div>` : ""}
         <hr class="cover__line">
         <div class="cover__foot">
-          <div class="cover__host"><strong>${esc(c.host)}</strong>${[].concat(c.partner).map((l) => `<span>${esc(l)}</span>`).join("")}</div>
-          <div class="cover__date">${esc(c.dates)}</div>
+          <div class="cover__foot-row"><strong>${esc(c.host)}</strong><span class="cover__date">${esc(c.dates)}</span></div>
+          ${[].concat(c.partner).map((l) => `<span>${esc(l)}</span>`).join("")}
         </div>
       </section>`;
   }
@@ -104,17 +104,20 @@
         ${topbar(`<button class="topbar__btn" data-go="#/contents"><span class="chev">‹</span> Contents</button>`, `${s.num} · ${esc(s.hint)}`)}
         <section class="hero">
           <p class="kicker">Section ${NUM_WORDS[i] || s.num}</p>
-          <p class="hero__num">${s.num}</p>
+          <p class="hero__num">${i + 1}</p>
           <h1 class="hero__title">${esc(s.title)}</h1>
           <hr class="rule-red">
           <p class="hero__intro">${esc(s.intro)}</p>
         </section>
-        <article class="content">${renderBlocks(s.blocks)}</article>
+        <article class="content">
+          <p class="content__header">${caps(s.hint)}</p>
+          ${renderBlocks(s.blocks)}
+        </article>
         <nav class="pager" aria-label="Section navigation">
           ${prev ? `<a href="#/s/${prev.id}"><span class="lab">‹ Previous</span><span class="ttl">${esc(prev.title)}</span></a>` : `<a href="#/contents"><span class="lab">‹ Back</span><span class="ttl">Contents</span></a>`}
           ${next ? `<a class="next" href="#/s/${next.id}"><span class="lab">Next ›</span><span class="ttl">${esc(next.title)}</span></a>` : `<a class="next" href="#/contents"><span class="lab">Done ›</span><span class="ttl">Contents</span></a>`}
         </nav>
-        <footer class="footer"><span>KLU <span class="nocaps">PhD</span> · Vietnam 2026</span><span>— ${s.num} —</span></footer>
+        <footer class="footer"><span>KLU <span class="nocaps">PhD</span> · Vietnam 2026</span><span>— ${i + 1} —</span></footer>
       </div>`;
   }
 
@@ -210,7 +213,7 @@
     accordion: (b) =>
       `<div class="acc">${b.items
         .map(
-          (x, i) => `<details${i === 0 ? " open" : ""}>
+          (x, i) => `<details${i === 0 && !b.collapsed ? " open" : ""}>
             <summary><span><span class="kicker">${esc(x.kicker)}</span><span class="ttl">${esc(x.title)}</span>${x.sub ? `<span class="sub">${esc(x.sub)}</span>` : ""}</span><span class="pm" aria-hidden="true">+</span></summary>
             <div class="acc__body">${renderBlocks(x.blocks)}</div>
           </details>`
@@ -249,6 +252,25 @@
         )
         .join("")}</div>`;
     },
+    // The four lenses as a 2 × 2 grid of tiles.
+    tiles: (b) => `
+      <div class="tiles">${b.items
+        .map(
+          (x) => `<div class="tile">
+            <p class="tile__k">${esc(x.k)}</p>
+            <p class="tile__label">Observe</p>
+            <p class="tile__text">${esc(x.observe)}</p>
+            <p class="tile__label">Ask</p>
+            <p class="tile__ask">${esc(x.ask)}</p>
+          </div>`
+        )
+        .join("")}</div>`,
+    // Label / value lines, one per row.
+    info: (b) => `
+      <div class="callout callout--soft">
+        <p class="kicker">${esc(b.label)}</p>
+        <dl class="info">${b.rows.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
+      </div>`,
     journal: (b) => `<div class="journal" data-journal>${journalHTML(b, journalDay(b))}</div>`,
     contacts: (b) =>
       `<div class="contacts">${b.items
@@ -257,7 +279,8 @@
             <div>
               <div class="contact__label">${esc(c.label)}</div>
               <div class="contact__name">${esc(c.name)}</div>
-              <div class="contact__detail">${esc(c.detail)}${c.email ? ` · <a href="mailto:${esc(c.email)}">${esc(c.email)}</a>` : ""}</div>
+              ${[].concat(c.detail).map((d) => `<div class="contact__detail">${esc(d)}</div>`).join("")}
+              ${c.email ? `<div class="contact__detail"><a href="mailto:${esc(c.email)}">${esc(c.email)}</a></div>` : ""}
             </div>
             ${c.tel ? `<a class="call" href="${telHref(c.tel)}">Call</a>` : ""}
           </div>`
@@ -336,10 +359,42 @@
       `<label class="sheet-field"><span>${label}</span><input type="${type}" data-sq="${key}" value="${esc(entry[key] || "")}"></label>`;
     return `<div class="j-tabs" role="tablist" aria-label="Site">${tabs}</div>
       <div class="sheet-fields">${field("date", "Date", "date")}${field("host", "Host", "text")}</div>${lenses}
-      <p class="j-meta"><span data-sstatus>Saved automatically on this device.</span></p>`;
+      <div class="j-meta"><span data-sstatus>Saved automatically on this device.</span><button class="btn-ghost" type="button" data-sexport>Export notes</button></div>`;
   }
   function sheetBlock() {
-    for (const s of sections) for (const b of s.blocks) if (b.t === "sheet") return b;
+    const find = (blocks) => {
+      for (const b of blocks || []) {
+        if (b.t === "sheet") return b;
+        for (const item of b.items || []) {
+          const hit = item.blocks && find(item.blocks);
+          if (hit) return hit;
+        }
+      }
+    };
+    for (const s of sections) {
+      const hit = find(s.blocks);
+      if (hit) return hit;
+    }
+  }
+
+  function exportSheet() {
+    const b = sheetBlock();
+    const data = store.get(SKEY, {});
+    let out = "KLU PhD Workshop 2026 — Observation sheets\n";
+    b.sites.forEach((site, i) => {
+      const e = data[i];
+      if (!e || !Object.values(e).some((v) => v && v.trim())) return;
+      out += `\n=== ${site} ===\n`;
+      if (e.date) out += `Date: ${e.date}\n`;
+      if (e.host) out += `Host: ${e.host}\n`;
+      b.lenses.forEach((lens, l) => {
+        const lines = b.rows.map((row, r) => [row, e[`${l}.${r}`]]).filter(([, v]) => v && v.trim());
+        if (!lines.length) return;
+        out += `\n${lens}\n` + lines.map(([row, v]) => `- ${row}: ${v.trim()}`).join("\n") + "\n";
+      });
+    });
+    if (navigator.share) navigator.share({ title: "Observation sheets", text: out }).catch(() => {});
+    else copy(out);
   }
 
   function journalBlock() {
@@ -565,7 +620,7 @@
   );
 
   document.addEventListener("click", (e) => {
-    const t = e.target.closest("[data-go],[data-sos],[data-close],[data-loc],[data-group],[data-driver],[data-jday],[data-jexport],[data-mute],[data-ssite]");
+    const t = e.target.closest("[data-go],[data-sos],[data-close],[data-loc],[data-group],[data-driver],[data-jday],[data-jexport],[data-mute],[data-ssite],[data-sexport]");
     if (!t) return;
     if (t.dataset.go != null) {
       if (t.hasAttribute("data-start")) sounds.start();
@@ -586,6 +641,7 @@
       return;
     }
     if (t.hasAttribute("data-jexport")) return exportJournal();
+    if (t.hasAttribute("data-sexport")) return exportSheet();
     if (t.dataset.ssite != null) {
       const site = +t.dataset.ssite;
       store.set(SKEY + ":site", site);

@@ -5,7 +5,7 @@
   --cream: #e8f6f7;     /* section dividers, callouts, quote boxes */
   --reflect: #98d5de;   /* reflection boxes, dress code tags */
   --ink: #161a20;       /* body text */
-  --body: #161a20;
+  --body: #4d5366;     /* running text: grey as in the print */
   --soft: #4d5366;      /* secondary text in cards and contacts */
   --muted: #8b8d90;
   --rule: #d8d0c2;
@@ -75,7 +75,7 @@ a { color: inherit; }
   display: flex; flex-direction: column;
 }
 .cover__main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 36px 0 28px; }
-.btn-primary.cover__cta { align-self: center; width: auto; min-width: 240px; margin-top: 38px; padding-left: 30px; padding-right: 30px; }
+.btn-primary.cover__cta { align-self: flex-start; width: auto; min-width: 240px; margin-top: 34px; padding-left: 30px; padding-right: 30px; }
 .cover__title {
   margin: 18px 0 0;
   font: 400 clamp(54px, 16vw, 76px)/0.95 var(--serif);
@@ -84,15 +84,15 @@ a { color: inherit; }
 .cover__sub { margin: 14px 0 0; font: italic 400 19px/1.3 var(--serif); color: #111; max-width: 26ch; }
 .cover__tag { margin-top: 22px; line-height: 1.9; font-weight: 400; }
 .cover__place { text-align: right; margin: 26px 0 12px; font: 500 10px/1.8 var(--sans); letter-spacing: 0.24em; text-transform: uppercase; color: #222; }
-.cover__line { height: 2px; background: var(--navy); border: 0; margin: 0 0 14px; }
+.cover__line { height: 2px; background: var(--navy); border: 0; margin: 0 0 12px; }
 /* Footer: host block on the left, date on its own line on the right, with
    room below for the SOS button. */
-.cover { padding-bottom: calc(96px + var(--safe-b)); }
-.cover__foot { display: flex; flex-direction: column; gap: 14px; font-size: 12px; line-height: 1.5; color: #444; }
-.cover__host { display: flex; flex-direction: column; }
-.cover__host strong { font-size: 13px; }
+.cover { padding-bottom: calc(86px + var(--safe-b)); }
+.cover__foot { display: flex; flex-direction: column; font-size: 12px; line-height: 1.55; color: #444; }
+.cover__foot-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.cover__foot strong { font-size: 13px; }
 .cover__foot strong { color: #111; }
-.cover__date { align-self: flex-end; font: italic 400 17px/1.2 var(--serif); color: #111; white-space: nowrap; }
+.cover__date { font: italic 400 16px/1.2 var(--serif); color: #111; white-space: nowrap; }
 
 .btn-primary {
   display: flex; align-items: center; justify-content: center; gap: 12px;
@@ -128,7 +128,7 @@ a { color: inherit; }
 
 /* ---------- Contents ---------- */
 .page { padding: 26px var(--gutter) calc(110px + var(--safe-b)); }
-.page__title { margin: 12px 0 0; font: 400 46px/1.05 var(--serif); color: var(--burgundy); }
+.page__title { margin: 12px 0 0; font: 400 46px/1.05 var(--serif); color: #000; }
 .page__lead { margin: 18px 0 0; font: italic 400 18px/1.45 var(--serif); color: var(--muted); }
 
 .toc { list-style: none; margin: 28px 0 0; padding: 0; border-top: 1px solid var(--ink); }
@@ -152,7 +152,7 @@ a { color: inherit; }
 
 /* ---------- Section hero ---------- */
 .hero { background: var(--cream); padding: 40px var(--gutter) 34px; }
-.hero__num { margin: 14px 0 0; font: 400 76px/1 var(--serif); color: #000; }
+.hero__num { margin: 14px 0 0; font: 400 76px/1 var(--serif); color: #000; font-variant-numeric: lining-nums; font-feature-settings: "lnum" 1; }
 .hero__title { margin: 6px 0 0; font: 400 38px/1.08 var(--serif); color: #000; }
 .hero__intro { margin: 18px 0 0; font: italic 400 18px/1.45 var(--serif); color: #5e6364; }
 
@@ -163,15 +163,15 @@ a { color: inherit; }
 .b-kicker:first-child { margin-top: 0 !important; }
 .b-title { margin: 8px 0 0 !important; font: 400 30px/1.12 var(--serif); color: var(--burgundy); }
 .b-title::after { content: ""; display: block; width: 64px; height: 2px; background: var(--red); margin-top: 14px; }
-.b-lead { font: italic 400 17.5px/1.5 var(--serif); color: var(--ink); }
-.b-p { text-align: justify; hyphens: auto; }
+.b-lead { font: italic 400 17.5px/1.5 var(--serif); color: var(--body); }
+.b-p { text-align: left; hyphens: manual; color: var(--body); }
 .h { margin: 26px 0 0 !important; font: 700 10.5px/1.4 var(--sans); letter-spacing: 0.22em; text-transform: uppercase; color: var(--burgundy); }
 .b-note { font-size: 12px; color: var(--muted); font-style: italic; }
 
 .rows { border-top: 1px solid var(--rule); }
 .row { padding: 14px 0; border-bottom: 1px solid var(--rule); }
 .row__k { margin: 0 0 5px; font: 700 14px/1.35 var(--sans); color: var(--burgundy); }
-.row__v { margin: 0; font-size: 14.5px; }
+.row__v { margin: 0; font-size: 14.5px; color: var(--body); }
 
 .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .stat { background: #fff; padding: 14px 12px; border: 1px solid var(--rule); }
@@ -180,7 +180,7 @@ a { color: inherit; }
 .stat__l { margin-top: 8px; font: 500 10px/1.4 var(--sans); letter-spacing: 0.06em; text-transform: uppercase; color: var(--soft); }
 .stat__d { margin-top: 5px; font-size: 12px; line-height: 1.4; font-style: italic; color: var(--muted); }
 
-.cards { display: grid; gap: 18px; }
+.cards { display: grid; gap: 24px; }
 .card { border-top: 1.5px solid var(--burgundy); padding: 12px 0 4px; background: #fff; }
 .card .kicker { color: var(--red); letter-spacing: 0.18em; }
 .card__title { margin: 4px 0 0; font: 400 21px/1.2 var(--serif); color: var(--burgundy); }
@@ -188,7 +188,7 @@ a { color: inherit; }
 .card ul { margin: 10px 0 0; }
 
 ul.bul { list-style: none; padding: 0; margin: 0; }
-ul.bul li { position: relative; padding-left: 18px; margin-top: 8px; font-size: 14.5px; }
+ul.bul li { position: relative; padding-left: 18px; margin-top: 8px; font-size: 14.5px; color: var(--body); }
 ul.bul li::before { content: ""; position: absolute; left: 3px; top: 0.6em; width: 5px; height: 5px; background: var(--red); transform: rotate(45deg); }
 
 .callout { background: var(--cream); border-left: 3px solid var(--red); padding: 16px 16px 16px 18px; }
@@ -257,10 +257,10 @@ tr:last-child td { border-bottom: 0; }
 
 /* contacts */
 .contacts { border-top: 1px solid var(--rule); }
-.contact { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.contact { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--rule); }
 .contact__label { font: 700 13px/1.3 var(--sans); color: var(--burgundy); }
-.contact__name { margin-top: 3px; font: 600 15px/1.3 var(--sans); color: var(--ink); }
-.contact__detail { margin-top: 3px; font-size: 13px; line-height: 1.5; color: var(--soft); }
+.contact__name { margin-top: 4px; font: 600 15px/1.3 var(--sans); color: var(--ink); }
+.contact__detail { margin-top: 4px; font-size: 13.5px; line-height: 1.5; color: var(--body); }
 .contact__detail a { color: var(--burgundy); }
 .call {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
@@ -433,31 +433,7 @@ tr:last-child td { border-bottom: 0; }
 .sheet-lens .j-q label { font-size: 15.5px; }
 .sheet-lens textarea { min-height: 58px; }
 
-/* ---------- Sections V and VI: styled after Sections_05-06.pdf ----------
-   Georgia-style serif (Gelasio) for titles and leads, Calibri-style sans
-   (Carlito) for running text, full-width red rule under titles. */
-.sec--doc .content, .sec--doc .hero { --serif: "Gelasio", Georgia, "Times New Roman", serif; --sans: "Carlito", Calibri, "Segoe UI", sans-serif; }
-.sec--doc .content { font-family: var(--sans); font-size: 15.5px; color: var(--soft); }
-.sec--doc .hero__title, .sec--doc .hero__num { color: var(--burgundy); }
-.sec--doc .hero__intro { font-family: var(--serif); font-size: 16px; line-height: 1.5; color: var(--soft); }
-.sec--doc .b-title { font-size: 26px; line-height: 1.2; }
-.sec--doc .b-title::after { width: 100%; height: 2.5px; }
-.sec--doc .b-lead { font: italic 400 16px/1.5 var(--serif); color: var(--soft); }
-.sec--doc .b-p { font-size: 15px; line-height: 1.55; color: var(--soft); }
-.sec--doc .kicker { font-family: var(--sans); font-weight: 700; letter-spacing: 0.24em; }
-.sec--doc .h { font-family: var(--sans); font-weight: 700; color: var(--burgundy); }
-.sec--doc .b-note { font-size: 12px; }
-.sec--doc ul.bul li { font-size: 14.5px; color: var(--soft); }
-.sec--doc ul.bul li::before { left: 4px; top: 0.55em; width: 6px; height: 6px; border-radius: 50%; transform: none; }
-.sec--doc .callout { background: var(--cream); border-left: 4px solid var(--red); }
-.sec--doc .callout--soft .kicker { color: var(--red); }
 /* Session headers inside the accordion: red kicker, burgundy serif title, full red rule, italic lead. */
-.sec--doc .acc { border-top: 0; }
-.sec--doc .acc summary .ttl { font: 400 24px/1.2 var(--serif); color: var(--burgundy); }
-.sec--doc .acc summary .ttl::after { content: ""; display: block; height: 2.5px; background: var(--red); margin: 10px 0 2px; }
-.sec--doc .acc summary .sub { font: italic 400 15px/1.5 var(--serif); color: var(--soft); }
-.sec--doc .acc summary { align-items: start; }
-.sec--doc .acc summary .pm { margin-top: 18px; }
 
 .reading { border-top: 1px solid var(--rule); }
 .reading__row { padding: 12px 0; border-bottom: 1px solid var(--rule); }
@@ -476,14 +452,38 @@ tr:last-child td { border-bottom: 0; }
 .numbers__n { margin: 0 !important; font: 400 22px/1.15 var(--serif); color: var(--burgundy); }
 .numbers__l { margin: 0 !important; font-size: 13px; line-height: 1.45; color: var(--soft); }
 
-.sec--doc .matrix__row { border-top: 1.5px solid var(--burgundy); }
-.sec--doc .matrix__head span, .sec--doc .matrix__cell span { color: var(--burgundy); font-weight: 700; }
-.sec--doc .matrix__cell { color: var(--soft); }
-.sec--doc .steps { border-top: 0; }
-.sec--doc .steps li { grid-template-columns: 22px 1fr; gap: 6px; padding: 5px 0; border-bottom: 0; }
-.sec--doc .steps__n { width: auto; height: auto; background: none; color: var(--burgundy); display: block; font: 700 14.5px/1.55 var(--sans); }
-.sec--doc .steps p { font-size: 14.5px; color: var(--soft); }
 .sheet-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .sheet-field span { display: block; font: italic 400 13px/1.3 var(--sans); color: var(--muted); }
 .sheet-field input { width: 100%; margin-top: 4px; padding: 9px 10px; border: 0; border-bottom: 1px solid var(--rule); background: #fdfcfb; font: 400 15px/1.3 var(--sans); color: var(--ink); }
 .sheet-field input:focus { outline: none; border-bottom-color: var(--burgundy); }
+
+
+/* Running header at the top of each section, right-aligned as in the print. */
+.content__header { margin: 0 0 14px !important; text-align: right; font: 500 10px/1.5 var(--sans); letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+
+/* More room between the parts of a session or a drop-down. */
+.acc .acc__body > * + * { margin-top: 18px; }
+.acc .acc__body > .h { margin-top: 34px !important; padding-top: 18px; border-top: 1px solid var(--rule); }
+.acc .acc__body > .h:first-child { margin-top: 0 !important; padding-top: 0; border-top: 0; }
+.acc + .acc { border-top-width: 1px; }
+
+/* The four lenses as a 2 × 2 grid. */
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tile { background: var(--cream); border-top: 3px solid var(--burgundy); padding: 14px 12px 16px; }
+.tile p { margin: 0; }
+.tile__k { font: 700 14px/1.3 var(--sans); color: var(--burgundy); }
+.tile__label { margin-top: 12px !important; font: 600 9.5px/1.3 var(--sans); letter-spacing: 0.16em; text-transform: uppercase; color: var(--red); }
+.tile__text { margin-top: 4px !important; font-size: 13px; line-height: 1.5; color: var(--body); }
+.tile__ask { margin-top: 4px !important; font: italic 400 15.5px/1.35 var(--serif); color: #000; }
+
+/* Label / value lines (poster session). */
+.info { display: grid; grid-template-columns: 74px 1fr; gap: 8px 12px; margin: 12px 0 0; }
+.info dt { font: 600 10px/1.9 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--burgundy); }
+.info dd { margin: 0; font-size: 14.5px; line-height: 1.5; color: #000; }
+
+/* Observation sheet: straight rules, labels aligned with their boxes. */
+.sheet-lens { padding-bottom: 6px; }
+.sheet-lens .j-q { margin: 0 !important; padding: 10px 0; border-top: 1px solid var(--rule); }
+.sheet-lens .j-q:first-of-type { border-top: 0; }
+.sheet-lens .j-q label { font: 600 13px/1.4 var(--sans); color: var(--burgundy); }
+.sheet-lens textarea { display: block; margin-top: 6px; }

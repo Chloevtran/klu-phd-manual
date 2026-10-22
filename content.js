@@ -8,7 +8,7 @@ window.CONFIG = {
   whatsappGroupUrl: "https://chat.whatsapp.com/EeG8CNcSBSO9e3Y4491HNF?mode=gi_t",
 
   // On-call contact shown under the SOS steps.
-  coordinator: { name: "Ms. Pham Phuong Anh", role: "Project Coordinator", phone: "+84797967488" },
+  coordinator: { name: "Ms. Pham Phuong Anh (Audrey)", role: "Project Coordinator", phone: "+84797967488" },
 
   // Places shown on the "Show to driver" card (Vietnamese for the driver).
   places: [
@@ -60,7 +60,6 @@ window.MANUAL = {
       hint: "A note from KLU Saigon",
       intro: "An invitation to read Vietnam not as a destination, but as a working economy in motion.",
       blocks: [
-        { t: "kicker", text: "A welcome note" },
         { t: "title", text: "Vietnam as a live management laboratory." },
         { t: "p", text: "Welcome to Ho Chi Minh City and the PhD Workshop! Over the next five days, you will engage with an international faculty team and a diverse cohort of doctoral researchers from 12 countries across Africa, Asia, Europe and the Americas, exploring logistics and supply chain management in one of Asia’s most dynamic economic environments." },
         { t: "p", text: "Vietnam offers a particularly valuable context for research. Its rapid economic growth and expanding role in global supply chains are accompanied by significant institutional and administrative changes. Understanding how businesses, supply chains and institutions adapt to these transformations raises important questions for both academic research and managerial practice." },
@@ -68,8 +67,7 @@ window.MANUAL = {
         { t: "p", text: "Make the most of this opportunity to exchange ideas with faculty, practitioners and fellow doctoral researchers. Approach each session with curiosity, engage critically with different perspectives, and reflect on how your research can contribute to both academic debates and real-world practice." },
         { t: "p", text: "Treat this manual as a guide rather than a fixed script. Schedules may change, and field visits may bring unexpected insights. Keep your research journal throughout the week, and use each experience to refine your questions, challenge your assumptions and strengthen your perspective as a researcher." },
         { t: "p", text: "We look forward to learning with you." },
-        // TODO: add the Campus Director's welcome quote in `text`.
-        { t: "quote", label: "From the Campus Director", text: "", by: "Dr. Viet Dung Trinh", role: "Campus Director (Asia), KLU Saigon" },
+        { t: "quote", label: "From the Campus Director", text: "You are not here to validate what you already know about Vietnam. You are here to revise it. The country will reward attentive observers, and confound the lazy ones. Read the country the way you would read a balance sheet, patiently, line by line, and with attention to what is missing.", by: "Dr. Viet Dung Trinh", role: "Campus Director (Asia), KLU Saigon" },
       ],
     },
 
@@ -81,8 +79,6 @@ window.MANUAL = {
       hint: "Five frames for the week",
       intro: "Five analytical frames that organize the week. Carry them through every visit, every conversation, every evening of reflection.",
       blocks: [
-        { t: "kicker", text: "Themes" },
-        { t: "title", text: "Five frames for the week." },
         { t: "lead", text: "These themes are not a checklist. They are the questions that will return, in different forms, across every site, every roundtable, every dinner. Memorize them." },
         {
           t: "rows",
@@ -105,56 +101,72 @@ window.MANUAL = {
       hint: "A briefing",
       intro: "A briefing for the time-constrained executive: why Vietnam matters now, what is moving, what is not, and what is binding.",
       blocks: [
-        { t: "kicker", text: "Vietnam snapshot · Part I" },
-        { t: "title", text: "Why Vietnam matters now." },
-        { t: "lead", text: "Vietnam is no longer best understood as an emerging market. It is a mid-income manufacturing economy with one of the densest trade agreement networks in the world, an unusually open posture toward foreign capital, and a credible position in the global supply chain conversation." },
         {
-          t: "stats",
+          t: "accordion",
+          collapsed: true,
           items: [
-            { n: "100M+", l: "Population, median age in early 30s", d: "Demographic window narrowing toward 2035" },
-            { n: "~6–7%", l: "Real GDP growth target band", d: "Among the highest sustained rates in Asia" },
-            { n: "17", l: "Free trade agreements in force or signed", d: "CPTPP · EVFTA · RCEP · UKVFTA" },
+            {
+              kicker: "Vietnam snapshot · Part I",
+              title: "Why Vietnam matters now.",
+              blocks: [
+              { t: "lead", text: "Vietnam is no longer best understood as an emerging market. It is a mid-income manufacturing economy with one of the densest trade agreement networks in the world, an unusually open posture toward foreign capital, and a credible position in the global supply chain conversation." },
+              {
+                t: "stats",
+                items: [
+                  { n: "100M+", l: "Population, median age in early 30s", d: "Demographic window narrowing toward 2035" },
+                  { n: "~6–7%", l: "Real GDP growth target band", d: "Among the highest sustained rates in Asia" },
+                  { n: "17", l: "Free trade agreements in force or signed", d: "CPTPP · EVFTA · RCEP · UKVFTA" },
+                ],
+              },
+              {
+                t: "cards",
+                items: [
+                  { kicker: "Manufacturing & services rise together", body: "Vietnam is one of the few economies in the world where manufacturing share of GDP has held above 24% over the past decade while modern services — finance, logistics, ICT — have expanded simultaneously. This dual-track development is rare and is the basis for arguments that Vietnam may avoid the premature de-industrialization observed elsewhere." },
+                  { kicker: "The China plus one anchor", body: "Vietnam captured a disproportionate share of the manufacturing reallocation that began in 2018. Samsung now produces a substantial portion of its global smartphone output here. Foxconn, Pegatron, LG, Intel, Bosch, and a long list of European mid-caps have followed. The thesis is no longer hypothetical; it is balance sheet reality." },
+                  { kicker: "FDI momentum", body: "Annual FDI inflows have remained robust through global slowdowns. Korean, Singaporean, Japanese, and Chinese capital lead by stock; European and Taiwanese inflows have accelerated since EVFTA’s full ratification. Quality of investment, measured by R&D intensity, supplier development depth, and local content, is rising more slowly, and this is the open question." },
+                  { kicker: "Demographics & consumption", body: "The middle class is the binding consumption story. Urban household formation continues at pace; modern retail and digital commerce have grown faster than nominal GDP. Consumer brands underestimate how rapidly category sophistication has compressed." },
+                  { kicker: "Logistics & infrastructure", body: "Container throughput at Cai Mep–Thi Vai now competes with regional hubs on cost; the Lach Huyen deep-water complex serves the northern industrial corridor. The North–South Expressway is closing. Power transmission and rail remain weaker links; the gap between flagship projects and last-mile reliability is wide." },
+                  { kicker: "Constraints & risks", body: "Mid-management talent supply is structurally short. Power reliability, particularly in the industrial north, is a known operational risk. Banking sector opacity tied to real estate exposure is a periodic concern. Regulatory complexity, while often overstated, requires institutional patience that smaller foreign firms underestimate. The administrative reforms of 2025 — provincial consolidation, redrawing of municipal boundaries — add a transitional layer that will take time to settle." },
+                ],
+              },
+              ],
+            },
+            {
+              kicker: "Vietnam snapshot · Part II",
+              title: "What to keep in view.",
+              blocks: [
+              { t: "lead", text: "A handful of structural facts shape almost every conversation a foreign manager will have in this country. Carry them." },
+              { t: "callout", label: "Strategic position · An anchor in the regional supply network", text: "Vietnam sits at the operational seam of two distinct supply geographies. To the north, deep integration with southern Chinese supplier networks; to the south, growing connection to ASEAN and Indian Ocean lanes. Few economies allow a single country footprint to play both sides. That dual position is the strategic asset." },
+              {
+                t: "cards",
+                items: [
+                  { kicker: "What is actually working", list: ["Industrial parks function. Established corridors in the south (Binh Duong, Dong Nai) and the north (Bac Ninh, Bac Giang, Hai Phong) deliver power, land, and labour at competitive cost.", "Trade agreement implementation is unusually effective by emerging-market standards. Tariff schedules and rules of origin are operational, not aspirational.", "FDI institutions, provincial promotion agencies, EuroCham, AHK Vietnam and AmCham provide working interfaces for foreign firms.", "Infrastructure investment is accelerating. The expressway network and southern port capacity will reset cost curves over the next five years."] },
+                  { kicker: "What is binding", list: ["Talent depth — especially in operations leadership, finance controllership, and digital product roles.", "Power reliability — northern industrial outages of 2023 are a reminder that grid expansion has lagged demand.", "Institutional patience — decisions that take three weeks in Hamburg can take three months here, sometimes longer. Firms that internalize this thrive; firms that do not, do not.", "Real estate & banking interconnection — a persistent risk corridor; investors should keep watching."] },
+                  { kicker: "What is moving slowly", list: ["Domestic capital markets remain shallow; corporate financing is bank-dominated and exposed to real estate cycles.", "Vocational and middle-management training has not kept pace with industrial complexity. Firms are training their own managers from a technical baseline.", "Energy transition is contested between speed of demand growth and decarbonization commitments."] },
+                  { kicker: "Recent context to read into", list: ["The 2025 administrative reform redrew the southern industrial map. Binh Duong, Ba Ria–Vung Tau, and the urban core of Saigon now sit inside a single municipality; the south’s logistics geography is no longer cross-border, it is intra-city.", "Capital is following the new geography. Four anchor infrastructure projects, treated together, describe a single integrated logistics region rather than three separate provinces."] },
+                ],
+              },
+              ],
+            },
+            {
+              kicker: "Vietnam snapshot · Part III",
+              title: "The southern logistics geography in 2026.",
+              blocks: [
+              { t: "lead", text: "Four anchor projects describe how the south’s logistics system is being recomposed. Read them as one integrated region, not as separate provincial initiatives." },
+              {
+                t: "cards",
+                items: [
+                  { kicker: "Project 01", title: "Cai Mep–Thi Vai expansion", sub: "Deep-water port complex · Phuong Phu My", facts: [["Lead", "Vietnamese state operators with international terminal partners."], ["Status", "Phase II under construction; throughput already competitive on cost with regional peers."], ["Strategic implication", "Closes the cost gap with Singapore on transshipment and gives the south a deep-water gateway capable of absorbing the next wave of manufacturing reallocation."]] },
+                  { kicker: "Project 02", title: "Binh Duong–Vung Tau rail link", sub: "Inland-to-port multimodal corridor", facts: [["Lead", "Becamex IDC and Thaco, with state coordination."], ["Status", "Approved 2024; target completion within the next four to five years."], ["Strategic implication", "First inland-to-deep-water rail in southern Vietnam. Triggers a modal shift from road to rail and rewires distribution economics for inland industrial parks."]] },
+                  { kicker: "Project 03", title: "Can Gio–Vung Tau coastal corridor", sub: "Coastal urban freight integration", facts: [["Lead", "VinGroup, with municipal coordination."], ["Status", "Master plan approved; phased rollout."], ["Strategic implication", "Integrates urban development, tourism, and freight movement along the southern coast. Tests whether VinGroup-style private-led infrastructure can deliver at regional scale."]] },
+                  { kicker: "Project 04", title: "North–South Expressway, final segments", sub: "National road network closure", facts: [["Lead", "Ministry of Transport."], ["Status", "Closing through 2024–2026."], ["Strategic implication", "Continuous high-speed road from Lang Son to Ca Mau. Domestic logistics economics shift; secondary cities become reachable for the first time at scale."]] },
+                ],
+              },
+              { t: "callout", label: "Watch the regulatory perimeter", text: "European industrial groups are widening their Vietnam footprint beyond assembly toward regional supply chain HQs and engineering centres. EU CBAM and supply chain due diligence regulation are reshaping conversations with Vietnamese suppliers — expect this to come up at every site." },
+              ],
+            },
           ],
         },
-        {
-          t: "cards",
-          items: [
-            { kicker: "Manufacturing & services rise together", body: "Vietnam is one of the few economies in the world where manufacturing share of GDP has held above 24% over the past decade while modern services — finance, logistics, ICT — have expanded simultaneously. This dual-track development is rare and is the basis for arguments that Vietnam may avoid the premature de-industrialization observed elsewhere." },
-            { kicker: "The China plus one anchor", body: "Vietnam captured a disproportionate share of the manufacturing reallocation that began in 2018. Samsung now produces a substantial portion of its global smartphone output here. Foxconn, Pegatron, LG, Intel, Bosch, and a long list of European mid-caps have followed. The thesis is no longer hypothetical; it is balance sheet reality." },
-            { kicker: "FDI momentum", body: "Annual FDI inflows have remained robust through global slowdowns. Korean, Singaporean, Japanese, and Chinese capital lead by stock; European and Taiwanese inflows have accelerated since EVFTA’s full ratification. Quality of investment, measured by R&D intensity, supplier development depth, and local content, is rising more slowly, and this is the open question." },
-            { kicker: "Demographics & consumption", body: "The middle class is the binding consumption story. Urban household formation continues at pace; modern retail and digital commerce have grown faster than nominal GDP. Consumer brands underestimate how rapidly category sophistication has compressed." },
-            { kicker: "Logistics & infrastructure", body: "Container throughput at Cai Mep–Thi Vai now competes with regional hubs on cost; the Lach Huyen deep-water complex serves the northern industrial corridor. The North–South Expressway is closing. Power transmission and rail remain weaker links; the gap between flagship projects and last-mile reliability is wide." },
-            { kicker: "Constraints & risks", body: "Mid-management talent supply is structurally short. Power reliability, particularly in the industrial north, is a known operational risk. Banking sector opacity tied to real estate exposure is a periodic concern. Regulatory complexity, while often overstated, requires institutional patience that smaller foreign firms underestimate. The administrative reforms of 2025 — provincial consolidation, redrawing of municipal boundaries — add a transitional layer that will take time to settle." },
-          ],
-        },
-
-        { t: "kicker", text: "Vietnam snapshot · Part II" },
-        { t: "title", text: "What to keep in view." },
-        { t: "lead", text: "A handful of structural facts shape almost every conversation a foreign manager will have in this country. Carry them." },
-        { t: "callout", label: "Strategic position · An anchor in the regional supply network", text: "Vietnam sits at the operational seam of two distinct supply geographies. To the north, deep integration with southern Chinese supplier networks; to the south, growing connection to ASEAN and Indian Ocean lanes. Few economies allow a single country footprint to play both sides. That dual position is the strategic asset." },
-        {
-          t: "cards",
-          items: [
-            { kicker: "What is actually working", list: ["Industrial parks function. Established corridors in the south (Binh Duong, Dong Nai) and the north (Bac Ninh, Bac Giang, Hai Phong) deliver power, land, and labour at competitive cost.", "Trade agreement implementation is unusually effective by emerging-market standards. Tariff schedules and rules of origin are operational, not aspirational.", "FDI institutions, provincial promotion agencies, EuroCham, AHK Vietnam and AmCham provide working interfaces for foreign firms.", "Infrastructure investment is accelerating. The expressway network and southern port capacity will reset cost curves over the next five years."] },
-            { kicker: "What is binding", list: ["Talent depth — especially in operations leadership, finance controllership, and digital product roles.", "Power reliability — northern industrial outages of 2023 are a reminder that grid expansion has lagged demand.", "Institutional patience — decisions that take three weeks in Hamburg can take three months here, sometimes longer. Firms that internalize this thrive; firms that do not, do not.", "Real estate & banking interconnection — a persistent risk corridor; investors should keep watching."] },
-            { kicker: "What is moving slowly", list: ["Domestic capital markets remain shallow; corporate financing is bank-dominated and exposed to real estate cycles.", "Vocational and middle-management training has not kept pace with industrial complexity. Firms are training their own managers from a technical baseline.", "Energy transition is contested between speed of demand growth and decarbonization commitments."] },
-            { kicker: "Recent context to read into", list: ["The 2025 administrative reform redrew the southern industrial map. Binh Duong, Ba Ria–Vung Tau, and the urban core of Saigon now sit inside a single municipality; the south’s logistics geography is no longer cross-border, it is intra-city.", "Capital is following the new geography. Four anchor infrastructure projects, treated together, describe a single integrated logistics region rather than three separate provinces."] },
-          ],
-        },
-
-        { t: "kicker", text: "Vietnam snapshot · Part III" },
-        { t: "title", text: "The southern logistics geography in 2026." },
-        { t: "lead", text: "Four anchor projects describe how the south’s logistics system is being recomposed. Read them as one integrated region, not as separate provincial initiatives." },
-        {
-          t: "cards",
-          items: [
-            { kicker: "Project 01", title: "Cai Mep–Thi Vai expansion", sub: "Deep-water port complex · Phuong Phu My", facts: [["Lead", "Vietnamese state operators with international terminal partners."], ["Status", "Phase II under construction; throughput already competitive on cost with regional peers."], ["Strategic implication", "Closes the cost gap with Singapore on transshipment and gives the south a deep-water gateway capable of absorbing the next wave of manufacturing reallocation."]] },
-            { kicker: "Project 02", title: "Binh Duong–Vung Tau rail link", sub: "Inland-to-port multimodal corridor", facts: [["Lead", "Becamex IDC and Thaco, with state coordination."], ["Status", "Approved 2024; target completion within the next four to five years."], ["Strategic implication", "First inland-to-deep-water rail in southern Vietnam. Triggers a modal shift from road to rail and rewires distribution economics for inland industrial parks."]] },
-            { kicker: "Project 03", title: "Can Gio–Vung Tau coastal corridor", sub: "Coastal urban freight integration", facts: [["Lead", "VinGroup, with municipal coordination."], ["Status", "Master plan approved; phased rollout."], ["Strategic implication", "Integrates urban development, tourism, and freight movement along the southern coast. Tests whether VinGroup-style private-led infrastructure can deliver at regional scale."]] },
-            { kicker: "Project 04", title: "North–South Expressway, final segments", sub: "National road network closure", facts: [["Lead", "Ministry of Transport."], ["Status", "Closing through 2024–2026."], ["Strategic implication", "Continuous high-speed road from Lang Son to Ca Mau. Domestic logistics economics shift; secondary cities become reachable for the first time at scale."]] },
-          ],
-        },
-        { t: "callout", label: "Watch the regulatory perimeter", text: "European industrial groups are widening their Vietnam footprint beyond assembly toward regional supply chain HQs and engineering centres. EU CBAM and supply chain due diligence regulation are reshaping conversations with Vietnamese suppliers — expect this to come up at every site." },
       ],
     },
 
@@ -220,7 +232,7 @@ window.MANUAL = {
               day: "Day Three",
               date: "Tuesday · 27 October",
               focus: "Field Experiments",
-              dress: "Smart Schedule",
+              dress: "Smart casual",
               slots: [
                 ASSEMBLE,
                 TO_CAMPUS,
@@ -243,7 +255,7 @@ window.MANUAL = {
               day: "Day Four",
               date: "Wednesday · 28 October",
               focus: "Insights into Vietnamese Logistics",
-              dress: "Smart Schedule + closed shoes",
+              dress: "Smart casual + closed shoes",
               dressNote: "Bringing changing clothes is recommended for your comfort.",
               slots: [
                 { time: "07:30–09:45", what: "Bus departs from Renaissance Hotel for Phu My Ward (~2.5 hours, allowing for traffic)", strong: true },
@@ -312,7 +324,6 @@ window.MANUAL = {
     /* ---------------------------------------------------------- V */
     {
       id: "sessions",
-      style: "doc",
       num: "V",
       title: "Major Sessions",
       hint: "Creating Impact with Research · Field Experiments · Insights into Vietnamese Logistics · Challenges for Logistics Operations · Sustainability",
@@ -553,22 +564,19 @@ window.MANUAL = {
     /* ---------------------------------------------------------- VI */
     {
       id: "visits",
-      style: "doc",
       num: "VI",
       title: "Company Visit Observation Framework",
       hint: "Operations · Change · Logistics · Innovation",
       intro: "Four lenses, applied in the same order at every site. An executive leaves a visit with a judgement; a researcher leaves with a question. The lenses are built to produce the question.",
       blocks: [
-        { t: "kicker", text: "Section VI" },
-        { t: "title", text: "Company visit observation framework." },
+        { t: "kicker", text: "Section VI · The four lenses" },
         {
-          t: "matrix",
-          cols: ["Lens", "Observe", "Ask"],
-          rows: [
-            ["01 · Operations", "Process flow and layout. Bottlenecks and buffers. Automation versus labour. Safety signals. Throughput markers. What is inspected, by whom, how often.", "What is measured on this floor every day, and who looks at the number?"],
-            ["02 · Change", "What changed in the last three years and who decided. Pace of decisions. Where new practice stalls. Who trains whom. Where planning, quality and finance lag operations.", "Which change did the operation resist, and what finally moved it?"],
-            ["03 · Logistics", "Inbound and outbound modes. Where material, boxes or hulls wait. Handover points with 3PLs, customs, port or customer. Tracking and exceptions. Dependence on one corridor, port or customer.", "Where does this site’s lead time actually go, and which part does the site control?"],
-            ["04 · Innovation", "Technology in use versus on display. Data that exists but is not used. Pilots and what happens when they end. Sustainability measures that are operational versus declaratory.", "What would this site try if a researcher ran the experiment and absorbed the risk?"],
+          t: "tiles",
+          items: [
+            { k: "01 · Operations", observe: "Process flow and layout. Bottlenecks and buffers. Automation versus labour. Safety signals. Throughput markers. What is inspected, by whom, how often.", ask: "What is measured on this floor every day, and who looks at the number?" },
+            { k: "02 · Change", observe: "What changed in the last three years and who decided. Pace of decisions. Where new practice stalls. Who trains whom. Where planning, quality and finance lag operations.", ask: "Which change did the operation resist, and what finally moved it?" },
+            { k: "03 · Logistics", observe: "Inbound and outbound modes. Where material, boxes or hulls wait. Handover points with 3PLs, customs, port or customer. Tracking and exceptions. Dependence on one corridor, port or customer.", ask: "Where does this site’s lead time actually go, and which part does the site control?" },
+            { k: "04 · Innovation", observe: "Technology in use versus on display. Data that exists but is not used. Pilots and what happens when they end. Sustainability measures that are operational versus declaratory.", ask: "What would this site try if a researcher ran the experiment and absorbed the risk?" },
           ],
         },
         { t: "outcomes", label: "Working method", items: ["Allocate attention across the four lenses deliberately; the common failure is to spend thirty minutes on operations and never reach innovation.", "Write at least one specific, dated observation under each lens before leaving the site.", "In the Q&A, ask one question per lens. The logistics question is the one most hosts do not expect.", "That evening, name in the reflection journal the lens that produced the strongest research question."] },
@@ -598,44 +606,74 @@ window.MANUAL = {
           ],
         },
 
-        { t: "kicker", text: "Site guide · Wednesday 10:00" },
-        { t: "title", text: "Ba Son Corporation." },
-        { t: "p", text: "Vietnam’s oldest shipbuilder and one of its two largest, a state-owned enterprise under the Ministry of National Defence that relocated from the Saigon riverfront to a 95-hectare deep-water site at Phu My. It builds, repairs and converts vessels and has added offshore, renewable-energy and logistics work. It is the week’s only example of project logistics: long cycle times, heavy and irregular inbound flows, a workforce in the thousands." },
         {
-          t: "matrix",
-          cols: ["Lens", "What to look for", "Questions to ask the host"],
-          rows: [
-            ["Operations", "Block assembly sequence and crane coverage. Where hulls wait between stages. Welding and coating quality control. Safety culture in a heavy-industry site.", "How many vessels are on the yard today, and how many were planned? What is the critical path on the largest project?"],
-            ["Change", "The relocation: what was redesigned and what was simply moved. Commercial versus defence work. How welders, fitters and planners are trained and retained.", "What did the move to Phu My change in how work is planned? Which commercial capability is the yard building now?"],
-            ["Logistics", "Inbound steel plate, engines and equipment: origin, mode, lead time. Staging of long-lead items. Delivery to owners and sea trials.", "What is the longest lead-time item on a typical build, and where does it come from? How much of the supply base is Vietnamese?"],
-            ["Innovation", "Design and planning software. Offshore wind work: real orders or capability statements. Cooperation with universities or foreign yards.", "What would you build here in 2030 that you cannot build today, and what is missing?"],
+          t: "accordion",
+          collapsed: true,
+          items: [
+            {
+              kicker: "Site guide · Wednesday 10:00",
+              title: "Ba Son Corporation.",
+              blocks: [
+              { t: "p", text: "Vietnam’s oldest shipbuilder and one of its two largest, a state-owned enterprise under the Ministry of National Defence that relocated from the Saigon riverfront to a 95-hectare deep-water site at Phu My. It builds, repairs and converts vessels and has added offshore, renewable-energy and logistics work. It is the week’s only example of project logistics: long cycle times, heavy and irregular inbound flows, a workforce in the thousands." },
+              {
+                t: "matrix",
+                cols: ["Lens", "What to look for", "Questions to ask the host"],
+                rows: [
+                  ["Operations", "Block assembly sequence and crane coverage. Where hulls wait between stages. Welding and coating quality control. Safety culture in a heavy-industry site.", "How many vessels are on the yard today, and how many were planned? What is the critical path on the largest project?"],
+                  ["Change", "The relocation: what was redesigned and what was simply moved. Commercial versus defence work. How welders, fitters and planners are trained and retained.", "What did the move to Phu My change in how work is planned? Which commercial capability is the yard building now?"],
+                  ["Logistics", "Inbound steel plate, engines and equipment: origin, mode, lead time. Staging of long-lead items. Delivery to owners and sea trials.", "What is the longest lead-time item on a typical build, and where does it come from? How much of the supply base is Vietnamese?"],
+                  ["Innovation", "Design and planning software. Offshore wind work: real orders or capability statements. Cooperation with universities or foreign yards.", "What would you build here in 2030 that you cannot build today, and what is missing?"],
+                ],
+              },
+              { t: "p", text: "Research hooks: project logistics and supplier development in state-owned manufacturing; skills formation in heavy industry; dual-use capacity and commercial planning; offshore wind supply chains in southern Vietnam." },
+              ],
+            },
           ],
         },
-        { t: "p", text: "Research hooks: project logistics and supplier development in state-owned manufacturing; skills formation in heavy industry; dual-use capacity and commercial planning; offshore wind supply chains in southern Vietnam." },
 
-        { t: "kicker", text: "Site guide · Wednesday 13:30" },
-        { t: "title", text: "Cai Mep International Terminal." },
-        { t: "p", text: "A deep-water container terminal in the Cai Mep–Thi Vai cluster and a joint venture with APM Terminals. In 2025 it handled more than two million TEU including barges, with mother-vessel volume up 28 percent and more than 1,900 consecutive accident-free days. The cluster ranks seventh in the world on the Container Port Performance Index. It is the week’s example of flow logistics, and the physical location of the gap between Vietnam’s port efficiency and its 43rd-place LPI ranking." },
         {
-          t: "matrix",
-          cols: ["Lens", "What to look for", "Questions to ask the host"],
-          rows: [
-            ["Operations", "Crane moves per hour and berth occupancy. Yard layout and equipment. Truck and barge gates. How 1,900 accident-free days are sustained.", "What is the berth productivity target for an ultra-large vessel call, and what was it last month? Which shift is hardest to staff?"],
-            ["Change", "Lean and Kaizen practice: boards, cycles, who leads them. Alliance changes and their effect on schedules. What the 2025 provincial merger changed in practice.", "What was the last operating practice you changed because a shipping line asked for it? Did the merger change any approval or planning process?"],
-            ["Logistics", "Barge versus truck share and where barges come from. Dwell by cargo type. Customs: digital versus paper, clearance times. Empty-container positioning.", "What share of boxes move by barge, and what is the barge dwell? Where is the next inland rail or ICD link that would change gate traffic?"],
-            ["Innovation", "Terminal operating system and data sharing with lines and barge operators. Electrification of yard equipment. Cooperation across the cluster.", "Which dataset do you hold that nobody outside the terminal has analysed? What would you let a research team test on one berth or shift?"],
+          t: "accordion",
+          collapsed: true,
+          items: [
+            {
+              kicker: "Site guide · Wednesday 13:30",
+              title: "Cai Mep International Terminal.",
+              blocks: [
+              { t: "p", text: "A deep-water container terminal in the Cai Mep–Thi Vai cluster and a joint venture with APM Terminals. In 2025 it handled more than two million TEU including barges, with mother-vessel volume up 28 percent and more than 1,900 consecutive accident-free days. The cluster ranks seventh in the world on the Container Port Performance Index. It is the week’s example of flow logistics, and the physical location of the gap between Vietnam’s port efficiency and its 43rd-place LPI ranking." },
+              {
+                t: "matrix",
+                cols: ["Lens", "What to look for", "Questions to ask the host"],
+                rows: [
+                  ["Operations", "Crane moves per hour and berth occupancy. Yard layout and equipment. Truck and barge gates. How 1,900 accident-free days are sustained.", "What is the berth productivity target for an ultra-large vessel call, and what was it last month? Which shift is hardest to staff?"],
+                  ["Change", "Lean and Kaizen practice: boards, cycles, who leads them. Alliance changes and their effect on schedules. What the 2025 provincial merger changed in practice.", "What was the last operating practice you changed because a shipping line asked for it? Did the merger change any approval or planning process?"],
+                  ["Logistics", "Barge versus truck share and where barges come from. Dwell by cargo type. Customs: digital versus paper, clearance times. Empty-container positioning.", "What share of boxes move by barge, and what is the barge dwell? Where is the next inland rail or ICD link that would change gate traffic?"],
+                  ["Innovation", "Terminal operating system and data sharing with lines and barge operators. Electrification of yard equipment. Cooperation across the cluster.", "Which dataset do you hold that nobody outside the terminal has analysed? What would you let a research team test on one berth or shift?"],
+                ],
+              },
+              { t: "p", text: "Research hooks: hinterland connectivity where the hinterland is a river; terminal efficiency versus national logistics performance; customs digitalisation as a natural experiment; capacity risk as roughly 8 million TEU of new cluster capacity lands in four years." },
+              ],
+            },
           ],
         },
-        { t: "p", text: "Research hooks: hinterland connectivity where the hinterland is a river; terminal efficiency versus national logistics performance; customs digitalisation as a natural experiment; capacity risk as roughly 8 million TEU of new cluster capacity lands in four years." },
 
-        { t: "kicker", text: "Section VI · Observation sheet" },
-        { t: "title", text: "One sheet per site." },
-        { t: "lead", text: "Fill one sheet per site during or right after the visit. Notes are saved on this phone only." },
         {
-          t: "sheet",
-          sites: ["Ba Son Corporation", "Cai Mep International Terminal"],
-          lenses: ["Operations", "Change", "Logistics", "Innovation"],
-          rows: ["What I saw", "What surprised me", "Likely mechanism", "Research question", "Data owner / partner"],
+          t: "accordion",
+          collapsed: true,
+          items: [
+            {
+              kicker: "Section VI · Observation sheet",
+              title: "One sheet per site.",
+              blocks: [
+              { t: "lead", text: "Fill one sheet per site during or right after the visit. Notes are saved on this phone only." },
+              {
+                t: "sheet",
+                sites: ["Ba Son Corporation", "Cai Mep International Terminal"],
+                lenses: ["Operations", "Change", "Logistics", "Innovation"],
+                rows: ["What I saw", "What surprised me", "Likely mechanism", "Research question", "Data owner / partner"],
+              },
+              ],
+            },
+          ],
         },
       ],
     },
@@ -670,7 +708,17 @@ window.MANUAL = {
       hint: "24 posters",
       intro: "24 posters from the doctoral researchers of the 2026 cohort.",
       blocks: [
-        { t: "callout", label: "Poster session", text: "Monday, 26 October · 18:30–20:30 · Floor 2, Deutsches Haus, 33 Le Duan St. Poster session with flying dinner on-site & wrap-up." },
+        {
+          t: "info",
+          label: "Poster session",
+          rows: [
+            ["Date", "Monday, 26 October 2026"],
+            ["Time", "18:30–20:30"],
+            ["Venue", "Floor 2, Deutsches Haus, 33 Le Duan St., Saigon Ward"],
+            ["Format", "Poster session with flying dinner on-site & wrap-up"],
+            ["Return", "Bus back to the hotel at 21:00"],
+          ],
+        },
         // TODO: add the 24 posters, e.g. { k: "01 · Poster title", v: "Presenter · University" }
         { t: "notice", text: "The list of posters will be added here." },
       ],
@@ -702,17 +750,17 @@ window.MANUAL = {
         {
           t: "contacts",
           items: [
-            { label: "Campus Director", name: "Dr. Viet Dung Trinh", detail: "Campus Director (Asia), Saigon Campus · Available throughout the programme for any matter requiring senior intervention." },
-            { label: "KLU Saigon Office", name: "19F Deutsches Haus", detail: "33 Le Duan St., Sai Gon Ward, Ho Chi Minh City · Reception during the programme, Monday–Friday, 08:30 to 17:30." },
-            { label: "Project Manager", name: "Ms. Thuy Tran (Chloev)", detail: "Available throughout the program for any matter requiring intervention.", email: "thuy.tran@klu.org" },
-            { label: "Project Coordinator", name: "Ms. Pham Phuong Anh", detail: "+84 797 967 488 · On call throughout the week for logistics, transfers, dietary needs, and on-site adjustments.", email: "phuonganh.pham@klu.org", tel: "+84797967488" },
+            { label: "Campus Director", name: "Dr. Viet Dung Trinh", detail: ["Campus Director (Asia), Saigon Campus", "Available throughout the programme for any matter requiring senior intervention."] },
+            { label: "KLU Saigon Office", name: "19F Deutsches Haus", detail: ["33 Le Duan St., Sai Gon Ward, Ho Chi Minh City", "Reception during the programme: Monday–Friday, 08:30 to 17:30."] },
+            { label: "Project Manager", name: "Ms. Thuy Tran (Chloev)", detail: ["Available throughout the program for any matter requiring intervention."], email: "thuy.tran@klu.org" },
+            { label: "Project Coordinator", name: "Ms. Pham Phuong Anh (Audrey)", detail: ["On call throughout the week for logistics, transfers, dietary needs, and on-site adjustments.", "+84 797 967 488"], email: "phuonganh.pham@klu.org", tel: "+84797967488" },
           ],
         },
         { t: "h", text: "Programme accommodation" },
         {
           t: "contacts",
           items: [
-            { label: "Hotel · 25–30 October", name: "Renaissance Riverside Hotel Saigon", detail: "8-15 Ton Duc Thang, Sai Gon Ward, Ho Chi Minh City · Tel. 028 3822 0033 · Room held continuously across the trip.", tel: "+842838220033" },
+            { label: "Hotel · 25–30 October", name: "Renaissance Riverside Hotel Saigon", detail: ["8-15 Ton Duc Thang, Sai Gon Ward, Ho Chi Minh City", "Tel. 028 3822 0033", "Room held continuously across the trip."], tel: "+842838220033" },
           ],
         },
         { t: "h", text: "Emergency numbers · Vietnam" },
