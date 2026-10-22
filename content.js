@@ -79,7 +79,7 @@ window.MANUAL = {
       hint: "Five frames for the week",
       intro: "Five analytical frames that organize the week. Carry them through every visit, every conversation, every evening of reflection.",
       blocks: [
-        { t: "lead", text: "These themes are not a checklist. They are the questions that will return, in different forms, across every site, every roundtable, every dinner. Memorize them." },
+        { t: "lead", small: true, text: "These themes are not a checklist. They are the questions that will return, in different forms, across every site, every roundtable, every dinner. Memorize them." },
         {
           t: "rows",
           items: [
@@ -99,7 +99,6 @@ window.MANUAL = {
       num: "III",
       title: "Vietnam Snapshot",
       hint: "A briefing",
-      intro: "A briefing for the time-constrained executive: why Vietnam matters now, what is moving, what is not, and what is binding.",
       blocks: [
         {
           t: "accordion",
@@ -176,7 +175,6 @@ window.MANUAL = {
       num: "IV",
       title: "Daily Program",
       hint: "Five learning lenses",
-      intro: "Six days, five learning lenses. Each day pairs the schedule with a learning objective and a closing reflection question.",
       blocks: [
         {
           t: "days",
@@ -331,6 +329,7 @@ window.MANUAL = {
       blocks: [
         {
           t: "accordion",
+          noRule: true,
           items: [
             {
               kicker: "Major Session · One",
@@ -569,7 +568,7 @@ window.MANUAL = {
       hint: "Operations · Change · Logistics · Innovation",
       intro: "Four lenses, applied in the same order at every site. An executive leaves a visit with a judgement; a researcher leaves with a question. The lenses are built to produce the question.",
       blocks: [
-        { t: "kicker", text: "Section VI · The four lenses" },
+        { t: "kicker", text: "The four lenses" },
         {
           t: "tiles",
           items: [
@@ -581,28 +580,38 @@ window.MANUAL = {
         },
         { t: "outcomes", label: "Working method", items: ["Allocate attention across the four lenses deliberately; the common failure is to spend thirty minutes on operations and never reach innovation.", "Write at least one specific, dated observation under each lens before leaving the site.", "In the Q&A, ask one question per lens. The logistics question is the one most hosts do not expect.", "That evening, name in the reflection journal the lens that produced the strongest research question."] },
 
-        { t: "kicker", text: "Section VI · Method" },
-        { t: "title", text: "From observation to research question." },
-        { t: "lead", text: "A good site visit yields twenty observations and one question. Complete the five steps in the online debrief on Wednesday afternoon." },
         {
-          t: "steps",
+          t: "accordion",
+          collapsed: true,
           items: [
-            { k: "Observation", v: "What you saw, in operational terms, with time and place." },
-            { k: "Anomaly", v: "Why it is surprising against theory, the textbook, or what the host said." },
-            { k: "Mechanism", v: "Why it happens, in terms a manager at the site would recognise." },
-            { k: "Question", v: "Written with a comparison in it: this site versus another, before versus after, treated versus untreated." },
-            { k: "Design", v: "The smallest study that would answer it, the data owner, and what the site would have to agree to. If this is impossible, go back to step 4." },
-          ],
-        },
-        {
-          t: "factbox",
-          label: "Example",
-          facts: [
-            ["Observation", "At CMIT, barges queue at the river berth while quay cranes stand idle between vessel calls."],
-            ["Anomaly", "The terminal ranks top seven globally for vessel-side efficiency, yet the barge side looks unmanaged."],
-            ["Mechanism", "Barge arrivals follow Cat Lai and Mekong schedules the terminal does not control."],
-            ["Question", "Does a shared barge-slot booking system across the cluster reduce barge dwell without reducing vessel productivity?"],
-            ["Design", "Staggered rollout across terminals; dwell and crane productivity as outcomes; the port association as data owner."],
+            {
+              kicker: "Method",
+              title: "From observation to research question.",
+              blocks: [
+              { t: "lead", text: "A good site visit yields twenty observations and one question. Complete the five steps in the online debrief on Wednesday afternoon." },
+              {
+                t: "steps",
+                items: [
+                  { k: "Observation", v: "What you saw, in operational terms, with time and place." },
+                  { k: "Anomaly", v: "Why it is surprising against theory, the textbook, or what the host said." },
+                  { k: "Mechanism", v: "Why it happens, in terms a manager at the site would recognise." },
+                  { k: "Question", v: "Written with a comparison in it: this site versus another, before versus after, treated versus untreated." },
+                  { k: "Design", v: "The smallest study that would answer it, the data owner, and what the site would have to agree to. If this is impossible, go back to step 4." },
+                ],
+              },
+              {
+                t: "factbox",
+                label: "Example",
+                facts: [
+                  ["Observation", "At CMIT, barges queue at the river berth while quay cranes stand idle between vessel calls."],
+                  ["Anomaly", "The terminal ranks top seven globally for vessel-side efficiency, yet the barge side looks unmanaged."],
+                  ["Mechanism", "Barge arrivals follow Cat Lai and Mekong schedules the terminal does not control."],
+                  ["Question", "Does a shared barge-slot booking system across the cluster reduce barge dwell without reducing vessel productivity?"],
+                  ["Design", "Staggered rollout across terminals; dwell and crane productivity as outcomes; the port association as data owner."],
+                ],
+              },
+              ],
+            },
           ],
         },
 
@@ -617,6 +626,7 @@ window.MANUAL = {
               { t: "p", text: "Vietnam’s oldest shipbuilder and one of its two largest, a state-owned enterprise under the Ministry of National Defence that relocated from the Saigon riverfront to a 95-hectare deep-water site at Phu My. It builds, repairs and converts vessels and has added offshore, renewable-energy and logistics work. It is the week’s only example of project logistics: long cycle times, heavy and irregular inbound flows, a workforce in the thousands." },
               {
                 t: "matrix",
+                guide: true,
                 cols: ["Lens", "What to look for", "Questions to ask the host"],
                 rows: [
                   ["Operations", "Block assembly sequence and crane coverage. Where hulls wait between stages. Welding and coating quality control. Safety culture in a heavy-industry site.", "How many vessels are on the yard today, and how many were planned? What is the critical path on the largest project?"],
@@ -642,6 +652,7 @@ window.MANUAL = {
               { t: "p", text: "A deep-water container terminal in the Cai Mep–Thi Vai cluster and a joint venture with APM Terminals. In 2025 it handled more than two million TEU including barges, with mother-vessel volume up 28 percent and more than 1,900 consecutive accident-free days. The cluster ranks seventh in the world on the Container Port Performance Index. It is the week’s example of flow logistics, and the physical location of the gap between Vietnam’s port efficiency and its 43rd-place LPI ranking." },
               {
                 t: "matrix",
+                guide: true,
                 cols: ["Lens", "What to look for", "Questions to ask the host"],
                 rows: [
                   ["Operations", "Crane moves per hour and berth occupancy. Yard layout and equipment. Truck and barge gates. How 1,900 accident-free days are sustained.", "What is the berth productivity target for an ultra-large vessel call, and what was it last month? Which shift is hardest to staff?"],
@@ -661,15 +672,15 @@ window.MANUAL = {
           collapsed: true,
           items: [
             {
-              kicker: "Section VI · Observation sheet",
+              kicker: "Observation sheet",
               title: "One sheet per site.",
               blocks: [
-              { t: "lead", text: "Fill one sheet per site during or right after the visit. Notes are saved on this phone only." },
+              { t: "lead", text: "Fill one sheet per site during or right after the visit." },
               {
                 t: "sheet",
                 sites: ["Ba Son Corporation", "Cai Mep International Terminal"],
                 lenses: ["Operations", "Change", "Logistics", "Innovation"],
-                rows: ["What I saw", "What surprised me", "Likely mechanism", "Research question", "Data owner / partner"],
+                rows: ["What I saw?", "What surprised me?", "Likely mechanism", "Research question", "Data owner / partner"],
               },
               ],
             },
@@ -735,6 +746,7 @@ window.MANUAL = {
         { t: "sosbanner" },
         {
           t: "cards",
+          soft: true,
           items: [
             { kicker: "Climate & what to wear", body: "Late October in southern Vietnam: warm and humid, around 25–33 °C, at the tail end of the rainy season — expect short, heavy afternoon showers. Bring a folding umbrella. Dress code: smart business for company visits and institutional sessions; closed-toe shoes are mandatory at industrial sites." },
             { kicker: "Transport", body: "Programme transfers are handled by KLU Saigon. For personal movement use Grab, Be or Xanh SM (all-electric). Install one before arrival and link a payment card. Metered taxis (Vinasun, Mai Linh) are reliable; avoid unmetered street taxis." },
@@ -744,7 +756,7 @@ window.MANUAL = {
             { kicker: "Time & pace", body: "UTC+7 — six hours ahead of Hamburg after the European clock change on 25 October. Business hours are typically 08:00–17:30 with a long midday break at many institutions." },
           ],
         },
-        { t: "kicker", text: "Key contacts & emergencies" },
+        { t: "kicker", rule: true, text: "Key contacts & emergencies" },
         { t: "lead", text: "If something is wrong, contact the KLU Saigon programme team first. They will route from there. For genuine emergencies, the numbers below are the primary line." },
         { t: "h", text: "Program contacts · KLU Saigon" },
         {

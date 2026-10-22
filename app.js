@@ -31,6 +31,9 @@
   }
 
   /* ---------------- Shared fragments ---------------- */
+  // "https://www.rrbm.network/position-paper/" -> "rrbm.network"
+  const hostOf = (url) => { try { return new URL(url).hostname.replace(/^www\./, ""); } catch (e) { return url; } };
+
   // Escaped text for uppercase labels, keeping "PhD" with a lowercase h.
   const caps = (s) => esc(s).replace(/PhD/g, '<span class="nocaps">PhD</span>');
 
@@ -54,14 +57,15 @@
           <p class="kicker kicker--blue">${caps(c.kicker)}</p>
           <h1 class="cover__title">${esc(c.title)}<br>${esc(c.year)}</h1>
           <p class="cover__sub">${esc(c.subtitle)}</p>
-          <p class="kicker kicker--blue cover__tag">${c.tagline.split(" · ").map(esc).join(" ·<br>")}</p>
+          <p class="kicker kicker--blue cover__tag">${c.tagline.split(" · ").map(esc).join("<br>")}</p>
           <button class="btn-primary cover__cta" type="button" data-go="#/contents" data-start>Start the journey <span class="arrow">→</span></button>
         </div>
         ${c.place && c.place.length ? `<div class="cover__place">${c.place.map(esc).join("<br>")}</div>` : ""}
         <hr class="cover__line">
         <div class="cover__foot">
-          <div class="cover__foot-row"><strong>${esc(c.host)}</strong><span class="cover__date">${esc(c.dates)}</span></div>
+          <strong>${esc(c.host)}</strong>
           ${[].concat(c.partner).map((l) => `<span>${esc(l)}</span>`).join("")}
+          <span class="cover__date">${esc(c.dates)}</span>
         </div>
       </section>`;
   }
@@ -106,11 +110,10 @@
           <p class="kicker">Section ${NUM_WORDS[i] || s.num}</p>
           <p class="hero__num">${i + 1}</p>
           <h1 class="hero__title">${esc(s.title)}</h1>
-          <hr class="rule-red">
-          <p class="hero__intro">${esc(s.intro)}</p>
+          ${s.intro ? `<hr class="rule-red">
+          <p class="hero__intro">${esc(s.intro)}</p>` : ""}
         </section>
         <article class="content">
-          <p class="content__header">${caps(s.hint)}</p>
           ${renderBlocks(s.blocks)}
         </article>
         <nav class="pager" aria-label="Section navigation">
@@ -125,9 +128,9 @@
   const list = (items) => `<ul class="bul">${items.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>`;
 
   const B = {
-    kicker: (b) => `<p class="kicker b-kicker">${caps(b.text)}</p>`,
+    kicker: (b) => `<p class="kicker b-kicker${b.rule ? " b-kicker--rule" : ""}">${caps(b.text)}</p>`,
     title: (b) => `<h2 class="b-title">${esc(b.text)}</h2>`,
-    lead: (b) => `<p class="b-lead">${esc(b.text)}</p>`,
+    lead: (b) => `<p class="b-lead${b.small ? " b-lead--sm" : ""}">${esc(b.text)}</p>`,
     p: (b) => `<p class="b-p">${esc(b.text)}</p>`,
     h: (b) => `<p class="h">${esc(b.text)}</p>`,
     note: (b) => `<p class="b-note">${esc(b.text)}</p>`,
@@ -140,7 +143,7 @@
         .map((x) => `<div class="stat"><div class="stat__n">${esc(x.n)}</div><div class="stat__l">${esc(x.l)}</div>${x.d ? `<div class="stat__d">${esc(x.d)}</div>` : ""}</div>`)
         .join("")}</div>`,
     cards: (b) =>
-      `<div class="cards">${b.items
+      `<div class="cards${b.soft ? " cards--soft" : ""}">${b.items
         .map(
           (c) => `<div class="card">
             ${c.kicker ? `<p class="kicker">${esc(c.kicker)}</p>` : ""}
@@ -169,7 +172,7 @@
             <div>
               <p class="reading__title">${esc(c.title)}</p>
               <p class="reading__body">${esc(c.body)}</p>
-              ${c.href ? `<a class="reading__link" href="${esc(c.href)}" target="_blank" rel="noopener noreferrer">${esc(c.href)}</a>` : ""}
+              ${c.href ? `<a class="reading__link" href="${esc(c.href)}" target="_blank" rel="noopener noreferrer">Read online<span class="reading__host">${esc(hostOf(c.href))}</span><span aria-hidden="true">↗</span></a>` : ""}
             </div>
           </div>`
         )
@@ -182,7 +185,7 @@
     // A wide table shown as one card per row: first column as the heading,
     // the other columns as labelled lines (readable on a phone).
     matrix: (b) => `
-      <div class="matrix">${b.rows
+      <div class="matrix${b.guide ? " matrix--guide" : ""}">${b.rows
         .map(
           (r) => `<div class="matrix__row">
             <p class="matrix__head"><span>${esc(b.cols[0])}</span>${esc(r[0])}</p>
@@ -202,7 +205,7 @@
       <div class="quote">
         <p class="kicker">${esc(b.label)}</p>
         ${b.text ? `<p class="quote__text">“${esc(b.text)}”</p>` : ""}
-        <p class="quote__by"><strong>${esc(b.by)}</strong> <span>· ${esc(b.role)}</span></p>
+        <p class="quote__by"><strong>${esc(b.by)}</strong><span>${esc(b.role)}</span></p>
       </div>`,
     table: (b) => `
       <div class="tbl-wrap"><table>
@@ -211,7 +214,7 @@
       </table></div>
       ${b.note ? `<p class="b-note">${esc(b.note)}</p>` : ""}`,
     accordion: (b) =>
-      `<div class="acc">${b.items
+      `<div class="acc${b.noRule ? " acc--plain" : ""}">${b.items
         .map(
           (x, i) => `<details${i === 0 && !b.collapsed ? " open" : ""}>
             <summary><span><span class="kicker">${esc(x.kicker)}</span><span class="ttl">${esc(x.title)}</span>${x.sub ? `<span class="sub">${esc(x.sub)}</span>` : ""}</span><span class="pm" aria-hidden="true">+</span></summary>
@@ -256,13 +259,13 @@
     tiles: (b) => `
       <div class="tiles">${b.items
         .map(
-          (x) => `<div class="tile">
-            <p class="tile__k">${esc(x.k)}</p>
+          (x) => `<details class="tile">
+            <summary><span class="tile__k">${x.k.split(" · ").map((part, i) => i === 0 ? `<span class="tile__n">${esc(part)}</span>` : esc(part)).join("")}</span><span class="pm" aria-hidden="true">+</span></summary>
             <p class="tile__label">Observe</p>
             <p class="tile__text">${esc(x.observe)}</p>
             <p class="tile__label">Ask</p>
             <p class="tile__ask">${esc(x.ask)}</p>
-          </div>`
+          </details>`
         )
         .join("")}</div>`,
     // Label / value lines, one per row.
