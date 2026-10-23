@@ -120,7 +120,7 @@
           ${prev ? `<a href="#/s/${prev.id}"><span class="lab">‹ Previous</span><span class="ttl">${esc(prev.title)}</span></a>` : `<a href="#/contents"><span class="lab">‹ Back</span><span class="ttl">Contents</span></a>`}
           ${next ? `<a class="next" href="#/s/${next.id}"><span class="lab">Next ›</span><span class="ttl">${esc(next.title)}</span></a>` : `<a class="next" href="#/contents"><span class="lab">Done ›</span><span class="ttl">Contents</span></a>`}
         </nav>
-        <footer class="footer"><span>KLU <span class="nocaps">PhD</span> Workshop</span><span>— ${i + 1} —</span></footer>
+        <footer class="footer"><span>KLU <span class="nocaps">PhD</span> Workshop · Vietnam 2026</span><span>— ${i + 1} —</span></footer>
       </div>`;
   }
 

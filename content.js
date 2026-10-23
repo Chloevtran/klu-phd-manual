@@ -244,7 +244,7 @@ window.MANUAL = {
                 LUNCH,
                 { time: "13:30–15:00", what: "Session 7: Cold Chain Research linking to Field Experiments", who: "Prof. Leila Goedhals-Gerber" },
                 { time: "15:15–15:45", what: "Bus transfers to Deutsches Haus" },
-                { time: "16:00–18:00", what: "Session 8: Industry Panel – Current Challenges in Industry and Expectations from Research", who: "Prof. Tri Mikael Trần", where: DEUTSCHES_HAUS },
+                { time: "16:00–18:00", what: "Session 8: Industry Panel – Current Challenges in Industry and Expectations from Research", who: "Prof. Tri Mikael Tran", where: DEUTSCHES_HAUS },
                 { time: "18:00–19:00", what: "Dinner and networking" },
               ],
               objective: {
@@ -260,13 +260,14 @@ window.MANUAL = {
               dress: "Smart casual + closed shoes",
               dressNote: "Bringing changing clothes is recommended for your comfort.",
               slots: [
-                { time: "08:00–10:00", what: "Assemble in the hotel lobby. Bus to Phu My Ward departs at 08:15 sharp", strong: true },
-                { time: "10:00–11:30", what: "Field Trip: Cai Mep International Terminal (CMIT)" },
-                { time: "11:30–13:20", what: "Lunch break" },
+                { time: "07:50–08:00", what: "Assemble in the hotel lobby. Bus to Phu My Ward departs at 08:00 sharp", strong: true },
+                { time: "08:00–10:00", what: "Bus transfers to Phu My Ward" },
+                { time: "10:00–11:30", what: "Field Trip: Cai Mep International Terminal (CMIT)", where: "Cai Mep–Thi Vai port cluster, Tan Phuoc Ward" },
+                { time: "11:30–13:20", what: "Lunch break", minor: true },
                 { time: "13:20–13:45", what: "Bus transfers to Ba Son Corporation" },
-                { time: "13:45–15:30", what: "Field Trip: Ba Son Corporation" },
+                { time: "13:45–15:30", what: "Field Trip: Ba Son Corporation", where: "Phu My Industrial Park II, Phu My Ward" },
                 { time: "15:30–18:00", what: "Coach back to Renaissance Hotel", note: "Debrief Field Trip & Research ideation session · Online" },
-                { time: "18:30–20:30", what: "Dinner Speech: Manufacturing in Vietnam", who: "Mr. Dang Viet Hai – Constantia", where: "Mam Mam Eatery and Lounge" },
+                { time: "18:30–20:30", what: "Dinner Speech: Manufacturing in Vietnam", who: "Mr. Dang Viet Hai – Constantia", where: "Mam Mam Eatery and Lounge, The Nexus Building, 3A-3B Ton Duc Thang St., Saigon Ward" },
               ],
               objective: {
                 title: "Connect real-world industry observations with relevant research opportunities in logistics and supply chain management.",
