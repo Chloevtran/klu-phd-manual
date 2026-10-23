@@ -438,46 +438,55 @@
     return audio;
   }
 
-  function tone({ frequency, at = 0, duration = 0.12, type = "sine", volume = 0.18, slideTo }) {
+  // A soft glass voice: two sines a few cents apart (warmth without buzz), a
+  // gentle attack instead of a hard edge, and a low-pass to keep it mellow.
+  let mellow = null;
+
+  function glass({ frequency, at = 0, attack = 0.012, decay = 0.6, volume = 0.05, drop = 1 }) {
     const c = ctx(true);
     if (!c) return;
+    if (!mellow) {
+      mellow = c.createBiquadFilter();
+      mellow.type = "lowpass";
+      mellow.frequency.value = 2600;
+      mellow.connect(c.destination);
+    }
     const start = c.currentTime + at;
-    const osc = c.createOscillator();
-    const gain = c.createGain();
-    osc.type = type;
-    osc.frequency.setValueAtTime(frequency, start);
-    if (slideTo) osc.frequency.exponentialRampToValueAtTime(slideTo, start + duration);
-    // Short attack and exponential release avoid audible clicks.
-    gain.gain.setValueAtTime(0.0001, start);
-    gain.gain.exponentialRampToValueAtTime(volume, start + 0.01);
-    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
-    osc.connect(gain).connect(c.destination);
-    osc.start(start);
-    osc.stop(start + duration + 0.02);
+    const end = start + decay;
+    [1, 1.0035].forEach((detune) => {
+      const osc = c.createOscillator();
+      const gain = c.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(frequency * detune, start);
+      if (drop !== 1) osc.frequency.exponentialRampToValueAtTime(frequency * detune * drop, start + Math.min(decay, 0.08));
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(volume / 2, start + attack);
+      gain.gain.exponentialRampToValueAtTime(0.0001, end);
+      osc.connect(gain).connect(mellow);
+      osc.start(start);
+      osc.stop(end + 0.05);
+    });
   }
 
   const sounds = {
-    /** Soft tick for taps. */
-    tap: () => tone({ frequency: 1250, duration: 0.05, type: "triangle", volume: 0.08 }),
-    /** Page change — only once audio is unlocked, never on first load. */
-    whoosh: () => ctx(false) && tone({ frequency: 520, slideTo: 260, duration: 0.18, volume: 0.06 }),
-    /** Start the journey — a rising arpeggio. */
-    start: () =>
-      [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tone({ frequency: f, at: i * 0.09, duration: 0.26, type: "triangle", volume: 0.14 })),
-    /** SOS opened — two-tone alert. */
+    /** Taps: a barely-there glass tick. */
+    tap: () => glass({ frequency: 1760, attack: 0.003, decay: 0.045, volume: 0.03, drop: 0.7 }),
+    /** Page changes stay silent. */
+    whoosh: () => {},
+    /** Start the journey: two warm glass notes. */
+    start: () => {
+      glass({ frequency: 784, decay: 1.1, volume: 0.05 });
+      glass({ frequency: 1175, at: 0.14, decay: 1.3, volume: 0.04 });
+    },
+    /** SOS opened: two falling notes, clear but calm. */
     alert: () => {
-      [0, 0.32].forEach((at) => {
-        tone({ frequency: 988, at, duration: 0.14, type: "square", volume: 0.07 });
-        tone({ frequency: 740, at: at + 0.15, duration: 0.14, type: "square", volume: 0.07 });
-      });
+      glass({ frequency: 988, decay: 0.7, volume: 0.08 });
+      glass({ frequency: 740, at: 0.28, decay: 1.0, volume: 0.08 });
     },
-    /** Location copied. */
-    confirm: () => {
-      tone({ frequency: 660, duration: 0.1, type: "square", volume: 0.07 });
-      tone({ frequency: 990, at: 0.09, duration: 0.16, type: "square", volume: 0.07 });
-    },
-    /** Something went wrong. */
-    error: () => tone({ frequency: 330, slideTo: 220, duration: 0.3, type: "sawtooth", volume: 0.06 }),
+    /** Location copied: a light ting. */
+    confirm: () => glass({ frequency: 1319, decay: 0.5, volume: 0.045 }),
+    /** Something went wrong: one soft low note. */
+    error: () => glass({ frequency: 330, decay: 0.4, volume: 0.06 }),
   };
 
   const soundBtn = () =>
