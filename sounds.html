@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sound preview</title>
+<style>
+  body { margin: 0; padding: 20px 16px; font: 15px/1.4 system-ui, sans-serif; background: #e8f6f7; color: #161a20; }
+  h1 { font-size: 18px; margin: 0 0 4px; }
+  p { margin: 0 0 16px; color: #4d5366; font-size: 13px; max-width: 640px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; max-width: 560px; }
+  h2 { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 2px; color: #6a1a23; }
+  .sub { font-size: 12px; color: #8b8d90; margin: 0 0 8px; }
+  button { display: block; width: 100%; margin-bottom: 8px; padding: 12px; border: 1px solid #d8d0c2; background: #fff; border-radius: 2px; font: 600 13px system-ui; cursor: pointer; text-align: left; }
+  .new button { border-color: #6a1a23; }
+</style></head>
+<body>
+<h1>KLU manual · sound preview</h1>
+<p>Left: the glass sounds live today. Right: a lighter, airier version. Tap to listen with the phone's sound on. Page changes stay silent in both.</p>
+<div class="grid">
+  <div class="cur"><h2>Current · Glass</h2><p class="sub">As live today</p></div>
+  <div class="new"><h2>New · Airy</h2><p class="sub">Higher, lighter, more delicate</p></div>
+</div>
+<script>
+let audio;
+const ctx = () => { audio = audio || new (window.AudioContext || window.webkitAudioContext)(); if (audio.state === "suspended") audio.resume(); return audio; };
+const filters = {};
+function out(c, cutoff) {
+  if (!filters[cutoff]) { const f = c.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = cutoff; f.connect(c.destination); filters[cutoff] = f; }
+  return filters[cutoff];
+}
+// Shared voice: sines slightly detuned, gentle attack, natural decay; an
+// optional faint octave on top gives the airy shimmer.
+function voice({ frequency, at = 0, attack = 0.012, decay = 0.6, volume = 0.05, drop = 1, cutoff = 2600, shimmer = 0 }) {
+  const c = ctx(), start = c.currentTime + at, end = start + decay, dest = out(c, cutoff);
+  const parts = [[1, 0.5], [1.0035, 0.5]];
+  if (shimmer) parts.push([2, shimmer]);
+  parts.forEach(([mult, level]) => {
+    const osc = c.createOscillator(), gain = c.createGain(), stop = mult === 2 ? start + decay * 0.6 : end;
+    osc.type = "sine"; osc.frequency.setValueAtTime(frequency * mult, start);
+    if (drop !== 1) osc.frequency.exponentialRampToValueAtTime(frequency * mult * drop, start + Math.min(decay, 0.08));
+    gain.gain.setValueAtTime(0.0001, start); gain.gain.exponentialRampToValueAtTime(volume * level, start + attack); gain.gain.exponentialRampToValueAtTime(0.0001, stop);
+    osc.connect(gain).connect(dest); osc.start(start); osc.stop(stop + 0.05);
+  });
+}
+const glass = (o) => voice(o);
+const airy = (o) => voice({ cutoff: 6000, attack: 0.02, shimmer: 0.12, ...o });
+
+const current = {
+  "Tap": () => glass({ frequency: 1760, attack: 0.003, decay: 0.045, volume: 0.03, drop: 0.7 }),
+  "Start the journey": () => { glass({ frequency: 784, decay: 1.1, volume: 0.05 }); glass({ frequency: 1175, at: 0.14, decay: 1.3, volume: 0.04 }); },
+  "SOS opened": () => { glass({ frequency: 988, decay: 0.7, volume: 0.08 }); glass({ frequency: 740, at: 0.28, decay: 1.0, volume: 0.08 }); },
+  "Location copied": () => glass({ frequency: 1319, decay: 0.5, volume: 0.045 }),
+  "Error": () => glass({ frequency: 330, decay: 0.4, volume: 0.06 }),
+};
+const next = {
+  "Tap": () => airy({ frequency: 2637, attack: 0.002, decay: 0.05, volume: 0.022, drop: 0.85, shimmer: 0 }),
+  "Start the journey": () => [1319, 1568, 1976].forEach((f, i) => airy({ frequency: f, at: i * 0.11, decay: 1.4, volume: 0.035 })),
+  "SOS opened": () => { airy({ frequency: 1568, decay: 0.8, volume: 0.06 }); airy({ frequency: 1175, at: 0.26, decay: 1.1, volume: 0.06 }); },
+  "Location copied": () => { airy({ frequency: 1976, decay: 0.5, volume: 0.03 }); airy({ frequency: 2637, at: 0.08, decay: 0.7, volume: 0.025 }); },
+  "Error": () => airy({ frequency: 523, decay: 0.45, volume: 0.045, shimmer: 0 }),
+};
+for (const [sel, set] of [[".cur", current], [".new", next]])
+  for (const [name, fn] of Object.entries(set)) {
+    const b = document.createElement("button"); b.textContent = name; b.onclick = fn;
+    document.querySelector(sel).appendChild(b);
+  }
+</script>
+</body></html>
