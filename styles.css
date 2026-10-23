@@ -267,6 +267,8 @@ tr:last-child td { border-bottom: 0; }
 
 /* contacts */
 .contacts { border-top: 1px solid var(--rule); }
+/* A group right after another already sits under that group's red rule. */
+.contacts + .h + .contacts { border-top: 0; }
 .contact { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 18px 0; border-bottom: 1px solid var(--rule); }
 /* Bright red rule closes each contact group (programme, hotel, emergency). */
 .contact:last-child { border-bottom: 1.5px solid var(--red); }
@@ -506,7 +508,7 @@ tr:last-child td { border-bottom: 0; }
 /* Label / value lines (poster session). */
 .info { display: grid; grid-template-columns: 74px 1fr; gap: 8px 12px; margin: 12px 0 0; }
 .info dt { font: 600 10px/1.9 var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--burgundy); }
-.info dd { margin: 0; font-size: 14.5px; line-height: 1.5; color: #000; }
+.info dd { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--body); }
 
 /* Observation sheet: straight rules, labels aligned with their boxes. */
 .sheet-lens { padding-bottom: 6px; }

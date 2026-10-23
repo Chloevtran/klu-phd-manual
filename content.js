@@ -219,7 +219,7 @@ window.MANUAL = {
                 { time: "11:00–12:30", what: "Session 2: Creating Impact with Research", who: "Prof. Kai Hoberg" },
                 LUNCH,
                 { time: "13:30–15:00", what: "Session 3: Creating Impact with Research", who: "Prof. Kai Hoberg & Prof. Joubert Van Eeden" },
-                { time: "15:00–16:30", what: "Return to the hotel to freshen up and rest", note: "Changing to smart business outfit is recommended" },
+                { time: "15:00–16:30", what: "Return to the hotel to freshen up and rest" },
                 { time: "16:30–17:00", what: "Bus departs at 16:30 sharp and transfers to Deutsches Haus" },
                 { time: "17:00–18:30", what: "Session 4: Use of GenAI for Research", who: "Prof. Kai Hoberg & Prof. Rafael Escamilla", where: DEUTSCHES_HAUS },
                 { time: "18:30–20:30", what: "Poster session with flying dinner on-site & wrap-up.", note: "Bus back to the hotel at 21:00.", noteStrong: true },
@@ -244,7 +244,7 @@ window.MANUAL = {
                 LUNCH,
                 { time: "13:30–15:00", what: "Session 7: Cold Chain Research linking to Field Experiments", who: "Prof. Leila Goedhals-Gerber" },
                 { time: "15:15–15:45", what: "Bus transfers to Deutsches Haus" },
-                { time: "16:00–18:00", what: "Session 8: Industry Panel – Current Challenges in Industry and Expectations from Research", who: "Prof. Gordon Wilmsmeier & Prof. Joubert Van Eeden", where: DEUTSCHES_HAUS },
+                { time: "16:00–18:00", what: "Session 8: Industry Panel – Current Challenges in Industry and Expectations from Research", who: "Prof. Tri Mikael Trần", where: DEUTSCHES_HAUS },
                 { time: "18:00–19:00", what: "Dinner and networking" },
               ],
               objective: {
@@ -260,10 +260,11 @@ window.MANUAL = {
               dress: "Smart casual + closed shoes",
               dressNote: "Bringing changing clothes is recommended for your comfort.",
               slots: [
-                { time: "07:30–09:45", what: "Bus departs from Renaissance Hotel for Phu My Ward (~2.5 hours, allowing for traffic)", strong: true },
-                { time: "10:00–12:00", what: "Field Trip: Ba Son Corporation" },
-                { time: "12:00–13:30", what: "Lunch break", note: "Bus departs from Ba Son Corporation at 12:00 sharp" },
-                { time: "13:30–15:30", what: "Field Trip: Cai Mep International Terminal (CMIT)" },
+                { time: "08:00–10:00", what: "Assemble in the hotel lobby. Bus to Phu My Ward departs at 08:15 sharp", strong: true },
+                { time: "10:00–11:30", what: "Field Trip: Cai Mep International Terminal (CMIT)" },
+                { time: "11:30–13:20", what: "Lunch break" },
+                { time: "13:20–13:45", what: "Bus transfers to Ba Son Corporation" },
+                { time: "13:45–15:30", what: "Field Trip: Ba Son Corporation" },
                 { time: "15:30–18:00", what: "Coach back to Renaissance Hotel", note: "Debrief Field Trip & Research ideation session · Online" },
                 { time: "18:30–20:30", what: "Dinner Speech: Manufacturing in Vietnam", who: "Mr. Dang Viet Hai – Constantia", where: "Mam Mam Eatery and Lounge" },
               ],
@@ -636,6 +637,31 @@ window.MANUAL = {
           items: [
             {
               kicker: "Site guide · Wednesday 10:00",
+              title: "Cai Mep International Terminal.",
+              blocks: [
+              { t: "p", text: "A deep-water container terminal in the Cai Mep–Thi Vai cluster and a joint venture with APM Terminals. In 2025 it handled more than two million TEU including barges, with mother-vessel volume up 28 percent and more than 1,900 consecutive accident-free days. The cluster ranks seventh in the world on the Container Port Performance Index. It is the week’s example of flow logistics, and the physical location of the gap between Vietnam’s port efficiency and its 43rd-place LPI ranking." },
+              {
+                t: "matrix",
+                guide: true,
+                cols: ["Lens", "What to look for", "Questions to ask the host"],
+                rows: [
+                  ["Operations", "Crane moves per hour and berth occupancy. Yard layout and equipment. Truck and barge gates. How 1,900 accident-free days are sustained.", "What is the berth productivity target for an ultra-large vessel call, and what was it last month? Which shift is hardest to staff?"],
+                  ["Change", "Lean and Kaizen practice: boards, cycles, who leads them. Alliance changes and their effect on schedules. What the 2025 provincial merger changed in practice.", "What was the last operating practice you changed because a shipping line asked for it? Did the merger change any approval or planning process?"],
+                  ["Logistics", "Barge versus truck share and where barges come from. Dwell by cargo type. Customs: digital versus paper, clearance times. Empty-container positioning.", "What share of boxes move by barge, and what is the barge dwell? Where is the next inland rail or ICD link that would change gate traffic?"],
+                  ["Innovation", "Terminal operating system and data sharing with lines and barge operators. Electrification of yard equipment. Cooperation across the cluster.", "Which dataset do you hold that nobody outside the terminal has analysed? What would you let a research team test on one berth or shift?"],
+                ],
+              },
+              { t: "p", text: "Research hooks: hinterland connectivity where the hinterland is a river; terminal efficiency versus national logistics performance; customs digitalisation as a natural experiment; capacity risk as roughly 8 million TEU of new cluster capacity lands in four years." },
+              ],
+            },
+          ],
+        },
+        {
+          t: "accordion",
+          collapsed: true,
+          items: [
+            {
+              kicker: "Site guide · Wednesday 13:45",
               title: "Ba Son Corporation.",
               blocks: [
               { t: "p", text: "Vietnam’s oldest shipbuilder and one of its two largest, a state-owned enterprise under the Ministry of National Defence that relocated from the Saigon riverfront to a 95-hectare deep-water site at Phu My. It builds, repairs and converts vessels and has added offshore, renewable-energy and logistics work. It is the week’s only example of project logistics: long cycle times, heavy and irregular inbound flows, a workforce in the thousands." },
@@ -656,31 +682,6 @@ window.MANUAL = {
           ],
         },
 
-        {
-          t: "accordion",
-          collapsed: true,
-          items: [
-            {
-              kicker: "Site guide · Wednesday 13:30",
-              title: "Cai Mep International Terminal.",
-              blocks: [
-              { t: "p", text: "A deep-water container terminal in the Cai Mep–Thi Vai cluster and a joint venture with APM Terminals. In 2025 it handled more than two million TEU including barges, with mother-vessel volume up 28 percent and more than 1,900 consecutive accident-free days. The cluster ranks seventh in the world on the Container Port Performance Index. It is the week’s example of flow logistics, and the physical location of the gap between Vietnam’s port efficiency and its 43rd-place LPI ranking." },
-              {
-                t: "matrix",
-                guide: true,
-                cols: ["Lens", "What to look for", "Questions to ask the host"],
-                rows: [
-                  ["Operations", "Crane moves per hour and berth occupancy. Yard layout and equipment. Truck and barge gates. How 1,900 accident-free days are sustained.", "What is the berth productivity target for an ultra-large vessel call, and what was it last month? Which shift is hardest to staff?"],
-                  ["Change", "Lean and Kaizen practice: boards, cycles, who leads them. Alliance changes and their effect on schedules. What the 2025 provincial merger changed in practice.", "What was the last operating practice you changed because a shipping line asked for it? Did the merger change any approval or planning process?"],
-                  ["Logistics", "Barge versus truck share and where barges come from. Dwell by cargo type. Customs: digital versus paper, clearance times. Empty-container positioning.", "What share of boxes move by barge, and what is the barge dwell? Where is the next inland rail or ICD link that would change gate traffic?"],
-                  ["Innovation", "Terminal operating system and data sharing with lines and barge operators. Electrification of yard equipment. Cooperation across the cluster.", "Which dataset do you hold that nobody outside the terminal has analysed? What would you let a research team test on one berth or shift?"],
-                ],
-              },
-              { t: "p", text: "Research hooks: hinterland connectivity where the hinterland is a river; terminal efficiency versus national logistics performance; customs digitalisation as a natural experiment; capacity risk as roughly 8 million TEU of new cluster capacity lands in four years." },
-              ],
-            },
-          ],
-        },
 
         {
           t: "accordion",
@@ -756,14 +757,14 @@ window.MANUAL = {
       num: "IX",
       title: "Practical Reference",
       hint: "Getting around and staying safe",
-      intro: "None of this is critical to the intellectual programme; all of it is useful when something goes sideways.",
+      intro: "None of this is critical to the intellectual program; all of it is useful when something goes sideways.",
       blocks: [
         { t: "sosbanner" },
         {
           t: "cards",
           items: [
-            { kicker: "Climate & what to wear", body: "Late October in southern Vietnam: warm and humid, around 25–33 °C, at the tail end of the rainy season — expect short, heavy afternoon showers. Bring a folding umbrella. Dress code: smart business for company visits and institutional sessions; closed-toe shoes are mandatory at industrial sites." },
-            { kicker: "Transport", body: "Programme transfers are handled by KLU Saigon. For personal movement use Grab, Be or Xanh SM (all-electric). Install one before arrival and link a payment card. Metered taxis (Vinasun, Mai Linh) are reliable; avoid unmetered street taxis." },
+            { kicker: "Climate & what to wear", body: "Late October in southern Vietnam: warm and humid, around 25–33 °C, at the tail end of the rainy season — expect short, heavy afternoon showers. Bring a folding umbrella. Dress code: smart casual. We will let you know if any session calls for a different dress code." },
+            { kicker: "Transport", body: "Program transfers are handled by KLU Saigon. For personal movement use Grab, Be or Xanh SM (all-electric). Install one before arrival and link a payment card. Metered taxis (Vinasun, Mai Linh) are reliable; avoid unmetered street taxis." },
             { kicker: "Currency & payment", body: "Vietnamese dong (VND) is the only legal tender — roughly 25,000–26,000 VND to 1 USD. Cards work in hotels and most retail; cash is needed for small restaurants and street commerce. Tipping is not expected but appreciated (5–10%)." },
             { kicker: "Health & safety", body: "Drink bottled water, use sun protection and mosquito repellent in the evening. Travel insurance with medical evacuation cover is each participant’s responsibility." },
             { kicker: "Connectivity", body: "A local eSIM (Viettel, Vinaphone or Mobifone) is the simplest option, available on arrival or via Airalo. WhatsApp and Google services work normally; Zalo is the most used local messenger." },
@@ -771,18 +772,18 @@ window.MANUAL = {
           ],
         },
         { t: "kicker", rule: true, text: "Key contacts & emergencies" },
-        { t: "lead", text: "If something is wrong, contact the KLU Saigon programme team first. They will route from there. For genuine emergencies, the numbers below are the primary line." },
+        { t: "lead", text: "If something is wrong, contact the KLU Saigon program team first. They will route from there. For genuine emergencies, the numbers below are the primary line." },
         { t: "h", text: "Program contacts · KLU Saigon" },
         {
           t: "contacts",
           items: [
-            { label: "Campus Director", name: "Dr. Viet Dung Trinh", detail: ["Campus Director (Asia), Saigon Campus", "Available throughout the programme for any matter requiring senior intervention."] },
-            { label: "KLU Saigon Office", name: "19F Deutsches Haus", detail: ["33 Le Duan St., Sai Gon Ward, Ho Chi Minh City", "Reception during the programme: Monday–Friday, 08:30 to 17:30."] },
+            { label: "Campus Director", name: "Dr. Viet Dung Trinh", detail: ["Campus Director (Asia), Saigon Campus", "Available throughout the program for any matter requiring senior intervention."] },
+            { label: "KLU Saigon Office", name: "19F Deutsches Haus", detail: ["33 Le Duan St., Sai Gon Ward, Ho Chi Minh City", "Reception during the program: Monday–Friday, 08:30 to 17:30."] },
             { label: "Project Manager", name: "Ms. Thuy Tran (Chloev)", detail: ["Available throughout the program for any matter requiring intervention."], email: "thuy.tran@klu.org" },
             { label: "Project Coordinator", name: "Ms. Pham Phuong Anh (Audrey)", detail: ["On call throughout the week for logistics, transfers, dietary needs, and on-site adjustments.", "+84 797 967 488"], email: "phuonganh.pham@klu.org", tel: "+84797967488" },
           ],
         },
-        { t: "h", text: "Programme accommodation" },
+        { t: "h", text: "Program accommodation" },
         {
           t: "contacts",
           items: [
@@ -793,7 +794,7 @@ window.MANUAL = {
         {
           t: "contacts",
           items: [
-            { label: "115", name: "Ambulance", detail: "Public emergency medical service. For complex cases, the programme coordinator will redirect to international hospitals.", tel: "115" },
+            { label: "115", name: "Ambulance", detail: "Public emergency medical service. For complex cases, the program coordinator will redirect to international hospitals.", tel: "115" },
             { label: "113", name: "Police", detail: "For accidents, theft, or matters requiring an official report. English-speaking operators are not guaranteed; KLU staff can assist.", tel: "113" },
             { label: "114", name: "Fire", detail: "Fire and rescue services.", tel: "114" },
           ],
