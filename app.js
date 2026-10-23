@@ -438,56 +438,55 @@
     return audio;
   }
 
-  // Felt-piano voice: a few harmonics through a low-pass that closes as the
-  // note fades, so each note starts with a soft touch and then mellows.
-  function piano({ f, at = 0, decay = 1, volume = 0.05, bright = 2200, dark = 600 }) {
+  // A soft glass voice: two sines a few cents apart (warmth without buzz), a
+  // gentle attack instead of a hard edge, and a low-pass to keep it mellow.
+  let mellow = null;
+
+  function glass({ frequency, at = 0, attack = 0.012, decay = 0.6, volume = 0.05, drop = 1 }) {
     const c = ctx(true);
     if (!c) return;
+    if (!mellow) {
+      mellow = c.createBiquadFilter();
+      mellow.type = "lowpass";
+      mellow.frequency.value = 2600;
+      mellow.connect(c.destination);
+    }
     const start = c.currentTime + at;
     const end = start + decay;
-    const lp = c.createBiquadFilter();
-    lp.type = "lowpass";
-    lp.frequency.setValueAtTime(bright, start);
-    lp.frequency.exponentialRampToValueAtTime(dark, end);
-    const bus = c.createGain();
-    bus.gain.setValueAtTime(0.0001, start);
-    bus.gain.exponentialRampToValueAtTime(volume, start + 0.008);
-    bus.gain.exponentialRampToValueAtTime(0.0001, end);
-    bus.connect(lp).connect(c.destination);
-    [[1, 1], [2, 0.35], [3, 0.12], [4, 0.05]].forEach(([mult, level]) => {
+    [1, 1.0035].forEach((detune) => {
       const osc = c.createOscillator();
       const gain = c.createGain();
       osc.type = "sine";
-      osc.frequency.value = f * mult;
-      gain.gain.value = level;
-      osc.connect(gain).connect(bus);
+      osc.frequency.setValueAtTime(frequency * detune, start);
+      if (drop !== 1) osc.frequency.exponentialRampToValueAtTime(frequency * detune * drop, start + Math.min(decay, 0.08));
+      gain.gain.setValueAtTime(0.0001, start);
+      gain.gain.exponentialRampToValueAtTime(volume / 2, start + attack);
+      gain.gain.exponentialRampToValueAtTime(0.0001, end);
+      osc.connect(gain).connect(mellow);
       osc.start(start);
       osc.stop(end + 0.05);
     });
   }
 
-  // Note frequencies used below.
-  const N = { D4: 293.66, A4: 440, C5: 523.25, E5: 659.25, G5: 783.99, A5: 880 };
-
   const sounds = {
-    /** Taps: one very soft, mid-range note. */
-    tap: () => piano({ f: N.A4, decay: 0.09, volume: 0.035, bright: 1400, dark: 500 }),
+    /** Taps: a barely-there glass tick. */
+    tap: () => glass({ frequency: 1760, attack: 0.003, decay: 0.045, volume: 0.03, drop: 0.7 }),
     /** Page changes stay silent. */
     whoosh: () => {},
-    /** Start the journey: a gently rolled C major chord. */
-    start: () => [N.C5, N.E5, N.G5].forEach((f, i) => piano({ f, at: i * 0.05, decay: 1.8, volume: 0.05 })),
-    /** SOS opened: two falling notes, warm but clear. */
+    /** Start the journey: two warm glass notes. */
+    start: () => {
+      glass({ frequency: 784, decay: 1.1, volume: 0.05 });
+      glass({ frequency: 1175, at: 0.14, decay: 1.3, volume: 0.04 });
+    },
+    /** SOS opened: two falling notes, clear but calm. */
     alert: () => {
-      piano({ f: N.G5, decay: 1.1, volume: 0.08 });
-      piano({ f: N.E5, at: 0.3, decay: 1.4, volume: 0.08 });
+      glass({ frequency: 988, decay: 0.7, volume: 0.08 });
+      glass({ frequency: 740, at: 0.28, decay: 1.0, volume: 0.08 });
     },
-    /** Location copied: two light rising notes. */
-    confirm: () => {
-      piano({ f: N.E5, decay: 0.9, volume: 0.05 });
-      piano({ f: N.A5, at: 0.09, decay: 1.1, volume: 0.045 });
-    },
+    /** Location copied: a light ting. */
+    confirm: () => glass({ frequency: 1319, decay: 0.5, volume: 0.045 }),
     /** Something went wrong: one soft low note. */
-    error: () => piano({ f: N.D4, decay: 0.6, volume: 0.06, bright: 1200 }),
+    error: () => glass({ frequency: 330, decay: 0.4, volume: 0.06 }),
   };
 
   const soundBtn = () =>
