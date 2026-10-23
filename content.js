@@ -267,6 +267,7 @@ window.MANUAL = {
                 { time: "13:20–13:45", what: "Bus transfers to Ba Son Corporation" },
                 { time: "13:45–15:30", what: "Field Trip: Ba Son Corporation", where: "Phu My Industrial Park II, Phu My Ward" },
                 { time: "15:30–18:00", what: "Coach back to Renaissance Hotel", note: "Debrief Field Trip & Research ideation session · Online" },
+                { time: "18:15", what: "Bus pickup at hotel for Mam Mam Eatery and Lounge" },
                 { time: "18:30–20:30", what: "Dinner Speech: Manufacturing in Vietnam", who: "Mr. Dang Viet Hai – Constantia", where: "Mam Mam Eatery and Lounge, The Nexus Building, 3A-3B Ton Duc Thang St., Saigon Ward" },
               ],
               objective: {
