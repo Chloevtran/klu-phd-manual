@@ -214,11 +214,11 @@
       </table></div>
       ${b.note ? `<p class="b-note">${esc(b.note)}</p>` : ""}`,
     accordion: (b) =>
-      `<div class="acc${b.noRule ? " acc--plain" : ""}">${b.items
+      `<div class="acc${b.sessions ? " acc--sessions" : ""}">${b.items
         .map(
           (x, i) => `<details${i === 0 && !b.collapsed ? " open" : ""}>
-            <summary><span><span class="kicker">${esc(x.kicker)}</span><span class="ttl">${esc(x.title)}</span>${x.sub ? `<span class="sub">${esc(x.sub)}</span>` : ""}</span><span class="pm" aria-hidden="true">+</span></summary>
-            <div class="acc__body">${renderBlocks(x.blocks)}</div>
+            <summary><span><span class="kicker">${esc(x.kicker)}</span><span class="ttl">${esc(x.title)}</span></span><span class="pm" aria-hidden="true">+</span></summary>
+            <div class="acc__body">${x.sub ? `<p class="acc__intro">${esc(x.sub)}</p>` : ""}${renderBlocks(x.blocks)}</div>
           </details>`
         )
         .join("")}</div>`,
@@ -231,7 +231,7 @@
           ${s.where ? `<div class="slot__where">📍 ${esc(s.where)}</div>` : ""}
         </div>`;
       const items = b.items.map((d) => {
-        const dress = d.dressNote ? `<p class="dress__note">${esc(d.dressNote)}</p>` : "";
+        const meta = `<div class="day__meta"><p class="acc__intro">${esc(d.focus)}</p>${d.dress ? `<span class="dress__tag">${esc(d.dress)}</span>` : ""}${d.dressNote ? `<p class="dress__note">${esc(d.dressNote)}</p>` : ""}</div>`;
         const slots = d.slots && d.slots.length
           ? `<div class="slots">${d.slots.map(slot).join("")}</div>`
           : `<p class="tbc">Detailed schedule to be confirmed.</p>`;
@@ -243,13 +243,13 @@
         const refl = d.reflection
           ? `<div class="callout callout--reflect"><p class="kicker">Reflection · end of ${esc(d.day.toLowerCase())}</p><p>“${esc(d.reflection)}”</p></div>`
           : "";
-        // Same header as the printed day pages: day, date, theme and dress code.
-        return { kicker: d.day, title: d.date, sub: d.focus, dress: d.dress, html: dress + slots + objective + observe + lens + refl };
+        // Header as in Section III (day and date); theme and dress code open the body.
+        return { kicker: d.day, title: d.date, html: meta + slots + objective + observe + lens + refl };
       });
       return `<div class="acc acc--days">${items
         .map(
-          (x, i) => `<details${i === todayIndex(b.items) ? " open" : ""}>
-            <summary><span><span class="kicker">${esc(x.kicker)}</span><span class="ttl">${esc(x.title)}</span><span class="sub">${esc(x.sub)}</span>${x.dress ? `<span class="dress__tag">${esc(x.dress)}</span>` : ""}</span><span class="pm" aria-hidden="true">+</span></summary>
+          (x) => `<details>
+            <summary><span><span class="kicker">${esc(x.kicker)}</span><span class="ttl">${esc(x.title)}</span></span><span class="pm" aria-hidden="true">+</span></summary>
             <div class="acc__body">${x.html}</div>
           </details>`
         )

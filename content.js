@@ -336,7 +336,8 @@ window.MANUAL = {
       blocks: [
         {
           t: "accordion",
-          noRule: true,
+          sessions: true,
+          collapsed: true,
           items: [
             {
               kicker: "Major Session · One",

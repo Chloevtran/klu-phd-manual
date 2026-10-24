@@ -213,13 +213,11 @@ tr:last-child td { border-bottom: 0; }
 
 /* accordion (sessions, days) */
 .acc { border-top: 1.5px solid var(--burgundy); }
-.acc--plain { border-top: 0; }
-.acc--plain > details:first-child > summary { padding-top: 0; }
-.acc--plain > details:first-child .pm { margin-top: 0; }
 /* Section V: burgundy rule between major sessions, bright red rule between
    the parts inside a session (Session focus, Suggested reading, ...). */
-.acc--plain .acc__body > .h:not(:first-child) { padding-top: 22px; border-top: 1.5px solid var(--red); }
-.acc--plain .matrix__head span { color: #000; }
+.acc--sessions .acc__body > .h:not(:first-child) { padding-top: 22px; border-top: 1.5px solid var(--red); }
+.acc--sessions .acc__body > .acc__intro + .h { margin-top: 26px !important; padding-top: 0; border-top: 0; }
+.acc--sessions .matrix__head span { color: #000; }
 /* Rules: burgundy between the big sections (each drop-down item), beige
    between the smaller parts inside one. */
 .acc > details { border-bottom: 1.5px solid var(--burgundy); }
@@ -229,7 +227,6 @@ tr:last-child td { border-bottom: 0; }
 }
 .acc summary::-webkit-details-marker { display: none; }
 .acc summary .ttl { display: block; margin-top: 4px; font: 400 23px/1.15 var(--serif); color: var(--burgundy); }
-.acc summary .sub { display: block; margin-top: 6px; font: italic 400 16px/1.4 var(--serif); color: #5e6364; }
 .acc summary .pm { margin-top: 18px; justify-self: end; width: 24px; height: 24px; border: 1px solid var(--rule); border-radius: 50%; display: grid; place-items: center; color: var(--red); font-size: 15px; line-height: 1; transition: transform 0.2s; }
 .acc details[open] > summary .pm { transform: rotate(45deg); }
 .acc .acc__body { padding: 0 0 22px; }
@@ -409,6 +406,10 @@ tr:last-child td { border-bottom: 0; }
 .card__fact b { color: var(--ink); }
 .dress { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; }
 .dress__tag { display: inline-block; margin-top: 8px; padding: 4px 12px; border-radius: 6px; background: var(--reflect); color: #000; font: 400 12.5px/1.4 var(--sans); }
+/* Subtitle at the top of an opened drop-down (session brief, day theme). */
+.acc__intro { margin: 0 !important; font: italic 400 16px/1.45 var(--serif); color: #5e6364; }
+.day__meta .dress__tag { margin-top: 10px; }
+.day__meta .dress__note { margin-top: 6px !important; }
 .dress__note { margin: 0; font-size: 12.5px; font-style: italic; color: var(--muted); }
 .slot__who { font-style: italic; color: var(--body); }
 .slot__note { margin-top: 2px; font-size: 13px; font-style: italic; color: var(--body); }
