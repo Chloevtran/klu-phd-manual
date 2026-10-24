@@ -583,21 +583,20 @@ window.MANUAL = {
               kicker: "The four lenses",
               title: "Operations, change, logistics, innovation.",
               blocks: [
-              {
-                t: "tiles",
-                items: [
-                  { k: "01 · Operations", observe: "Process flow and layout. Bottlenecks and buffers. Automation versus labour. Safety signals. Throughput markers. What is inspected, by whom, how often.", ask: "What is measured on this floor every day, and who looks at the number?" },
-                  { k: "02 · Change", observe: "What changed in the last three years and who decided. Pace of decisions. Where new practice stalls. Who trains whom. Where planning, quality and finance lag operations.", ask: "Which change did the operation resist, and what finally moved it?" },
-                  { k: "03 · Logistics", observe: "Inbound and outbound modes. Where material, boxes or hulls wait. Handover points with 3PLs, customs, port or customer. Tracking and exceptions. Dependence on one corridor, port or customer.", ask: "Where does this site’s lead time actually go, and which part does the site control?" },
-                  { k: "04 · Innovation", observe: "Technology in use versus on display. Data that exists but is not used. Pilots and what happens when they end. Sustainability measures that are operational versus declaratory.", ask: "What would this site try if a researcher ran the experiment and absorbed the risk?" },
-                ],
-              },
+                {
+                  t: "tiles",
+                  items: [
+                    { k: "01 · Operations", observe: "Process flow and layout. Bottlenecks and buffers. Automation versus labour. Safety signals. Throughput markers. What is inspected, by whom, how often.", ask: "What is measured on this floor every day, and who looks at the number?" },
+                    { k: "02 · Change", observe: "What changed in the last three years and who decided. Pace of decisions. Where new practice stalls. Who trains whom. Where planning, quality and finance lag operations.", ask: "Which change did the operation resist, and what finally moved it?" },
+                    { k: "03 · Logistics", observe: "Inbound and outbound modes. Where material, boxes or hulls wait. Handover points with 3PLs, customs, port or customer. Tracking and exceptions. Dependence on one corridor, port or customer.", ask: "Where does this site’s lead time actually go, and which part does the site control?" },
+                    { k: "04 · Innovation", observe: "Technology in use versus on display. Data that exists but is not used. Pilots and what happens when they end. Sustainability measures that are operational versus declaratory.", ask: "What would this site try if a researcher ran the experiment and absorbed the risk?" },
+                  ],
+                },
+                { t: "outcomes", label: "Working method", items: ["Allocate attention across the four lenses deliberately; the common failure is to spend thirty minutes on operations and never reach innovation.", "Write at least one specific, dated observation under each lens before leaving the site.", "In the Q&A, ask one question per lens. The logistics question is the one most hosts do not expect.", "That evening, name in the reflection journal the lens that produced the strongest research question."] },
               ],
             },
           ],
         },
-        { t: "outcomes", label: "Working method", items: ["Allocate attention across the four lenses deliberately; the common failure is to spend thirty minutes on operations and never reach innovation.", "Write at least one specific, dated observation under each lens before leaving the site.", "In the Q&A, ask one question per lens. The logistics question is the one most hosts do not expect.", "That evening, name in the reflection journal the lens that produced the strongest research question."] },
-
         {
           t: "accordion",
           collapsed: true,
