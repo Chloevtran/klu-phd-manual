@@ -190,7 +190,7 @@ window.MANUAL = {
               dress: "Smart casual",
               slots: [
                 { time: "Afternoon", what: "Hotel check-in at Renaissance Riverside Hotel Saigon. Personal time to acclimatize." },
-                { time: "18:10", what: "Bus pickup at hotel for Welcome Dinner" },
+                { time: "18:10–18:20", what: "Assemble in the hotel lobby. Bus to the Welcome Dinner departs at 18:20 sharp", strong: true },
                 { time: "18:40–21:00", what: "Welcome Dinner. Program briefing and introductions.", where: "LOALOA Vietnam Culture & Dining Show, 108 Nguyen Du Street, Ben Thanh Ward, Ho Chi Minh City" },
               ],
               objective: {
