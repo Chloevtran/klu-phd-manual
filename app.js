@@ -136,6 +136,15 @@
     note: (b) => `<p class="b-note">${esc(b.text)}</p>`,
     list: (b) => list(b.items),
     notice: (b) => `<div class="notice">${esc(b.text)}</div>`,
+    // Research posters, one under another; tap opens the large version to zoom.
+    posters: (b) => `
+      <div class="posters">${b.items
+        .map(
+          (x, i) => `<a class="poster" href="${esc(x.full)}" target="_blank" rel="noopener">
+            <img src="${esc(x.src)}" width="${x.w}" height="${x.h}" loading="lazy" decoding="async" alt="Research poster ${i + 1}">
+          </a>`
+        )
+        .join("")}</div>`,
     rows: (b) =>
       `<div class="rows">${b.items.map((r) => `<div class="row"><p class="row__k">${esc(r.k)}</p><p class="row__v">${esc(r.v)}</p></div>`).join("")}</div>`,
     stats: (b) =>

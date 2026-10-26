@@ -201,6 +201,12 @@ ul.bul li::before { content: ""; position: absolute; left: 3px; top: 0.6em; widt
 .quote__by strong { color: var(--ink); }
 .quote__by span { display: block; margin-top: 2px; color: var(--soft); }
 
+/* Research posters: full width, beige rule between them. */
+.posters { margin-top: 14px !important; }
+.poster { display: block; padding: 18px 0; }
+.poster:first-child { padding-top: 0; }
+.poster + .poster { border-top: 1px solid var(--rule); }
+.poster img { display: block; width: 100%; height: auto; background: #f3f1ec; box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08); }
 .notice { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border: 1px dashed #c9b8a6; background: #fffaf5; font-size: 13.5px; }
 .notice::before { content: "i"; flex: none; width: 20px; height: 20px; border-radius: 50%; background: var(--burgundy); color: #fff; font: italic 600 13px/20px var(--serif); text-align: center; }
 
