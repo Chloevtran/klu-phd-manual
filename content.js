@@ -35,6 +35,9 @@ const CAMPUS = "Floor 3 – A4 Building, HCMUT, 268 Ly Thuong Kiet St., Dien Hon
 const DEUTSCHES_HAUS = "Floor 2 – Deutsches Haus, 33 Le Duan St., Saigon Ward";
 const ASSEMBLE = { time: "07:30–07:50", what: "Assemble in the hotel lobby. Bus departs at 07:50 sharp.", strong: true };
 const TO_CAMPUS = { time: "07:50–08:45", what: "Bus transfers to KLU Asia Campus", where: CAMPUS };
+// Tuesday, Thursday and Friday: assemble at 07:45, bus at 08:00.
+const ASSEMBLE_LATE = { time: "07:45–08:00", what: "Assemble in the hotel lobby. Bus departs at 08:00 sharp.", strong: true };
+const TO_CAMPUS_LATE = { ...TO_CAMPUS, time: "08:00–08:45" };
 const COFFEE = { time: "10:30–11:00", what: "Coffee break", minor: true };
 const LUNCH = { time: "12:30–13:30", what: "Lunch break", minor: true };
 
@@ -236,8 +239,8 @@ window.MANUAL = {
               focus: "Field Experiments",
               dress: "Smart casual",
               slots: [
-                ASSEMBLE,
-                TO_CAMPUS,
+                ASSEMBLE_LATE,
+                TO_CAMPUS_LATE,
                 { time: "09:00–10:30", what: "Session 5: Field Experiments: Principles and Design", who: "Prof. Rafael Escamilla" },
                 COFFEE,
                 { time: "11:00–12:30", what: "Session 6: Field Experiments: Application and Implementation", who: "Prof. Rafael Escamilla" },
@@ -282,8 +285,8 @@ window.MANUAL = {
               focus: "Challenges for Logistics Operations",
               dress: "Smart casual",
               slots: [
-                ASSEMBLE,
-                TO_CAMPUS,
+                ASSEMBLE_LATE,
+                TO_CAMPUS_LATE,
                 { time: "09:00–10:30", what: "Session 9: SC Design and Geopolitics", who: "Prof. Gordon Wilmsmeier" },
                 COFFEE,
                 { time: "11:00–12:30", what: "Session 10: Forecasting Freight Rates in Volatile Times", who: "Prof. Gordon Wilmsmeier" },
@@ -305,8 +308,8 @@ window.MANUAL = {
               focus: "Sustainability",
               dress: "Smart casual",
               slots: [
-                ASSEMBLE,
-                TO_CAMPUS,
+                ASSEMBLE_LATE,
+                TO_CAMPUS_LATE,
                 { time: "09:00–10:30", what: "Session 13: Logistics of CO₂ Removal", who: "Prof. Alan McKinnon" },
                 COFFEE,
                 { time: "11:00–12:30", what: "Session 14: Research Opportunities around Adaptation to Climate Change", who: "Prof. Alan McKinnon" },
